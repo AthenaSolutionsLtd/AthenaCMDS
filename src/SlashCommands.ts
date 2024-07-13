@@ -14,6 +14,7 @@ import path from 'path'
 
 import getAllFiles from './get-all-files'
 import AthenaHandler from '.'
+import Logger from './logger'
 
 class SlashCommands {
   private _client: Client
@@ -189,8 +190,8 @@ class SlashCommands {
         cmd.options.length !== options.length ||
         optionsChanged
       ) {
-        console.log(
-          `AthenaHandler > Updating${
+        new Logger("debug", "America/Chicago", "logs").log("debug", "Main",
+          `Updating${
             guildId ? ' guild' : ''
           } slash command "${name}"`
         )
@@ -206,8 +207,8 @@ class SlashCommands {
     }
 
     if (commands) {
-      console.log(
-        `AthenaHandler > Creating${
+      new Logger("debug", "America/Chicago", "logs").log("success", "Main",
+        `Creating${
           guildId ? ' guild' : ''
         } slash command "${name}"`
       )
@@ -232,8 +233,8 @@ class SlashCommands {
     if (commands) {
       const cmd = commands.cache.get(commandId)
       if (cmd) {
-        console.log(
-          `AthenaHandler > Deleting${guildId ? ' guild' : ''} slash command "${
+        new Logger("debug", "America/Chicago", "logs").log("success", "Main",
+          `Deleting${guildId ? ' guild' : ''} slash command "${
             cmd.name
           }"`
         )

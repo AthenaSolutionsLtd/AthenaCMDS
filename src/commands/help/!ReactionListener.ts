@@ -9,6 +9,8 @@ import {
   User,
 } from 'discord.js'
 import AthenaHandler from '../..'
+import Logger from "../../logger"
+
 import { ICommand } from '../../../typings'
 import getFirstEmbed from './!get-first-embed'
 
@@ -191,8 +193,8 @@ class ReactionHandler {
   ) => {
     const { description, syntax, names } = command
     if (names === undefined) {
-      console.error(
-        'AthenaHandler > A command does not have a name assigned to it.'
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+        'A command does not have a name assigned to it.'
       )
       return ''
     }

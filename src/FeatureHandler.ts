@@ -1,6 +1,7 @@
 import { Client } from 'discord.js'
 import fs from 'fs'
 import AthenaHandler from '.'
+import Logger from './logger'
 import path from 'path'
 
 import getAllFiles from './get-all-files'
@@ -35,7 +36,7 @@ class FeatureHandler {
     }
 
     if (!fs.existsSync(dir)) {
-      throw new Error(`Listeners directory "${dir}" doesn't exist!`)
+      new Logger("debug", "America/Chicago", "logs").log("error", "FeatureHandler",`Listeners directory "${dir}" doesn't exist!`)
     }
 
     const files = getAllFiles(dir, typeScript ? '.ts' : '')
@@ -43,7 +44,7 @@ class FeatureHandler {
     const amount = files.length
 
     if (amount > 0) {
-      console.log(
+      new Logger("debug", "America/Chicago", "logs").log("debug", "FeatureHandler",
         `AthenaHandler > Loading ${amount} listener${amount === 1 ? '' : 's'}...`
       )
 
@@ -59,7 +60,7 @@ class FeatureHandler {
         }
       }
     } else {
-      console.log(
+      new Logger("debug", "America/Chicago", "logs").log("success", "FeatureHandler",
         `AthenaHandler > Loaded ${amount} listener${amount === 1 ? '' : 's'}.`
       )
     }
@@ -85,12 +86,12 @@ class FeatureHandler {
       if (!dbName) missing.push('dbName')
 
       if (missing.length && this._instance.showWarns) {
-        console.warn(
+        new Logger("debug", "America/Chicago", "logs").log("error", "FeatureHandler",
           `AthenaHandler > Feature "${fileName}" has a config file that doesn't contain the following properties: ${missing}`
         )
       }
     } else if (this._instance.showWarns) {
-      console.warn(
+      new Logger("debug", "America/Chicago", "logs").log("error", "FeatureHandler",
         `AthenaHandler > Feature "${fileName}" does not export a config object.`
       )
     }
@@ -108,7 +109,7 @@ class FeatureHandler {
     }
 
     if (config && config.loadDBFirst === true) {
-      console.warn(
+      new Logger("debug", "America/Chicago", "logs").log("error", "FeatureHandler",
         `AthenaHandler > config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`
       )
     }

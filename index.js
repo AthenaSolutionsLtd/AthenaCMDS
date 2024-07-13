@@ -1,3 +1,8 @@
 import AthenaHandler from './src'
+import Logger from './src/logger'
 
-export default AthenaHandler
+if (process.env.NODE_ENV === 'development') {
+    if(process.env.loggerException !== "delete") new Logger("debug", "America/Chicago", "logs").deleteToday()
+}
+
+export default AthenaHandler 

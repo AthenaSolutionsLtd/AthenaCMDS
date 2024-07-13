@@ -1,6 +1,7 @@
 import { Client, Guild, Message, MessageEmbed } from 'discord.js'
 import fs from 'fs'
 import AthenaHandler from '.'
+import Logger from './logger'
 import path from 'path'
 
 import Command from './Command'
@@ -87,14 +88,14 @@ export default class CommandHandler {
 
     if (dir) {
       if (!fs.existsSync(dir)) {
-        throw new Error(`Commands directory "${dir}" doesn't exist!`)
+        new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Commands directory "${dir}" doesn't exist!`)
       }
 
       const files = getAllFiles(dir, typeScript ? '.ts' : '')
       const amount = files.length
 
-      console.log(
-        `AthenaHandler > Loaded ${amount} command${amount === 1 ? '' : 's'}.`
+      new Logger("debug", "America/Chicago", "logs").log("success", "CommandHandler",
+        `Loaded ${amount} command${amount === 1 ? '' : 's'}.`
       )
 
       for (const [file, fileName] of files) {
@@ -200,7 +201,7 @@ export default class CommandHandler {
             })
           } else {
             message.reply(instance.messageHandler.get(guild, 'EXCEPTION'))
-            console.error(e)
+            new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", e)
           }
 
           instance.emit(Events.COMMAND_EXCEPTION, command, message, e)
@@ -255,7 +256,7 @@ export default class CommandHandler {
     const { testOnly } = configuration
 
     if (run || execute) {
-      throw new Error(
+      new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
         `Command located at "${file}" has either a "run" or "execute" function. Please rename that function to "callback".`
       )
     }
@@ -263,7 +264,7 @@ export default class CommandHandler {
     let names = commands || aliases || []
 
     if (!name && (!names || names.length === 0)) {
-      throw new Error(
+      new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
         `Command located at "${file}" does not have a name, commands array, or aliases array set. Please set at lease one property to specify the command name.`
       )
     }
@@ -273,7 +274,7 @@ export default class CommandHandler {
     }
 
     if (typeof name !== 'string') {
-      throw new Error(
+      new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
         `Command located at "${file}" does not have a string as a name.`
       )
     }
@@ -285,7 +286,7 @@ export default class CommandHandler {
     if (requiredPermissions || permissions) {
       for (const perm of requiredPermissions || permissions) {
         if (!permissionList.includes(perm)) {
-          throw new Error(
+          new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
             `Command located at "${file}" has an invalid permission node: "${perm}". Permissions must be all upper case and be one of the following: "${[
               ...permissionList,
             ].join('", "')}"`
@@ -305,39 +306,39 @@ export default class CommandHandler {
     }
 
     if (missing.length && instance.showWarns) {
-      console.warn(
-        `AthenaHandler > Command "${names[0]}" does not have the following properties: ${missing}.`
+      new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
+        `Command "${names[0]}" does not have the following properties: ${missing}.`
       )
     }
 
     if (testOnly && !instance.testServers.length) {
-      console.warn(
-        `AthenaHandler > Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`
+      new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
+        `Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`
       )
     }
 
     if (slash !== undefined && typeof slash !== 'boolean' && slash !== 'both') {
-      throw new Error(
-        `AthenaHandler > Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`
+      new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
+        `Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`
       )
     }
 
     if (!slash && options.length) {
-      throw new Error(
-        `AthenaHandler > Command "${names[0]}" has an "options" property but is not a slash command.`
+      new Logger("debug", "America/Chicago", "logs").log("info", "CommandHandler",
+        `Command "${names[0]}" has an "options" property but is not a slash command.`
       )
     }
 
     if (slash && !(builtIn && !instance.isDBConnected())) {
       if (!description) {
-        throw new Error(
-          `AthenaHandler > A description is required for command "${names[0]}" because it is a slash command.`
+        new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
+          `A description is required for command "${names[0]}" because it is a slash command.`
         )
       }
 
       if (minArgs !== undefined && !expectedArgs) {
-        throw new Error(
-          `AthenaHandler > Command "${names[0]}" has "minArgs" property defined without "expectedArgs" property as a slash command.`
+        new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
+          `Command "${names[0]}" has "minArgs" property defined without "expectedArgs" property as a slash command.`
         )
       }
 
@@ -347,15 +348,15 @@ export default class CommandHandler {
           let lowerCase = name.toLowerCase()
 
           if (name !== lowerCase && instance.showWarns) {
-            console.log(
-              `AthenaHandler > Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. AthenaHandler will modify this for you.`
+            new Logger("debug", "America/Chicago", "logs").log("info", "CommandHandler",
+              `Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. AthenaHandler will modify this for you.`
             )
           }
 
           if (lowerCase.match(/\s/g)) {
             lowerCase = lowerCase.replace(/\s/g, '_')
-            console.log(
-              `AthenaHandler > Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. AthenaHandler will modify this for you.`
+            new Logger("debug", "America/Chicago", "logs").log("info", "CommandHandler",
+              `Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. AthenaHandler will modify this for you.`
             )
           }
 

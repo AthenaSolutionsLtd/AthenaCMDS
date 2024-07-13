@@ -1,6 +1,6 @@
 {
   "name": "athenahandler",
-  "version": "1.5.3",
+  "version": "1.0.0",
   "main": "dist/index.js",
   "typings": "./typings.d.ts",
   "scripts": {
@@ -12,8 +12,12 @@
   "author": "Athena Solutions",
   "license": "PROPRIETARY",
   "dependencies": {
+    "@types/colors": "^1.2.1",
+    "@types/moment-timezone": "^0.5.30",
+    "colors": "^1.4.0",
     "discord.js": "^13.1.0",
     "dotenv": "^8.2.0",
+    "moment-timezone": "^0.5.45",
     "mongoose": "^6.0.10"
   },
   "devDependencies": {

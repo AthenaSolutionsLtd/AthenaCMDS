@@ -1,5 +1,6 @@
 import { Client, Message, MessageEmbed } from 'discord.js'
 import AthenaHandler from '../..'
+import Logger from "../../logger"
 import { ICallbackObject, ICommand } from '../../../typings'
 import getFirstEmbed from './!get-first-embed'
 import ReactionListener, { addReactions } from './!ReactionListener'
@@ -36,8 +37,8 @@ module.exports = {
     const { guild } = channel
 
     if (guild && !guild.me?.permissions.has('SEND_MESSAGES')) {
-      console.warn(
-        `AthenaHandler > Could not send message due to no permissions in channel for ${guild.name}`
+      new Logger("debug", "America/Chicago", "logs").log("debug", "Main",
+        `Could not send message due to no permissions in channel for ${guild.name}`
       )
       return
     }

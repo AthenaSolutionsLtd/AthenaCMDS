@@ -1,5 +1,6 @@
 import { Message, MessageEmbed, PartialMessage } from 'discord.js'
 import AthenaHandler from '../../'
+import Logger from "../../logger"
 
 const getFirstEmbed = (
   message: Message | PartialMessage,
@@ -65,8 +66,8 @@ const getFirstEmbed = (
     const { emoji } = categories[key]
 
     if (!emoji) {
-      console.warn(
-        `AthenaHandler > Category "${key}" does not have an emoji icon.`
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+        `Category "${key}" does not have an emoji icon.`
       )
 
       continue

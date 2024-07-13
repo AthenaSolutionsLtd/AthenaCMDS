@@ -7,6 +7,8 @@ AthenaHandler is a fork of [Worn Off Keys](https://youtube.com/wornoffkeys)'s WO
 
 All credit for the code goes to Worn Off Keys and Alexzander Flores. Credit for the modifications goes to Athena Solutions.
 
+AthenaHandler makes use of [The Better Logger](https://github.com/rsley/thebetterlogger), modified for Typescript and set up for this project, with the developer's permission.
+
 # Documentation
 
 The official documentation for WOKCommand can be found here: https://docs.wornoffkeys.com

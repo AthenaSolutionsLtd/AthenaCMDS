@@ -10,6 +10,7 @@ import SlashCommands from './SlashCommands'
 import { ICategorySetting, Options } from '..'
 import Events from './enums/Events'
 import CommandHandler from './CommandHandler'
+import Logger from './logger'
 
 export default class AthenaHandler extends EventEmitter {
   private _client: Client
@@ -46,7 +47,7 @@ export default class AthenaHandler extends EventEmitter {
 
   private async setUp(client: Client, options?: Options) {
     if (!client) {
-      throw new Error('AthenaHandler > No Discord JS Client provided as first argument!')
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main", 'No Discord JS Client provided as first argument!')
     }
 
     let {
@@ -83,8 +84,8 @@ export default class AthenaHandler extends EventEmitter {
       }
     } else {
       if (showWarns) {
-        console.warn(
-          'AthenaHandler > No MongoDB connection URI provided. Some features might not work! See this for more details:\nhttps://docs.wornoffkeys.com/databases/mongodb'
+        new Logger("debug", "America/Chicago", "logs").log("info", "Main",
+          'No MongoDB connection URI provided. Some features might not work! See this for more details:\nhttps://docs.wornoffkeys.com/databases/mongodb'
         )
       }
 
@@ -100,8 +101,8 @@ export default class AthenaHandler extends EventEmitter {
       this._commandsDir &&
       !(this._commandsDir.includes('/') || this._commandsDir.includes('\\'))
     ) {
-      throw new Error(
-        "AthenaHandler > The 'commands' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+        "The 'commands' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
       )
     }
 
@@ -109,8 +110,8 @@ export default class AthenaHandler extends EventEmitter {
       this._featuresDir &&
       !(this._featuresDir.includes('/') || this._featuresDir.includes('\\'))
     ) {
-      throw new Error(
-        "AthenaHandler > The 'features' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+        "The 'features' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
       )
     }
 
@@ -165,12 +166,12 @@ export default class AthenaHandler extends EventEmitter {
       typeScript
     )
 
-    console.log('AthenaHandler > Your bot is now running.')
+    new Logger("debug", "America/Chicago", "logs").log("success", "Main", 'AthenaClient is now running.')
   }
 
   public setMongoPath(mongoPath: string | undefined): AthenaHandler {
-    console.warn(
-      'AthenaHandler > .setMongoPath() no longer works as expected. Please pass in your mongo URI as a "mongoUri" property using the options object. For more information: https://docs.wornoffkeys.com/databases/mongodb'
+    new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+      '.setMongoPath() no longer works as expected. Please pass in your mongo URI as a "mongoUri" property using the options object. For more information: https://docs.wornoffkeys.com/databases/mongodb'
     )
     return this
   }
@@ -269,8 +270,8 @@ export default class AthenaHandler extends EventEmitter {
       }
 
       if (this.isEmojiUsed(targetEmoji)) {
-        console.warn(
-          `AthenaHandler > The emoji "${targetEmoji}" for category "${name}" is already used.`
+        new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+          `The emoji "${targetEmoji}" for category "${name}" is already used.`
         )
       }
 
@@ -339,8 +340,8 @@ export default class AthenaHandler extends EventEmitter {
   }
 
   public setBotOwner(botOwner: string | string[]): AthenaHandler {
-    console.log(
-      'AthenaHandler > setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead. See https://docs.wornoffkeys.com/setup-and-options-object'
+    new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+      'setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead. See https://docs.wornoffkeys.com/setup-and-options-object'
     )
 
     if (typeof botOwner === 'string') {

@@ -2,6 +2,7 @@ import { Guild } from 'discord.js'
 
 import languageSchema from './models/languages'
 import AthenaHandler from '.'
+import Logger from './logger'
 import Events from './enums/Events'
 const defualtMessages = require('../messages.json')
 
@@ -27,7 +28,7 @@ export default class MessageHandler {
       }
 
       if (!this._languages.includes(instance.defaultLanguage)) {
-        throw new Error(
+        new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler",
           `The current default language defined is not supported.`
         )
       }
@@ -72,8 +73,8 @@ export default class MessageHandler {
 
     const translations = this._messages[messageId]
     if (!translations) {
-      console.error(
-        `AthenaHandler > Could not find the correct message to send for "${messageId}"`
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+        `Could not find the correct message to send for "${messageId}"`
       )
       return 'Could not find the correct message to send. Please report this to the bot developer.'
     }
@@ -98,16 +99,16 @@ export default class MessageHandler {
 
     const items = this._messages[embedId]
     if (!items) {
-      console.error(
-        `AthenaHandler > Could not find the correct item to send for "${embedId}" -> "${itemId}"`
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+        `Could not find the correct item to send for "${embedId}" -> "${itemId}"`
       )
       return 'Could not find the correct message to send. Please report this to the bot developer.'
     }
 
     const translations = items[itemId]
     if (!translations) {
-      console.error(
-        `AthenaHandler > Could not find the correct message to send for "${embedId}"`
+      new Logger("debug", "America/Chicago", "logs").log("error", "Main",
+        `Could not find the correct message to send for "${embedId}"`
       )
       return 'Could not find the correct message to send. Please report this to the bot developer.'
     }
