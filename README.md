@@ -1,29 +1,23 @@
-<a href='http://wornoffkeys.com/discord?from=wokcommands-npm' target='_blank'>![alt Discord](https://img.shields.io/discord/464316540490088448?color=7289da&logo=discord&logoColor=white)</a> <a href='https://github.com/AlexzanderFlores/WOKCommands' target='_blank'>![alt GitHub Repo](https://img.shields.io/github/stars/AlexzanderFlores/WOKCommands?style=social)</a>
+<a href='https://discord.gg/VjW5F9wmQj' target='_blank'>![alt Discord](https://img.shields.io/discord/1261739648762515568?color=32a2a8&logo=discord&logoColor=white)</a>
 
-<a href='https://nodei.co/npm/wokcommands/' target='_blank'>![alt WOKCommands](https://nodei.co/npm/wokcommands.png)</a>
+<a href='https://nodei.co/npm/athenahandler/' target='_blank'>![alt Athena Discord Handler](https://nodei.co/npm/athenadiscord.png)</a>
 
-# WOKCommands
-
-WOKCommands is a Discord.JS command handler made by [Worn Off Keys](https://youtube.com/wornoffkeys). The goal of this package is to make it simple and easy to get your bot off the ground without worrying about your own command handler.
+# AthenaHandler
+AthenaHandler is a fork of [Worn Off Keys](https://youtube.com/wornoffkeys)'s WOKCommands. The goal of WOKCommand is to make it simple and easy to get your bot off the ground without worrying about your own command handler; however, seeing as the handler has gone a long time without updates, Athena Solutions decided to fork it and modify it here and there, to fit our needs.
 
 # Documentation
 
-The official documentation can be found here: https://docs.wornoffkeys.com
+The official documentation for WOKCommand can be found here: https://docs.wornoffkeys.com
+- We have tried to leave these parts untouched, Athena Solutions will not bother making separate documentation at this time.
 
 # Installation
 
-**NPM**
+**Yarn**
 
 ```bash
-npm install wokcommands
-```
-
-Development Build
-
-```bash
-npm install github:AlexzanderFlores/WOKCommands#dev
+yarn add athenahandler
 ```
 
 # Support & Feature Requests
 
-This package is looking for feedback and ideas to help cover more use cases. If you have any ideas feel free to share them within the "💡 ｜ suggestions" channel in the [Worn Off Keys Discord server](http://wornoffkeys.com/discord).
+Athena Solutions is constantly looking for feature requests, suggestions, and to provide help, not only for Athena, but also for this handler. Feel free to drop by the [Discord Server](https://discord.gg/VjW5F9wmQj)
