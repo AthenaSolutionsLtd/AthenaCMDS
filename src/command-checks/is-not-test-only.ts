@@ -1,13 +1,13 @@
-import { Guild } from 'discord.js'
-import AthenaHandler from '..'
-import Command from '../Command'
+import { Guild } from "discord.js";
+import AthenaCMDS from "..";
+import Command from "../Command";
 
-export = (guild: Guild | null, command: Command, instance: AthenaHandler) => {
-  const { testOnly } = command
+export = (guild: Guild | null, command: Command, instance: AthenaCMDS) => {
+  const { testOnly } = command;
 
   if (!testOnly) {
-    return true
+    return true;
   }
 
-  return guild && instance.testServers.includes(guild.id)
-}
+  return guild && instance.testServers.includes(guild.id);
+};

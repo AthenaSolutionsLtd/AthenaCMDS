@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 const path_1 = __importDefault(require("path"));
 const get_all_files_1 = __importDefault(require("./get-all-files"));
+const logger_1 = __importDefault(require("./logger"));
 class SlashCommands {
     _client;
     _instance;
@@ -15,7 +16,7 @@ class SlashCommands {
     }
     async setUp(listen, typeScript = false) {
         // Do not pass in TS here because this should always compiled to JS
-        for (const [file, fileName] of get_all_files_1.default(path_1.default.join(__dirname, 'command-checks'))) {
+        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, 'command-checks'))) {
             this._commandChecks.set(fileName, require(file));
         }
         const replyFromCheck = async (reply, interaction) => {
@@ -116,7 +117,7 @@ class SlashCommands {
             if (cmd.description !== description ||
                 cmd.options.length !== options.length ||
                 optionsChanged) {
-                console.log(`WOKCommands > Updating${guildId ? ' guild' : ''} slash command "${name}"`);
+                new logger_1.default("debug", "America/Chicago", "logs").log("debug", "Main", `Updating${guildId ? ' guild' : ''} slash command "${name}"`);
                 return commands?.edit(cmd.id, {
                     name,
                     description,
@@ -126,7 +127,7 @@ class SlashCommands {
             return Promise.resolve(cmd);
         }
         if (commands) {
-            console.log(`WOKCommands > Creating${guildId ? ' guild' : ''} slash command "${name}"`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("success", "Main", `Creating${guildId ? ' guild' : ''} slash command "${name}"`);
             const newCommand = await commands.create({
                 name,
                 description,
@@ -141,7 +142,7 @@ class SlashCommands {
         if (commands) {
             const cmd = commands.cache.get(commandId);
             if (cmd) {
-                console.log(`WOKCommands > Deleting${guildId ? ' guild' : ''} slash command "${cmd.name}"`);
+                new logger_1.default("debug", "America/Chicago", "logs").log("success", "Main", `Deleting${guildId ? ' guild' : ''} slash command "${cmd.name}"`);
                 cmd.delete();
             }
         }

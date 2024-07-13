@@ -9,31 +9,31 @@ import {
   GuildMember,
   MessageEmbed,
   User,
-} from 'discord.js'
-import path from 'path'
+} from "discord.js";
+import path from "path";
 
-import getAllFiles from './get-all-files'
-import AthenaHandler from '.'
-import Logger from './logger'
+import getAllFiles from "./get-all-files";
+import AthenaCMDS from ".";
+import Logger from "./logger";
 
 class SlashCommands {
-  private _client: Client
-  private _instance: AthenaHandler
-  private _commandChecks: Map<String, Function> = new Map()
+  private _client: Client;
+  private _instance: AthenaCMDS;
+  private _commandChecks: Map<String, Function> = new Map();
 
-  constructor(instance: AthenaHandler, listen: boolean, typeScript?: boolean) {
-    this._instance = instance
-    this._client = instance.client
+  constructor(instance: AthenaCMDS, listen: boolean, typeScript?: boolean) {
+    this._instance = instance;
+    this._client = instance.client;
 
-    this.setUp(listen, typeScript)
+    this.setUp(listen, typeScript);
   }
 
   private async setUp(listen: boolean, typeScript = false) {
     // Do not pass in TS here because this should always compiled to JS
     for (const [file, fileName] of getAllFiles(
-      path.join(__dirname, 'command-checks')
+      path.join(__dirname, "command-checks")
     )) {
-      this._commandChecks.set(fileName, require(file))
+      this._commandChecks.set(fileName, require(file));
     }
 
     const replyFromCheck = async (
@@ -42,58 +42,58 @@ class SlashCommands {
     ) => {
       if (!reply) {
         return new Promise((resolve) => {
-          resolve('No reply provided.')
-        })
+          resolve("No reply provided.");
+        });
       }
 
-      if (typeof reply === 'string') {
+      if (typeof reply === "string") {
         return interaction.reply({
           content: reply,
           ephemeral: this._instance.ephemeral,
-        })
+        });
       } else {
-        let embeds = []
+        let embeds = [];
 
         if (Array.isArray(reply)) {
-          embeds = reply
+          embeds = reply;
         } else {
-          embeds.push(reply)
+          embeds.push(reply);
         }
 
         return interaction.reply({
           embeds,
           ephemeral: this._instance.ephemeral,
-        })
+        });
       }
-    }
+    };
 
     if (listen) {
-      this._client.on('interactionCreate', async (interaction) => {
+      this._client.on("interactionCreate", async (interaction) => {
         if (!interaction.isCommand()) {
-          return
+          return;
         }
 
-        const { user, commandName, options, guild, channelId } = interaction
-        const member = interaction.member as GuildMember
-        const channel = guild?.channels.cache.get(channelId) || null
-        const command = this._instance.commandHandler.getCommand(commandName)
+        const { user, commandName, options, guild, channelId } = interaction;
+        const member = interaction.member as GuildMember;
+        const channel = guild?.channels.cache.get(channelId) || null;
+        const command = this._instance.commandHandler.getCommand(commandName);
 
         if (!command) {
           interaction.reply({
             content: this._instance.messageHandler.get(
               guild,
-              'INVALID_SLASH_COMMAND'
+              "INVALID_SLASH_COMMAND"
             ),
             ephemeral: this._instance.ephemeral,
-          })
-          return
+          });
+          return;
         }
 
-        const args: string[] = []
+        const args: string[] = [];
 
         options.data.forEach(({ value }) => {
-          args.push(String(value))
-        })
+          args.push(String(value));
+        });
 
         for (const [
           checkName,
@@ -107,39 +107,39 @@ class SlashCommands {
               member,
               user,
               (reply: string | MessageEmbed) => {
-                return replyFromCheck(reply, interaction)
+                return replyFromCheck(reply, interaction);
               },
               args,
               commandName,
               channel
             ))
           ) {
-            return
+            return;
           }
         }
 
-        this.invokeCommand(interaction, commandName, options, args)
-      })
+        this.invokeCommand(interaction, commandName, options, args);
+      });
     }
   }
 
   public getCommands(guildId?: string) {
     if (guildId) {
-      return this._client.guilds.cache.get(guildId)?.commands
+      return this._client.guilds.cache.get(guildId)?.commands;
     }
 
-    return this._client.application?.commands
+    return this._client.application?.commands;
   }
 
   public async get(guildId?: string): Promise<Map<any, any>> {
-    const commands = this.getCommands(guildId)
+    const commands = this.getCommands(guildId);
     if (commands) {
       // @ts-ignore
-      await commands.fetch()
-      return commands.cache
+      await commands.fetch();
+      return commands.cache;
     }
 
-    return new Map()
+    return new Map();
   }
 
   private didOptionsChange(
@@ -152,9 +152,9 @@ class SlashCommands {
           opt?.required !== options[index]?.required &&
           opt?.name !== options[index]?.name &&
           opt?.options?.length !== options.length
-        )
+        );
       }).length !== 0
-    )
+    );
   }
 
   public async create(
@@ -163,87 +163,87 @@ class SlashCommands {
     options: ApplicationCommandOptionData[],
     guildId?: string
   ): Promise<ApplicationCommand<{}> | undefined> {
-    let commands
+    let commands;
 
     if (guildId) {
-      commands = this._client.guilds.cache.get(guildId)?.commands
+      commands = this._client.guilds.cache.get(guildId)?.commands;
     } else {
-      commands = this._client.application?.commands
+      commands = this._client.application?.commands;
     }
 
     if (!commands) {
-      return
+      return;
     }
 
     // @ts-ignore
-    await commands.fetch()
+    await commands.fetch();
 
     const cmd = commands.cache.find(
       (cmd) => cmd.name === name
-    ) as ApplicationCommand
+    ) as ApplicationCommand;
 
     if (cmd) {
-      const optionsChanged = this.didOptionsChange(cmd, options)
+      const optionsChanged = this.didOptionsChange(cmd, options);
 
       if (
         cmd.description !== description ||
         cmd.options.length !== options.length ||
         optionsChanged
       ) {
-        new Logger("debug", "America/Chicago", "logs").log("debug", "Main",
-          `Updating${
-            guildId ? ' guild' : ''
-          } slash command "${name}"`
-        )
+        new Logger("debug", "America/Chicago", "logs").log(
+          "debug",
+          "Main",
+          `Updating${guildId ? " guild" : ""} slash command "${name}"`
+        );
 
         return commands?.edit(cmd.id, {
           name,
           description,
           options,
-        })
+        });
       }
 
-      return Promise.resolve(cmd)
+      return Promise.resolve(cmd);
     }
 
     if (commands) {
-      new Logger("debug", "America/Chicago", "logs").log("success", "Main",
-        `Creating${
-          guildId ? ' guild' : ''
-        } slash command "${name}"`
-      )
+      new Logger("debug", "America/Chicago", "logs").log(
+        "success",
+        "Main",
+        `Creating${guildId ? " guild" : ""} slash command "${name}"`
+      );
 
       const newCommand = await commands.create({
         name,
         description,
         options,
-      })
+      });
 
-      return newCommand
+      return newCommand;
     }
 
-    return Promise.resolve(undefined)
+    return Promise.resolve(undefined);
   }
 
   public async delete(
     commandId: string,
     guildId?: string
   ): Promise<ApplicationCommand<{}> | undefined> {
-    const commands = this.getCommands(guildId)
+    const commands = this.getCommands(guildId);
     if (commands) {
-      const cmd = commands.cache.get(commandId)
+      const cmd = commands.cache.get(commandId);
       if (cmd) {
-        new Logger("debug", "America/Chicago", "logs").log("success", "Main",
-          `Deleting${guildId ? ' guild' : ''} slash command "${
-            cmd.name
-          }"`
-        )
+        new Logger("debug", "America/Chicago", "logs").log(
+          "success",
+          "Main",
+          `Deleting${guildId ? " guild" : ""} slash command "${cmd.name}"`
+        );
 
-        cmd.delete()
+        cmd.delete();
       }
     }
 
-    return Promise.resolve(undefined)
+    return Promise.resolve(undefined);
   }
 
   public async invokeCommand(
@@ -252,10 +252,10 @@ class SlashCommands {
     options: CommandInteractionOptionResolver,
     args: string[]
   ) {
-    const command = this._instance.commandHandler.getCommand(commandName)
+    const command = this._instance.commandHandler.getCommand(commandName);
 
     if (!command || !command.callback) {
-      return
+      return;
     }
 
     const reply = await command.callback({
@@ -263,36 +263,36 @@ class SlashCommands {
       guild: interaction.guild,
       channel: interaction.channel,
       args,
-      text: args.join(' '),
+      text: args.join(" "),
       client: this._client,
       instance: this._instance,
       interaction,
       options,
       user: interaction.user,
-    })
+    });
 
     if (reply) {
-      if (typeof reply === 'string') {
+      if (typeof reply === "string") {
         interaction.reply({
           content: reply,
-        })
-      } else if (typeof reply === 'object') {
+        });
+      } else if (typeof reply === "object") {
         if (reply.custom) {
-          interaction.reply(reply)
+          interaction.reply(reply);
         } else {
-          let embeds = []
+          let embeds = [];
 
           if (Array.isArray(reply)) {
-            embeds = reply
+            embeds = reply;
           } else {
-            embeds.push(reply)
+            embeds.push(reply);
           }
 
-          interaction.reply({ embeds })
+          interaction.reply({ embeds });
         }
       }
     }
   }
 }
 
-export = SlashCommands
+export = SlashCommands;

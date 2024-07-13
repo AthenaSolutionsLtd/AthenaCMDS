@@ -1,14 +1,21 @@
 {
-  "name": "athenahandler",
-  "version": "1.0.2",
+  "name": "athenacmds",
+  "version": "1.0.3",
   "main": "dist/index.js",
   "typings": "./typings.d.ts",
   "scripts": {
     "tsc": "tsc -w --outDir dist --rootDir src --skipLibCheck",
     "compile": "tsc && node index.js",
-    "dev": "nodemon -e ts --exec \"npm run compile\""
+    "dev": "nodemon -e ts --exec \"yarn compile\""
   },
-  "keywords": ["discord", "discord.js", "handler", "command", "commands", "typescript"],
+  "keywords": [
+    "discord",
+    "discord.js",
+    "handler",
+    "command",
+    "commands",
+    "typescript"
+  ],
   "author": "Athena Solutions",
   "license": "PROPRIETARY",
   "dependencies": {
@@ -29,6 +36,6 @@
   "description": "A fork of WOKCommands",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AthenaSolutionsLtd/AthenaHandler"
+    "url": "https://github.com/AthenaSolutionsLtd/AthenaCMDS"
   }
 }

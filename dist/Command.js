@@ -2,6 +2,7 @@
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
+const logger_1 = __importDefault(require("./logger"));
 const cooldown_1 = __importDefault(require("./models/cooldown"));
 class Command {
     instance;
@@ -54,10 +55,10 @@ class Command {
         this._slash = slash;
         this._requireRoles = requireRoles;
         if (this.cooldown && this.globalCooldown) {
-            throw new Error(`Command "${names[0]}" has both a global and per-user cooldown. Commands can only have up to one of these properties.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has both a global and per-user cooldown. Commands can only have up to one of these properties.`);
         }
         if (requiredPermissions && permissions) {
-            throw new Error(`Command "${names[0]}" has both requiredPermissions and permissions fields. These are interchangeable but only one should be provided.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has both requiredPermissions and permissions fields. These are interchangeable but only one should be provided.`);
         }
         if (this.cooldown) {
             this.verifyCooldown(this._cooldown, 'cooldown');
@@ -66,13 +67,13 @@ class Command {
             this.verifyCooldown(this._globalCooldown, 'global cooldown');
         }
         if (this._minArgs < 0) {
-            throw new Error(`Command "${names[0]}" has a minimum argument count less than 0!`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a minimum argument count less than 0!`);
         }
         if (this._maxArgs < -1) {
-            throw new Error(`Command "${names[0]}" has a maximum argument count less than -1!`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a maximum argument count less than -1!`);
         }
         if (this._maxArgs !== -1 && this._maxArgs < this._minArgs) {
-            throw new Error(`Command "${names[0]}" has a maximum argument count less than it's minimum argument count!`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a maximum argument count less than it's minimum argument count!`);
         }
     }
     async execute(message, args) {
@@ -158,41 +159,41 @@ class Command {
     }
     verifyCooldown(cooldown, type) {
         if (typeof cooldown !== 'string') {
-            throw new Error(`Invalid ${type} format! Must be a string, examples: "10s" "5m" etc.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Must be a string, examples: "10s" "5m" etc.`);
         }
         const results = cooldown.match(/[a-z]+|[^a-z]+/gi) || [];
         if (results.length !== 2) {
-            throw new Error(`Invalid ${type} format! Please provide "<Duration><Type>", examples: "10s" "5m" etc.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Please provide "<Duration><Type>", examples: "10s" "5m" etc.`);
         }
         this._cooldownDuration = +results[0];
         if (isNaN(this._cooldownDuration)) {
-            throw new Error(`Invalid ${type} format! Number is invalid.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Number is invalid.`);
         }
         this._cooldownChar = results[1];
         if (this._cooldownChar !== 's' &&
             this._cooldownChar !== 'm' &&
             this._cooldownChar !== 'h' &&
             this._cooldownChar !== 'd') {
-            throw new Error(`Invalid ${type} format! Unknown type. Please provide 's', 'm', 'h', or 'd' for seconds, minutes, hours, or days respectively.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Unknown type. Please provide 's', 'm', 'h', or 'd' for seconds, minutes, hours, or days respectively.`);
         }
         if (type === 'global cooldown' &&
             this._cooldownChar === 's' &&
             this._cooldownDuration < 60) {
-            throw new Error(`Invalid ${type} format! The minimum duration for a global cooldown is 1m.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! The minimum duration for a global cooldown is 1m.`);
         }
         const moreInfo = ' For more information please see https://docs.wornoffkeys.com/commands/command-cooldowns';
         if (this._cooldownDuration < 1) {
-            throw new Error(`Invalid ${type} format! Durations must be at least 1.${moreInfo}`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Durations must be at least 1.${moreInfo}`);
         }
         if ((this._cooldownChar === 's' || this._cooldownChar === 'm') &&
             this._cooldownDuration > 60) {
-            throw new Error(`Invalid ${type} format! Second or minute durations cannot exceed 60.${moreInfo}`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Second or minute durations cannot exceed 60.${moreInfo}`);
         }
         if (this._cooldownChar === 'h' && this._cooldownDuration > 24) {
-            throw new Error(`Invalid ${type} format! Hour durations cannot exceed 24.${moreInfo}`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Hour durations cannot exceed 24.${moreInfo}`);
         }
         if (this._cooldownChar === 'd' && this._cooldownDuration > 365) {
-            throw new Error(`Invalid ${type} format! Day durations cannot exceed 365.${moreInfo}`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Day durations cannot exceed 365.${moreInfo}`);
         }
     }
     get hidden() {
@@ -210,7 +211,7 @@ class Command {
             (this._cooldownChar === 'm' && this._cooldownDuration >= 5)) {
             this._databaseCooldown = true;
             if (!this.instance.isDBConnected()) {
-                console.warn(`WOKCommands > A database connection is STRONGLY RECOMMENDED for cooldowns of 5 minutes or more.`);
+                new logger_1.default("debug", "America/Chicago", "logs").log("info", "Command", `A database connection is STRONGLY RECOMMENDED for cooldowns of 5 minutes or more.`);
             }
         }
     }

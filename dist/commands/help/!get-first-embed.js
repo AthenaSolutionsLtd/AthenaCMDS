@@ -1,6 +1,10 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const discord_js_1 = require("discord.js");
+const logger_1 = __importDefault(require("../../logger"));
 const getFirstEmbed = (message, instance) => {
     const { guild, member } = message;
     const { commandHandler: { commands }, messageHandler, } = instance;
@@ -35,7 +39,7 @@ const getFirstEmbed = (message, instance) => {
         const key = keys[a];
         const { emoji } = categories[key];
         if (!emoji) {
-            console.warn(`WOKCommands > Category "${key}" does not have an emoji icon.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `Category "${key}" does not have an emoji icon.`);
             continue;
         }
         const visibleCommands = instance.commandHandler.getCommandsByCategory(key, true);

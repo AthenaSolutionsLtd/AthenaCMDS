@@ -1,10 +1,10 @@
-import * as fs from 'fs';
-import moment from 'moment-timezone';
-import colors from 'colors/safe';
+import * as fs from "fs";
+import moment from "moment-timezone";
+import colors from "colors/safe";
 
 function removeANSI(logLine: string): string {
   // Remove ANSI Escape Codes
-  return logLine.replace(/\x1B\[([0-?]*[ -/]*[@-~])/g, '');
+  return logLine.replace(/\x1B\[([0-?]*[ -/]*[@-~])/g, "");
 }
 
 function clearLogsFolder(folder: string) {
@@ -21,14 +21,22 @@ function consoleLog(level: string, type: string, module: string, text: string) {
     Debug: colors.gray,
   };
 
-  const formattedTimestamp = colors.white(getCurrentTimestamp("YYYY-MM-DD HH:mm:ss"));
-  const formattedType = colorMap[type]? colorMap[type](`[ ${type.toUpperCase()} : `) : type.toUpperCase();
-  const formattedModule = colorMap[type]? colorMap[type](`${module} ]`) : module;
-  const formattedText = colors.white(text);
+  const formattedTimestamp = colors.white(
+    getCurrentTimestamp("YYYY-MM-DD HH:mm:ss")
+  );
+  const formattedType = colorMap[type]
+    ? colorMap[type](`[ ${type.toUpperCase()} : `)
+    : type.toUpperCase();
+  const formattedModule = colorMap[type]
+    ? colorMap[type](`${module} ]`)
+    : module;
+  const formattedText = colors.white(`ATHENA : ${text}`);
 
   if (level === "info" && type === "Debug") return;
 
-  console.log(`${formattedTimestamp} ${formattedType} ${formattedModule} : ${formattedText}`);
+  console.log(
+    `${formattedTimestamp} ${formattedType} ${formattedModule} : ${formattedText}`
+  );
 }
 
 async function fileLog(level: string, logFolder: string, logText: string) {
@@ -40,11 +48,16 @@ async function fileLog(level: string, logFolder: string, logText: string) {
   try {
     if (!fs.existsSync(logFilename)) {
       // file is just going to be created
-      fs.writeFileSync(logFilename, `    ┌─────────────────────────────────────────────────────────────────────────────┐
+      fs.writeFileSync(
+        logFilename,
+        `    ┌─────────────────────────────────────────────────────────────────────────────┐
     │         Current Date: ${currentDate}                                            
-    │         Program Start: ${getCurrentTimestamp("HH:mm:ss")}                                             
+    │         Program Start: ${getCurrentTimestamp(
+      "HH:mm:ss"
+    )}                                             
     │         Log Level: ${level}                                                    
-    └─────────────────────────────────────────────────────────────────────────────┘\n`);
+    └─────────────────────────────────────────────────────────────────────────────┘\n`
+      );
     }
     fs.appendFileSync(logFilename, logText);
   } catch (err) {
@@ -53,7 +66,9 @@ async function fileLog(level: string, logFolder: string, logText: string) {
 }
 
 function getCurrentTimestamp(format: string, tz?: string): string {
-  return moment().tz(tz || "America/Chicago").format(format);
+  return moment()
+    .tz(tz || "America/Chicago")
+    .format(format);
 }
 
 function deleteToday(tz: string, logFolder: string) {

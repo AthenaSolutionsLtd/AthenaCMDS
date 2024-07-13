@@ -1,7 +1,11 @@
 "use strict";
 var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
 }) : (function(o, m, k, k2) {
     if (k2 === undefined) k2 = k;
     o[k2] = m[k];
@@ -23,6 +27,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const languages_1 = __importDefault(require("./models/languages"));
+const logger_1 = __importDefault(require("./logger"));
 const defualtMessages = require('../messages.json');
 class MessageHandler {
     _instance;
@@ -32,14 +37,15 @@ class MessageHandler {
     constructor(instance, messagePath) {
         this._instance = instance;
         (async () => {
-            this._messages = messagePath ? await Promise.resolve().then(() => __importStar(require(messagePath))) : defualtMessages;
+            var _a;
+            this._messages = messagePath ? await (_a = messagePath, Promise.resolve().then(() => __importStar(require(_a)))) : defualtMessages;
             for (const messageId of Object.keys(this._messages)) {
                 for (const language of Object.keys(this._messages[messageId])) {
                     this._languages.push(language.toLowerCase());
                 }
             }
             if (!this._languages.includes(instance.defaultLanguage)) {
-                throw new Error(`The current default language defined is not supported.`);
+                new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `The current default language defined is not supported.`);
             }
             if (instance.isDBConnected()) {
                 const results = await languages_1.default.find();
@@ -71,7 +77,7 @@ class MessageHandler {
         const language = this.getLanguage(guild);
         const translations = this._messages[messageId];
         if (!translations) {
-            console.error(`WOKCommands > Could not find the correct message to send for "${messageId}"`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct message to send for "${messageId}"`);
             return 'Could not find the correct message to send. Please report this to the bot developer.';
         }
         let result = translations[language];
@@ -85,12 +91,12 @@ class MessageHandler {
         const language = this.getLanguage(guild);
         const items = this._messages[embedId];
         if (!items) {
-            console.error(`WOKCommands > Could not find the correct item to send for "${embedId}" -> "${itemId}"`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct item to send for "${embedId}" -> "${itemId}"`);
             return 'Could not find the correct message to send. Please report this to the bot developer.';
         }
         const translations = items[itemId];
         if (!translations) {
-            console.error(`WOKCommands > Could not find the correct message to send for "${embedId}"`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct message to send for "${embedId}"`);
             return 'Could not find the correct message to send. Please report this to the bot developer.';
         }
         let result = translations[language];
