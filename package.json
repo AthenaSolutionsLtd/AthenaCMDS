@@ -1,6 +1,6 @@
 {
   "name": "athenahandler",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/index.js",
   "typings": "./typings.d.ts",
   "scripts": {
@@ -8,7 +8,7 @@
     "compile": "tsc && node index.js",
     "dev": "nodemon -e ts --exec \"npm run compile\""
   },
-  "keywords": [],
+  "keywords": ["discord", "discord.js", "handler", "command", "commands", "typescript"],
   "author": "Athena Solutions",
   "license": "PROPRIETARY",
   "dependencies": {
