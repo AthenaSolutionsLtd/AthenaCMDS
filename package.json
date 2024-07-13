@@ -1,5 +1,5 @@
 {
-  "name": "wokcommands",
+  "name": "athenahandler",
   "version": "1.5.3",
   "main": "dist/index.js",
   "typings": "./typings.d.ts",
@@ -9,8 +9,8 @@
     "dev": "nodemon -e ts --exec \"npm run compile\""
   },
   "keywords": [],
-  "author": "Alexzander Flores, WornOffKeys.com",
-  "license": "ISC",
+  "author": "Athena Solutions",
+  "license": "PROPRIETARY",
   "dependencies": {
     "discord.js": "^13.1.0",
     "dotenv": "^8.2.0",
@@ -22,9 +22,9 @@
     "ts-node-dev": "^1.0.0",
     "typescript": "^4.3.5"
   },
-  "description": "An easy to use command handler for Discord.JS",
+  "description": "A fork of WOKCommands",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AlexzanderFlores/WOKCommands"
+    "url": "https://github.com/AthenaSolutionsLtd/AthenaHandler"
   }
 }

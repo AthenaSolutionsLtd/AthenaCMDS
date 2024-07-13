@@ -1,3 +1,3 @@
-import WOKCommands from './src'
+import AthenaHandler from './src'
 
-export default WOKCommands
+export default AthenaHandler

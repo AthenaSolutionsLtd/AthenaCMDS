@@ -11,6 +11,6 @@ const schema = new Schema({
   language: reqString,
 })
 
-const name = 'wokcommands-languages'
+const name = 'athenahandler-languages'
 
 export = mongoose.models[name] || mongoose.model(name, schema, name)

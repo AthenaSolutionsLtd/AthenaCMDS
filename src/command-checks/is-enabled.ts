@@ -1,5 +1,5 @@
 import { Guild, GuildMember, Message, User } from 'discord.js'
-import WOKCommands from '..'
+import AthenaHandler from '..'
 import Command from '../Command'
 import CommandErrors from '../enums/CommandErrors'
 
@@ -9,7 +9,7 @@ import CommandErrors from '../enums/CommandErrors'
 export = (
   guild: Guild | null,
   command: Command,
-  instance: WOKCommands,
+  instance: AthenaHandler,
   member: GuildMember,
   user: User,
   reply: Function

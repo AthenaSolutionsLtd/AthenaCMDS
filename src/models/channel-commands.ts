@@ -14,6 +14,6 @@ const schema = new Schema({
   },
 })
 
-const name = 'wokcommands-channel-commands'
+const name = 'athenahandler-channel-commands'
 
 export = mongoose.models[name] || mongoose.model(name, schema, name)

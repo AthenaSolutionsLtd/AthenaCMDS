@@ -1,6 +1,6 @@
 import { Client, Guild, Message, MessageEmbed } from 'discord.js'
 import fs from 'fs'
-import WOKCommands from '.'
+import AthenaHandler from '.'
 import path from 'path'
 
 import Command from './Command'
@@ -49,7 +49,7 @@ export default class CommandHandler {
   private _commandChecks: Map<String, Function> = new Map()
 
   constructor(
-    instance: WOKCommands,
+    instance: AthenaHandler,
     client: Client,
     dir: string,
     disabledDefaultCommands: string[],
@@ -61,7 +61,7 @@ export default class CommandHandler {
   }
 
   private async setUp(
-    instance: WOKCommands,
+    instance: AthenaHandler,
     client: Client,
     dir: string,
     disabledDefaultCommands: string[],
@@ -94,7 +94,7 @@ export default class CommandHandler {
       const amount = files.length
 
       console.log(
-        `WOKCommands > Loaded ${amount} command${amount === 1 ? '' : 's'}.`
+        `AthenaHandler > Loaded ${amount} command${amount === 1 ? '' : 's'}.`
       )
 
       for (const [file, fileName] of files) {
@@ -219,7 +219,7 @@ export default class CommandHandler {
   }
 
   public async registerCommand(
-    instance: WOKCommands,
+    instance: AthenaHandler,
     client: Client,
     file: string,
     fileName: string,
@@ -306,38 +306,38 @@ export default class CommandHandler {
 
     if (missing.length && instance.showWarns) {
       console.warn(
-        `WOKCommands > Command "${names[0]}" does not have the following properties: ${missing}.`
+        `AthenaHandler > Command "${names[0]}" does not have the following properties: ${missing}.`
       )
     }
 
     if (testOnly && !instance.testServers.length) {
       console.warn(
-        `WOKCommands > Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`
+        `AthenaHandler > Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`
       )
     }
 
     if (slash !== undefined && typeof slash !== 'boolean' && slash !== 'both') {
       throw new Error(
-        `WOKCommands > Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`
+        `AthenaHandler > Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`
       )
     }
 
     if (!slash && options.length) {
       throw new Error(
-        `WOKCommands > Command "${names[0]}" has an "options" property but is not a slash command.`
+        `AthenaHandler > Command "${names[0]}" has an "options" property but is not a slash command.`
       )
     }
 
     if (slash && !(builtIn && !instance.isDBConnected())) {
       if (!description) {
         throw new Error(
-          `WOKCommands > A description is required for command "${names[0]}" because it is a slash command.`
+          `AthenaHandler > A description is required for command "${names[0]}" because it is a slash command.`
         )
       }
 
       if (minArgs !== undefined && !expectedArgs) {
         throw new Error(
-          `WOKCommands > Command "${names[0]}" has "minArgs" property defined without "expectedArgs" property as a slash command.`
+          `AthenaHandler > Command "${names[0]}" has "minArgs" property defined without "expectedArgs" property as a slash command.`
         )
       }
 
@@ -348,14 +348,14 @@ export default class CommandHandler {
 
           if (name !== lowerCase && instance.showWarns) {
             console.log(
-              `WOKCommands > Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. WOKCommands will modify this for you.`
+              `AthenaHandler > Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. AthenaHandler will modify this for you.`
             )
           }
 
           if (lowerCase.match(/\s/g)) {
             lowerCase = lowerCase.replace(/\s/g, '_')
             console.log(
-              `WOKCommands > Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. WOKCommands will modify this for you.`
+              `AthenaHandler > Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. AthenaHandler will modify this for you.`
             )
           }
 

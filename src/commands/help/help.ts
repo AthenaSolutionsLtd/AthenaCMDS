@@ -1,10 +1,10 @@
 import { Client, Message, MessageEmbed } from 'discord.js'
-import WOKCommands from '../..'
+import AthenaHandler from '../..'
 import { ICallbackObject, ICommand } from '../../../typings'
 import getFirstEmbed from './!get-first-embed'
 import ReactionListener, { addReactions } from './!ReactionListener'
 
-const sendHelpMenu = (message: Message, instance: WOKCommands) => {
+const sendHelpMenu = (message: Message, instance: AthenaHandler) => {
   const { embed, reactions } = getFirstEmbed(message, instance)
 
   message.channel
@@ -25,7 +25,7 @@ module.exports = {
   maxArgs: 1,
   expectedArgs: '[command]',
 
-  init: (client: Client, instance: WOKCommands) => {
+  init: (client: Client, instance: AthenaHandler) => {
     client.on('messageReactionAdd', async (reaction, user) => {
       new ReactionListener(instance, reaction, user)
     })
@@ -37,7 +37,7 @@ module.exports = {
 
     if (guild && !guild.me?.permissions.has('SEND_MESSAGES')) {
       console.warn(
-        `WOKCommands > Could not send message due to no permissions in channel for ${guild.name}`
+        `AthenaHandler > Could not send message due to no permissions in channel for ${guild.name}`
       )
       return
     }

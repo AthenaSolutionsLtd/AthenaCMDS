@@ -13,14 +13,14 @@ import {
 import path from 'path'
 
 import getAllFiles from './get-all-files'
-import WOKCommands from '.'
+import AthenaHandler from '.'
 
 class SlashCommands {
   private _client: Client
-  private _instance: WOKCommands
+  private _instance: AthenaHandler
   private _commandChecks: Map<String, Function> = new Map()
 
-  constructor(instance: WOKCommands, listen: boolean, typeScript?: boolean) {
+  constructor(instance: AthenaHandler, listen: boolean, typeScript?: boolean) {
     this._instance = instance
     this._client = instance.client
 
@@ -190,7 +190,7 @@ class SlashCommands {
         optionsChanged
       ) {
         console.log(
-          `WOKCommands > Updating${
+          `AthenaHandler > Updating${
             guildId ? ' guild' : ''
           } slash command "${name}"`
         )
@@ -207,7 +207,7 @@ class SlashCommands {
 
     if (commands) {
       console.log(
-        `WOKCommands > Creating${
+        `AthenaHandler > Creating${
           guildId ? ' guild' : ''
         } slash command "${name}"`
       )
@@ -233,7 +233,7 @@ class SlashCommands {
       const cmd = commands.cache.get(commandId)
       if (cmd) {
         console.log(
-          `WOKCommands > Deleting${guildId ? ' guild' : ''} slash command "${
+          `AthenaHandler > Deleting${guildId ? ' guild' : ''} slash command "${
             cmd.name
           }"`
         )

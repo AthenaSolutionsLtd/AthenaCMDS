@@ -1,6 +1,6 @@
 import { Client } from 'discord.js'
 import fs from 'fs'
-import WOKCommands from '.'
+import AthenaHandler from '.'
 import path from 'path'
 
 import getAllFiles from './get-all-files'
@@ -8,11 +8,11 @@ import getAllFiles from './get-all-files'
 class FeatureHandler {
   private _features: Map<String, String[]> = new Map() // <Feature name, Disabled GuildIDs>
   private _client: Client
-  private _instance: WOKCommands
+  private _instance: AthenaHandler
 
   constructor(
     client: Client,
-    instance: WOKCommands,
+    instance: AthenaHandler,
     dir: string,
     typeScript = false
   ) {
@@ -44,11 +44,11 @@ class FeatureHandler {
 
     if (amount > 0) {
       console.log(
-        `WOKCommands > Loading ${amount} listener${amount === 1 ? '' : 's'}...`
+        `AthenaHandler > Loading ${amount} listener${amount === 1 ? '' : 's'}...`
       )
 
       for (const [file, fileName] of files) {
-        const debug = `WOKCommands DEBUG > Feature "${fileName}" load time`
+        const debug = `AthenaHandler DEBUG > Feature "${fileName}" load time`
 
         if (this._instance.debug) {
           console.time(debug)
@@ -60,7 +60,7 @@ class FeatureHandler {
       }
     } else {
       console.log(
-        `WOKCommands > Loaded ${amount} listener${amount === 1 ? '' : 's'}.`
+        `AthenaHandler > Loaded ${amount} listener${amount === 1 ? '' : 's'}.`
       )
     }
   }
@@ -86,12 +86,12 @@ class FeatureHandler {
 
       if (missing.length && this._instance.showWarns) {
         console.warn(
-          `WOKCommands > Feature "${fileName}" has a config file that doesn't contain the following properties: ${missing}`
+          `AthenaHandler > Feature "${fileName}" has a config file that doesn't contain the following properties: ${missing}`
         )
       }
     } else if (this._instance.showWarns) {
       console.warn(
-        `WOKCommands > Feature "${fileName}" does not export a config object.`
+        `AthenaHandler > Feature "${fileName}" does not export a config object.`
       )
     }
 
@@ -109,7 +109,7 @@ class FeatureHandler {
 
     if (config && config.loadDBFirst === true) {
       console.warn(
-        `WOKCommands > config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`
+        `AthenaHandler > config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`
       )
     }
 

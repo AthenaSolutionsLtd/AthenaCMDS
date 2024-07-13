@@ -1,12 +1,12 @@
 import { Client, Guild, Message, MessageEmbed } from 'discord.js'
-import WOKCommands from '.'
+import AthenaHandler from '.'
 
 import permissions from './permissions'
 import cooldownSchema from './models/cooldown'
 import { ICommand } from '../typings'
 
 class Command {
-  private instance: WOKCommands
+  private instance: AthenaHandler
   private client: Client
   private _names: string[] = []
   private _category = ''
@@ -36,7 +36,7 @@ class Command {
   private _requiredChannels: Map<String, String[]> = new Map() // <GuildID-Command, Channel IDs>
 
   constructor(
-    instance: WOKCommands,
+    instance: AthenaHandler,
     client: Client,
     names: string[],
     callback: Function,
@@ -310,7 +310,7 @@ class Command {
 
       if (!this.instance.isDBConnected()) {
         console.warn(
-          `WOKCommands > A database connection is STRONGLY RECOMMENDED for cooldowns of 5 minutes or more.`
+          `AthenaHandler > A database connection is STRONGLY RECOMMENDED for cooldowns of 5 minutes or more.`
         )
       }
     }

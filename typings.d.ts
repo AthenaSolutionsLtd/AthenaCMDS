@@ -11,9 +11,9 @@ import {
   User,
 } from 'discord.js'
 import { EventEmitter } from 'events'
-import WOKCommands from './src'
+import AthenaHandler from './src'
 
-export default class WOKCommands extends EventEmitter {
+export default class AthenaHandler extends EventEmitter {
   private _client: Client
   private _defaultPrefix: string
   private _commandsDir: string
@@ -40,39 +40,39 @@ export default class WOKCommands extends EventEmitter {
   constructor(client: Client, options?: Options)
 
   public get mongoPath(): string
-  public setMongoPath(mongoPath: string | undefined): WOKCommands
+  public setMongoPath(mongoPath: string | undefined): AthenaHandler
   public get client(): Client
   public get displayName(): string
-  public setDisplayName(displayName: string): WOKCommands
+  public setDisplayName(displayName: string): AthenaHandler
   public get prefixes(): { [name: string]: string }
   public get defaultPrefix(): string
-  public setDefaultPrefix(defaultPrefix: string): WOKCommands
+  public setDefaultPrefix(defaultPrefix: string): AthenaHandler
   public getPrefix(guild: Guild | null): string
-  public setPrefix(guild: Guild | null, prefix: string): WOKCommands
+  public setPrefix(guild: Guild | null, prefix: string): AthenaHandler
   public get categories(): Map<String, String | GuildEmoji>
   public get hiddenCategories(): string[]
   public get color(): string
-  public setColor(color: string): WOKCommands
+  public setColor(color: string): AthenaHandler
   public getEmoji(category: string): string
   public getCategory(emoji: string): string
   public setCategorySettings(
     category: string | Array<Record<string, any>>,
     emoji?: string
-  ): WOKCommands
+  ): AthenaHandler
   public isEmojiUsed(emoji: string): boolean
   public get commandHandler(): CommandHandler
   public get mongoConnection(): Connection | null
   public isDBConnected(): boolean
-  public setTagPeople(tagPeople: boolean): WOKCommands
+  public setTagPeople(tagPeople: boolean): AthenaHandler
   public get tagPeople(): boolean
   public get showWarns(): boolean
   public get delErrMsgCooldown(): number
   public get ignoreBots(): boolean
   public get botOwner(): string[]
-  public setBotOwner(botOwner: string | string[]): WOKCommands
+  public setBotOwner(botOwner: string | string[]): AthenaHandler
   public get testServers(): string[]
   public get defaultLanguage(): string
-  public setDefaultLanguage(defaultLanguage: string): WOKCommands
+  public setDefaultLanguage(defaultLanguage: string): AthenaHandler
   public get messageHandler(): MessageHandler
   public get slashCommands(): SlashCommands
 }
@@ -127,7 +127,7 @@ export interface ICallbackObject {
   text: string
   client: Client
   prefix: string
-  instance: WOKCommands
+  instance: AthenaHandler
   interaction: CommandInteraction
   options: ApplicationCommandOptionData[]
   user: User

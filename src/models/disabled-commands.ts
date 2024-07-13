@@ -10,6 +10,6 @@ const schema = new Schema({
   command: reqString,
 })
 
-const name = 'wokcommands-disabled-commands'
+const name = 'athenahandler-disabled-commands'
 
 export = mongoose.models[name] || mongoose.model(name, schema, name)

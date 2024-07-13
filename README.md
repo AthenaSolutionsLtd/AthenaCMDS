@@ -5,6 +5,8 @@
 # AthenaHandler
 AthenaHandler is a fork of [Worn Off Keys](https://youtube.com/wornoffkeys)'s WOKCommands. The goal of WOKCommand is to make it simple and easy to get your bot off the ground without worrying about your own command handler; however, seeing as the handler has gone a long time without updates, Athena Solutions decided to fork it and modify it here and there, to fit our needs.
 
+All credit for the code goes to Worn Off Keys and Alexzander Flores. Credit for the modifications goes to Athena Solutions.
+
 # Documentation
 
 The official documentation for WOKCommand can be found here: https://docs.wornoffkeys.com
@@ -16,6 +18,12 @@ The official documentation for WOKCommand can be found here: https://docs.wornof
 
 ```bash
 yarn add athenahandler
+```
+
+**NPM**
+
+```bash
+npm install athenahandler
 ```
 
 # Support & Feature Requests

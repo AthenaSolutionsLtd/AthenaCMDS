@@ -11,7 +11,7 @@ import { ICategorySetting, Options } from '..'
 import Events from './enums/Events'
 import CommandHandler from './CommandHandler'
 
-export default class WOKCommands extends EventEmitter {
+export default class AthenaHandler extends EventEmitter {
   private _client: Client
   private _defaultPrefix = '!'
   private _commandsDir = 'commands'
@@ -46,7 +46,7 @@ export default class WOKCommands extends EventEmitter {
 
   private async setUp(client: Client, options?: Options) {
     if (!client) {
-      throw new Error('No Discord JS Client provided as first argument!')
+      throw new Error('AthenaHandler > No Discord JS Client provided as first argument!')
     }
 
     let {
@@ -84,7 +84,7 @@ export default class WOKCommands extends EventEmitter {
     } else {
       if (showWarns) {
         console.warn(
-          'WOKCommands > No MongoDB connection URI provided. Some features might not work! See this for more details:\nhttps://docs.wornoffkeys.com/databases/mongodb'
+          'AthenaHandler > No MongoDB connection URI provided. Some features might not work! See this for more details:\nhttps://docs.wornoffkeys.com/databases/mongodb'
         )
       }
 
@@ -101,7 +101,7 @@ export default class WOKCommands extends EventEmitter {
       !(this._commandsDir.includes('/') || this._commandsDir.includes('\\'))
     ) {
       throw new Error(
-        "WOKCommands > The 'commands' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
+        "AthenaHandler > The 'commands' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
       )
     }
 
@@ -110,7 +110,7 @@ export default class WOKCommands extends EventEmitter {
       !(this._featuresDir.includes('/') || this._featuresDir.includes('\\'))
     ) {
       throw new Error(
-        "WOKCommands > The 'features' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
+        "AthenaHandler > The 'features' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
       )
     }
 
@@ -165,12 +165,12 @@ export default class WOKCommands extends EventEmitter {
       typeScript
     )
 
-    console.log('WOKCommands > Your bot is now running.')
+    console.log('AthenaHandler > Your bot is now running.')
   }
 
-  public setMongoPath(mongoPath: string | undefined): WOKCommands {
+  public setMongoPath(mongoPath: string | undefined): AthenaHandler {
     console.warn(
-      'WOKCommands > .setMongoPath() no longer works as expected. Please pass in your mongo URI as a "mongoUri" property using the options object. For more information: https://docs.wornoffkeys.com/databases/mongodb'
+      'AthenaHandler > .setMongoPath() no longer works as expected. Please pass in your mongo URI as a "mongoUri" property using the options object. For more information: https://docs.wornoffkeys.com/databases/mongodb'
     )
     return this
   }
@@ -183,7 +183,7 @@ export default class WOKCommands extends EventEmitter {
     return this._displayName
   }
 
-  public setDisplayName(displayName: string): WOKCommands {
+  public setDisplayName(displayName: string): AthenaHandler {
     this._displayName = displayName
     return this
   }
@@ -196,7 +196,7 @@ export default class WOKCommands extends EventEmitter {
     return this._defaultPrefix
   }
 
-  public setDefaultPrefix(defaultPrefix: string): WOKCommands {
+  public setDefaultPrefix(defaultPrefix: string): AthenaHandler {
     this._defaultPrefix = defaultPrefix
     return this
   }
@@ -205,7 +205,7 @@ export default class WOKCommands extends EventEmitter {
     return this._prefixes[guild ? guild.id : ''] || this._defaultPrefix
   }
 
-  public setPrefix(guild: Guild | null, prefix: string): WOKCommands {
+  public setPrefix(guild: Guild | null, prefix: string): AthenaHandler {
     if (guild) {
       this._prefixes[guild.id] = prefix
     }
@@ -224,7 +224,7 @@ export default class WOKCommands extends EventEmitter {
     return this._color
   }
 
-  public setColor(color: ColorResolvable | null): WOKCommands {
+  public setColor(color: ColorResolvable | null): AthenaHandler {
     this._color = color
     return this
   }
@@ -254,7 +254,7 @@ export default class WOKCommands extends EventEmitter {
     return result
   }
 
-  public setCategorySettings(category: ICategorySetting[]): WOKCommands {
+  public setCategorySettings(category: ICategorySetting[]): AthenaHandler {
     for (let { emoji, name, hidden, customEmoji } of category) {
       if (emoji.startsWith('<:') && emoji.endsWith('>')) {
         customEmoji = true
@@ -270,7 +270,7 @@ export default class WOKCommands extends EventEmitter {
 
       if (this.isEmojiUsed(targetEmoji)) {
         console.warn(
-          `WOKCommands > The emoji "${targetEmoji}" for category "${name}" is already used.`
+          `AthenaHandler > The emoji "${targetEmoji}" for category "${name}" is already used.`
         )
       }
 
@@ -313,7 +313,7 @@ export default class WOKCommands extends EventEmitter {
     return !!(connection && connection.readyState === 1)
   }
 
-  public setTagPeople(tagPeople: boolean): WOKCommands {
+  public setTagPeople(tagPeople: boolean): AthenaHandler {
     this._tagPeople = tagPeople
     return this
   }
@@ -338,9 +338,9 @@ export default class WOKCommands extends EventEmitter {
     return this._botOwner
   }
 
-  public setBotOwner(botOwner: string | string[]): WOKCommands {
+  public setBotOwner(botOwner: string | string[]): AthenaHandler {
     console.log(
-      'WOKCommands > setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead. See https://docs.wornoffkeys.com/setup-and-options-object'
+      'AthenaHandler > setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead. See https://docs.wornoffkeys.com/setup-and-options-object'
     )
 
     if (typeof botOwner === 'string') {
@@ -358,7 +358,7 @@ export default class WOKCommands extends EventEmitter {
     return this._defaultLanguage
   }
 
-  public setDefaultLanguage(defaultLanguage: string): WOKCommands {
+  public setDefaultLanguage(defaultLanguage: string): AthenaHandler {
     this._defaultLanguage = defaultLanguage
     return this
   }
@@ -380,4 +380,4 @@ export default class WOKCommands extends EventEmitter {
   }
 }
 
-module.exports = WOKCommands
+module.exports = AthenaHandler

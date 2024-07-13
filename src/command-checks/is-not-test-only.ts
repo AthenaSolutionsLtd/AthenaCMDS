@@ -1,8 +1,8 @@
 import { Guild } from 'discord.js'
-import WOKCommands from '..'
+import AthenaHandler from '..'
 import Command from '../Command'
 
-export = (guild: Guild | null, command: Command, instance: WOKCommands) => {
+export = (guild: Guild | null, command: Command, instance: AthenaHandler) => {
   const { testOnly } = command
 
   if (!testOnly) {

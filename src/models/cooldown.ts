@@ -16,6 +16,6 @@ const schema = new Schema({
   },
 })
 
-const name = 'wokcommands-cooldowns'
+const name = 'athenahandler-cooldowns'
 
 export = mongoose.models[name] || mongoose.model(name, schema, name)

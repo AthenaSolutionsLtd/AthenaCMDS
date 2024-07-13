@@ -14,6 +14,6 @@ const schema = new Schema({
   },
 })
 
-const name = 'wokcommands-required-roles'
+const name = 'athenahandler-required-roles'
 
 export = mongoose.models[name] || mongoose.model(name, schema, name)

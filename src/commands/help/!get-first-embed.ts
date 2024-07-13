@@ -1,9 +1,9 @@
 import { Message, MessageEmbed, PartialMessage } from 'discord.js'
-import WOKCommands from '../../'
+import AthenaHandler from '../../'
 
 const getFirstEmbed = (
   message: Message | PartialMessage,
-  instance: WOKCommands
+  instance: AthenaHandler
 ) => {
   const { guild, member } = message
 
@@ -66,7 +66,7 @@ const getFirstEmbed = (
 
     if (!emoji) {
       console.warn(
-        `WOKCommands > Category "${key}" does not have an emoji icon.`
+        `AthenaHandler > Category "${key}" does not have an emoji icon.`
       )
 
       continue

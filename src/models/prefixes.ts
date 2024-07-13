@@ -11,6 +11,6 @@ const schema = new Schema({
   prefix: reqString,
 })
 
-const name = 'wokcommands-prefixes'
+const name = 'athenahandler-prefixes'
 
 export = mongoose.models[name] || mongoose.model(name, schema, name)

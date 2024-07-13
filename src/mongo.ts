@@ -1,5 +1,5 @@
 import mongoose, { Connection } from 'mongoose'
-import WOKCommands from '.'
+import AthenaHandler from '.'
 import Events from './enums/Events'
 
 const results: {
@@ -13,7 +13,7 @@ const results: {
 
 export default async (
   mongoPath: string,
-  instance: WOKCommands,
+  instance: AthenaHandler,
   dbOptions = {}
 ) => {
   const options = {

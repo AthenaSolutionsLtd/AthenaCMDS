@@ -1,12 +1,12 @@
 import { Guild } from 'discord.js'
 
 import languageSchema from './models/languages'
-import WOKCommands from '.'
+import AthenaHandler from '.'
 import Events from './enums/Events'
 const defualtMessages = require('../messages.json')
 
 export default class MessageHandler {
-  private _instance: WOKCommands
+  private _instance: AthenaHandler
   private _guildLanguages: Map<string, string> = new Map() // <Guild ID, Language>
   private _languages: string[] = []
   private _messages: {
@@ -15,7 +15,7 @@ export default class MessageHandler {
     }
   } = {}
 
-  constructor(instance: WOKCommands, messagePath: string) {
+  constructor(instance: AthenaHandler, messagePath: string) {
     this._instance = instance
     ;(async () => {
       this._messages = messagePath ? await import(messagePath) : defualtMessages
@@ -73,7 +73,7 @@ export default class MessageHandler {
     const translations = this._messages[messageId]
     if (!translations) {
       console.error(
-        `WOKCommands > Could not find the correct message to send for "${messageId}"`
+        `AthenaHandler > Could not find the correct message to send for "${messageId}"`
       )
       return 'Could not find the correct message to send. Please report this to the bot developer.'
     }
@@ -99,7 +99,7 @@ export default class MessageHandler {
     const items = this._messages[embedId]
     if (!items) {
       console.error(
-        `WOKCommands > Could not find the correct item to send for "${embedId}" -> "${itemId}"`
+        `AthenaHandler > Could not find the correct item to send for "${embedId}" -> "${itemId}"`
       )
       return 'Could not find the correct message to send. Please report this to the bot developer.'
     }
@@ -107,7 +107,7 @@ export default class MessageHandler {
     const translations = items[itemId]
     if (!translations) {
       console.error(
-        `WOKCommands > Could not find the correct message to send for "${embedId}"`
+        `AthenaHandler > Could not find the correct message to send for "${embedId}"`
       )
       return 'Could not find the correct message to send. Please report this to the bot developer.'
     }

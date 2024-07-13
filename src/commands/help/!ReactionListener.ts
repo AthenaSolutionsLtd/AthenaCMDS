@@ -8,7 +8,7 @@ import {
   PartialUser,
   User,
 } from 'discord.js'
-import WOKCommands from '../..'
+import AthenaHandler from '../..'
 import { ICommand } from '../../../typings'
 import getFirstEmbed from './!get-first-embed'
 
@@ -27,7 +27,7 @@ const /**
   }
 
 class ReactionHandler {
-  instance: WOKCommands
+  instance: AthenaHandler
   reaction: MessageReaction | PartialMessageReaction
   user: PartialUser | User
   message: Message | PartialMessage
@@ -39,7 +39,7 @@ class ReactionHandler {
   pageLimit = 3
 
   constructor(
-    instance: WOKCommands,
+    instance: AthenaHandler,
     reaction: MessageReaction | PartialMessageReaction,
     user: PartialUser | User
   ) {
@@ -186,13 +186,13 @@ class ReactionHandler {
 
   static getHelp = (
     command: ICommand,
-    instance: WOKCommands,
+    instance: AthenaHandler,
     guild: Guild | null
   ) => {
     const { description, syntax, names } = command
     if (names === undefined) {
       console.error(
-        'WOKCommands > A command does not have a name assigned to it.'
+        'AthenaHandler > A command does not have a name assigned to it.'
       )
       return ''
     }
