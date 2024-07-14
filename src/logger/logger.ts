@@ -25,7 +25,7 @@ function consoleLog(level: string, type: string, module: string, text: string) {
     getCurrentTimestamp("YYYY-MM-DD HH:mm:ss")
   );
   const formattedType = colorMap[type]
-    ? colorMap[type](`[ ${type.toUpperCase()} : `)
+    ? colorMap[type](`[ ${type.toUpperCase()} : ATHENACMDS : `)
     : type.toUpperCase();
   const formattedModule = colorMap[type]
     ? colorMap[type](`${module} ]`)
