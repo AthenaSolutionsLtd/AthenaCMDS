@@ -54,6 +54,8 @@ export default class AthenaCMDS extends EventEmitter {
       );
     }
 
+    this._client = client;
+
     let {
       commandsDir = "",
       commandDir = "",
@@ -91,7 +93,7 @@ export default class AthenaCMDS extends EventEmitter {
         new Logger("debug", "America/Chicago", "logs").log(
           "info",
           "Main",
-          "No MongoDB connection URI provided. Some features might not work! See this for more details:\nhttps://docs.wornoffkeys.com/databases/mongodb"
+          "No MongoDB connection URI provided. Some features might not work! For more details, see the 'database' section of the docs."
         );
       }
 
@@ -110,7 +112,7 @@ export default class AthenaCMDS extends EventEmitter {
       new Logger("debug", "America/Chicago", "logs").log(
         "error",
         "Main",
-        "The 'commands' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
+        "The 'commands' directory must be an absolute path. This can be done by using the 'path' module."
       );
     }
 
@@ -121,7 +123,7 @@ export default class AthenaCMDS extends EventEmitter {
       new Logger("debug", "America/Chicago", "logs").log(
         "error",
         "Main",
-        "The 'features' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object"
+        "The 'features' directory must be an absolute path. This can be done by using the 'path' module."
       );
     }
 
@@ -187,7 +189,7 @@ export default class AthenaCMDS extends EventEmitter {
     new Logger("debug", "America/Chicago", "logs").log(
       "error",
       "Main",
-      '.setMongoPath() no longer works as expected. Please pass in your mongo URI as a "mongoUri" property using the options object. For more information: https://docs.wornoffkeys.com/databases/mongodb'
+      ".setMongoPath() no longer works as expected. Please pass in your mongo URI as a 'mongoUri' property using the options object. For more information, see the 'database' section of the docs."
     );
     return this;
   }
@@ -364,7 +366,7 @@ export default class AthenaCMDS extends EventEmitter {
     new Logger("debug", "America/Chicago", "logs").log(
       "error",
       "Main",
-      "setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead. See https://docs.wornoffkeys.com/setup-and-options-object"
+      "setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead."
     );
 
     if (typeof botOwner === "string") {

@@ -17,7 +17,7 @@ class FeatureHandler {
     }
     setup = async (dir, typeScript) => {
         // Register built in features
-        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, 'features'), typeScript ? '.ts' : '')) {
+        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, "features"), typeScript ? ".ts" : "")) {
             this.registerFeature(require(file), fileName);
         }
         if (!dir) {
@@ -26,12 +26,12 @@ class FeatureHandler {
         if (!fs_1.default.existsSync(dir)) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `Listeners directory "${dir}" doesn't exist!`);
         }
-        const files = (0, get_all_files_1.default)(dir, typeScript ? '.ts' : '');
+        const files = (0, get_all_files_1.default)(dir, typeScript ? ".ts" : "");
         const amount = files.length;
         if (amount > 0) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("debug", "FeatureHandler", `AthenaHandler > Loading ${amount} listener${amount === 1 ? '' : 's'}...`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("debug", "FeatureHandler", `Loading ${amount} listener${amount === 1 ? "" : "s"}...`);
             for (const [file, fileName] of files) {
-                const debug = `AthenaHandler DEBUG > Feature "${fileName}" load time`;
+                const debug = `AthenaCMDS DEBUG > Feature "${fileName}" load time`;
                 if (this._instance.debug) {
                     console.time(debug);
                 }
@@ -42,7 +42,7 @@ class FeatureHandler {
             }
         }
         else {
-            new logger_1.default("debug", "America/Chicago", "logs").log("success", "FeatureHandler", `AthenaHandler > Loaded ${amount} listener${amount === 1 ? '' : 's'}.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("success", "FeatureHandler", `Loaded ${amount} listener${amount === 1 ? "" : "s"}.`);
         }
     };
     registerFeature = (file, fileName) => {
@@ -59,17 +59,17 @@ class FeatureHandler {
             }
             const missing = [];
             if (!displayName)
-                missing.push('displayName');
+                missing.push("displayName");
             if (!dbName)
-                missing.push('dbName');
+                missing.push("dbName");
             if (missing.length && this._instance.showWarns) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `AthenaHandler > Feature "${fileName}" has a config file that doesn't contain the following properties: ${missing}`);
+                new logger_1.default("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `Feature "${fileName}" has a config file that doesn't contain the following properties: ${missing}`);
             }
         }
         else if (this._instance.showWarns) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `AthenaHandler > Feature "${fileName}" does not export a config object.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `Feature "${fileName}" does not export a config object.`);
         }
-        if (typeof func !== 'function') {
+        if (typeof func !== "function") {
             return;
         }
         const isEnabled = (guildId) => {
@@ -79,7 +79,7 @@ class FeatureHandler {
             return this.isEnabled(guildId, file);
         };
         if (config && config.loadDBFirst === true) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `AthenaHandler > config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`);
         }
         func(this._client, this._instance, isEnabled);
     };

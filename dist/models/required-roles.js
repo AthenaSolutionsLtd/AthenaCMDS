@@ -35,5 +35,5 @@ const schema = new mongoose_1.Schema({
         required: true,
     },
 });
-const name = 'athenahandler-required-roles';
+const name = "AthenaCMDS-required-roles";
 module.exports = mongoose_1.default.models[name] || mongoose_1.default.model(name, schema, name);

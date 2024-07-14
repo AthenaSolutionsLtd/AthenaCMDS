@@ -32,5 +32,5 @@ const schema = new mongoose_1.Schema({
     _id: reqString,
     prefix: reqString,
 });
-const name = 'athenahandler-prefixes';
+const name = "AthenaCMDS-prefixes";
 module.exports = mongoose_1.default.models[name] || mongoose_1.default.model(name, schema, name);

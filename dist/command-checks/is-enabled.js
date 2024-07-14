@@ -15,7 +15,7 @@ module.exports = (guild, command, instance, member, user, reply) => {
         });
     }
     else {
-        reply(instance.messageHandler.get(guild, 'DISABLED_COMMAND')).then((message) => {
+        reply(instance.messageHandler.get(guild, "DISABLED_COMMAND")).then((message) => {
             if (!message) {
                 return;
             }

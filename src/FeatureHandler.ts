@@ -51,7 +51,7 @@ class FeatureHandler {
       new Logger("debug", "America/Chicago", "logs").log(
         "debug",
         "FeatureHandler",
-        `AthenaCMDS > Loading ${amount} listener${amount === 1 ? "" : "s"}...`
+        `Loading ${amount} listener${amount === 1 ? "" : "s"}...`
       );
 
       for (const [file, fileName] of files) {
@@ -69,7 +69,7 @@ class FeatureHandler {
       new Logger("debug", "America/Chicago", "logs").log(
         "success",
         "FeatureHandler",
-        `AthenaCMDS > Loaded ${amount} listener${amount === 1 ? "" : "s"}.`
+        `Loaded ${amount} listener${amount === 1 ? "" : "s"}.`
       );
     }
   };
@@ -97,14 +97,14 @@ class FeatureHandler {
         new Logger("debug", "America/Chicago", "logs").log(
           "error",
           "FeatureHandler",
-          `AthenaCMDS > Feature "${fileName}" has a config file that doesn't contain the following properties: ${missing}`
+          `Feature "${fileName}" has a config file that doesn't contain the following properties: ${missing}`
         );
       }
     } else if (this._instance.showWarns) {
       new Logger("debug", "America/Chicago", "logs").log(
         "error",
         "FeatureHandler",
-        `AthenaCMDS > Feature "${fileName}" does not export a config object.`
+        `Feature "${fileName}" does not export a config object.`
       );
     }
 
@@ -124,7 +124,7 @@ class FeatureHandler {
       new Logger("debug", "America/Chicago", "logs").log(
         "error",
         "FeatureHandler",
-        `AthenaCMDS > config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`
+        `config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`
       );
     }
 

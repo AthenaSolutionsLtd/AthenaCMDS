@@ -6,7 +6,7 @@ const CommandErrors_1 = __importDefault(require("../enums/CommandErrors"));
 module.exports = (guild, command, instance, member, user, reply) => {
     const { cooldown, globalCooldown, error } = command;
     if ((cooldown || globalCooldown) && user) {
-        const guildId = guild ? guild.id : 'dm';
+        const guildId = guild ? guild.id : "dm";
         const timeLeft = command.getCooldownSeconds(guildId, user.id);
         if (timeLeft) {
             if (error) {
@@ -20,7 +20,7 @@ module.exports = (guild, command, instance, member, user, reply) => {
                 });
             }
             else {
-                reply(instance.messageHandler.get(guild, 'COOLDOWN', {
+                reply(instance.messageHandler.get(guild, "COOLDOWN", {
                     COOLDOWN: timeLeft,
                 })).then((message) => {
                     if (!message) {

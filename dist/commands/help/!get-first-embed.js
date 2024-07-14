@@ -9,14 +9,14 @@ const getFirstEmbed = (message, instance) => {
     const { guild, member } = message;
     const { commandHandler: { commands }, messageHandler, } = instance;
     const embed = new discord_js_1.MessageEmbed()
-        .setTitle(`${instance.displayName} ${messageHandler.getEmbed(guild, 'HELP_MENU', 'TITLE')}`)
-        .setDescription(messageHandler.getEmbed(guild, 'HELP_MENU', 'SELECT_A_CATEGORY'))
+        .setTitle(`${instance.displayName} ${messageHandler.getEmbed(guild, "HELP_MENU", "TITLE")}`)
+        .setDescription(messageHandler.getEmbed(guild, "HELP_MENU", "SELECT_A_CATEGORY"))
         .setFooter(`ID #${message.author?.id}`);
     if (instance.color) {
         embed.setColor(instance.color);
     }
     const categories = {};
-    const isAdmin = member && member.permissions.has('ADMINISTRATOR');
+    const isAdmin = member && member.permissions.has("ADMINISTRATOR");
     for (const { category, testOnly } of commands) {
         if (!category ||
             (testOnly && guild && !instance.testServers.includes(guild.id)) ||
@@ -50,7 +50,7 @@ const getFirstEmbed = (message, instance) => {
         const reaction = emoji;
         reactions.push(reaction);
         embed.setDescription(embed.description +
-            `\n\n**${reaction} - ${key}** - ${amount} command${amount === 1 ? '' : 's'}`);
+            `\n\n**${reaction} - ${key}** - ${amount} command${amount === 1 ? "" : "s"}`);
     }
     return {
         embed,

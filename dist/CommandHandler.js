@@ -18,10 +18,10 @@ const Events_1 = __importDefault(require("./enums/Events"));
 const replyFromCheck = async (reply, message) => {
     if (!reply) {
         return new Promise((resolve) => {
-            resolve('No reply provided.');
+            resolve("No reply provided.");
         });
     }
-    if (typeof reply === 'string') {
+    if (typeof reply === "string") {
         return message.reply({
             content: reply,
         });
@@ -49,23 +49,23 @@ class CommandHandler {
     }
     async setUp(instance, client, dir, disabledDefaultCommands, typeScript = false) {
         // Do not pass in TS here because this should always compiled to JS
-        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, 'commands'))) {
+        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, "commands"))) {
             if (disabledDefaultCommands.includes(fileName)) {
                 continue;
             }
             await this.registerCommand(instance, client, file, fileName, true);
         }
         // Do not pass in TS here because this should always compiled to JS
-        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, 'command-checks'))) {
+        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, "command-checks"))) {
             this._commandChecks.set(fileName, require(file));
         }
         if (dir) {
             if (!fs_1.default.existsSync(dir)) {
                 new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Commands directory "${dir}" doesn't exist!`);
             }
-            const files = (0, get_all_files_1.default)(dir, typeScript ? '.ts' : '');
+            const files = (0, get_all_files_1.default)(dir, typeScript ? ".ts" : "");
             const amount = files.length;
-            new logger_1.default("debug", "America/Chicago", "logs").log("success", "CommandHandler", `Loaded ${amount} command${amount === 1 ? '' : 's'}.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("success", "CommandHandler", `Loaded ${amount} command${amount === 1 ? "" : "s"}.`);
             for (const [file, fileName] of files) {
                 await this.registerCommand(instance, client, file, fileName);
             }
@@ -79,15 +79,15 @@ class CommandHandler {
                 if (instance.isDBConnected()) {
                     const results = await cooldown_1.default.find({
                         name: command.names[0],
-                        type: command.globalCooldown ? 'global' : 'per-user',
+                        type: command.globalCooldown ? "global" : "per-user",
                     });
                     for (const { _id, cooldown } of results) {
-                        const [name, guildId, userId] = _id.split('-');
+                        const [name, guildId, userId] = _id.split("-");
                         command.setCooldown(guildId, userId, cooldown);
                     }
                 }
             });
-            client.on('messageCreate', async (message) => {
+            client.on("messageCreate", async (message) => {
                 const guild = message.guild;
                 let content = message.content;
                 const prefix = instance.getPrefix(guild).toLowerCase();
@@ -138,7 +138,7 @@ class CommandHandler {
                         });
                     }
                     else {
-                        message.reply(instance.messageHandler.get(guild, 'EXCEPTION'));
+                        message.reply(instance.messageHandler.get(guild, "EXCEPTION"));
                         new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", e);
                     }
                     instance.emit(Events_1.default.COMMAND_EXCEPTION, command, message, e);
@@ -168,10 +168,10 @@ class CommandHandler {
         if (!name && (!names || names.length === 0)) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" does not have a name, commands array, or aliases array set. Please set at lease one property to specify the command name.`);
         }
-        if (typeof names === 'string') {
+        if (typeof names === "string") {
             names = [names];
         }
-        if (typeof name !== 'string') {
+        if (typeof name !== "string") {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" does not have a string as a name.`);
         }
         if (name && !names.includes(name.toLowerCase())) {
@@ -188,10 +188,10 @@ class CommandHandler {
         }
         const missing = [];
         if (!category) {
-            missing.push('Category');
+            missing.push("Category");
         }
         if (!description) {
-            missing.push('Description');
+            missing.push("Description");
         }
         if (missing.length && instance.showWarns) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" does not have the following properties: ${missing}.`);
@@ -199,7 +199,7 @@ class CommandHandler {
         if (testOnly && !instance.testServers.length) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`);
         }
-        if (slash !== undefined && typeof slash !== 'boolean' && slash !== 'both') {
+        if (slash !== undefined && typeof slash !== "boolean" && slash !== "both") {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`);
         }
         if (!slash && options.length) {
@@ -217,11 +217,11 @@ class CommandHandler {
                     const name = options[key].name;
                     let lowerCase = name.toLowerCase();
                     if (name !== lowerCase && instance.showWarns) {
-                        new logger_1.default("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. AthenaHandler will modify this for you.`);
+                        new logger_1.default("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. AthenaCMDS will modify this for you.`);
                     }
                     if (lowerCase.match(/\s/g)) {
-                        lowerCase = lowerCase.replace(/\s/g, '_');
-                        new logger_1.default("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. AthenaHandler will modify this for you.`);
+                        lowerCase = lowerCase.replace(/\s/g, "_");
+                        new logger_1.default("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. AthenaCMDS will modify this for you.`);
                     }
                     options[key].name = lowerCase;
                 }
@@ -233,11 +233,11 @@ class CommandHandler {
                 for (let a = 0; a < split.length; ++a) {
                     const item = split[a];
                     options.push({
-                        name: item.replace(/ /g, '-').toLowerCase(),
+                        name: item.replace(/ /g, "-").toLowerCase(),
                         description: item,
                         type: expectedArgsTypes && expectedArgsTypes.length >= a
                             ? expectedArgsTypes[a]
-                            : 'STRING',
+                            : "STRING",
                         required: a < minArgs,
                     });
                 }
@@ -266,7 +266,7 @@ class CommandHandler {
     get commands() {
         const results = [];
         const added = [];
-        this._commands.forEach(({ names, category = '', description = '', expectedArgs = '', hidden = false, testOnly = false, }) => {
+        this._commands.forEach(({ names, category = "", description = "", expectedArgs = "", hidden = false, testOnly = false, }) => {
             if (!added.includes(names[0])) {
                 results.push({
                     names: [...names],
@@ -332,8 +332,8 @@ class CommandHandler {
             }
             cmd.setRequiredChannels(guild, command, channels
                 .toString()
-                .replace(/\"\[\]/g, '')
-                .split(','));
+                .replace(/\"\[\]/g, "")
+                .split(","));
         }
     }
 }

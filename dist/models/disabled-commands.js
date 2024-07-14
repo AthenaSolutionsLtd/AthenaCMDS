@@ -31,5 +31,5 @@ const schema = new mongoose_1.Schema({
     guildId: reqString,
     command: reqString,
 });
-const name = 'athenahandler-disabled-commands';
+const name = "AthenaCMDS-disabled-commands";
 module.exports = mongoose_1.default.models[name] || mongoose_1.default.model(name, schema, name);

@@ -6,12 +6,12 @@ module.exports = (guild, command, instance, member, user, reply, args, name, cha
     const key = `${guild.id}-${command.names[0]}`;
     const channels = command.requiredChannels.get(key);
     if (channels && channels.length && !channels.includes(channel.id)) {
-        let channelList = '';
+        let channelList = "";
         for (const channel of channels) {
             channelList += `<#${channel}>, `;
         }
         channelList = channelList.substring(0, channelList.length - 2);
-        reply(instance.messageHandler.get(guild, 'ALLOWED_CHANNELS', {
+        reply(instance.messageHandler.get(guild, "ALLOWED_CHANNELS", {
             CHANNELS: channelList,
         })).then((message) => {
             if (!message) {

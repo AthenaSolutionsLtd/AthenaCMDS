@@ -37,5 +37,5 @@ const schema = new mongoose_1.Schema({
         required: true,
     },
 });
-const name = 'athenahandler-cooldowns';
+const name = "AthenaCMDS-cooldowns";
 module.exports = mongoose_1.default.models[name] || mongoose_1.default.model(name, schema, name);

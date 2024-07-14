@@ -7,10 +7,10 @@ exports.getMongoConnection = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const Events_1 = __importDefault(require("./enums/Events"));
 const results = {
-    0: 'Disconnected',
-    1: 'Connected',
-    2: 'Connecting',
-    3: 'Disconnecting',
+    0: "Disconnected",
+    1: "Connected",
+    2: "Connecting",
+    3: "Disconnecting",
 };
 exports.default = async (mongoPath, instance, dbOptions = {}) => {
     const options = {
@@ -19,7 +19,7 @@ exports.default = async (mongoPath, instance, dbOptions = {}) => {
     };
     await mongoose_1.default.connect(mongoPath, options);
     const { connection } = mongoose_1.default;
-    const state = results[connection.readyState] || 'Unknown';
+    const state = results[connection.readyState] || "Unknown";
     instance.emit(Events_1.default.DATABASE_CONNECTED, connection, state);
 };
 const getMongoConnection = () => {

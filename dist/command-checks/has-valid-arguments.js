@@ -11,7 +11,7 @@ module.exports = (guild, command, instance, member, user, reply, args, name) => 
         const syntaxError = command.syntaxError || {};
         const { messageHandler } = instance;
         let errorMsg = syntaxError[messageHandler.getLanguage(guild)] ||
-            instance.messageHandler.get(guild, 'SYNTAX_ERROR');
+            instance.messageHandler.get(guild, "SYNTAX_ERROR");
         // Replace {PREFIX} with the actual prefix
         if (errorMsg) {
             errorMsg = errorMsg.replace(/{PREFIX}/g, prefix);
@@ -19,7 +19,7 @@ module.exports = (guild, command, instance, member, user, reply, args, name) => 
             errorMsg = errorMsg.replace(/{COMMAND}/g, name);
             // Replace {ARGUMENTS} with the expectedArgs property from the command
             // If one was not provided then replace {ARGUMENTS} with an empty string
-            errorMsg = errorMsg.replace(/ {ARGUMENTS}/g, expectedArgs ? ` ${expectedArgs}` : '');
+            errorMsg = errorMsg.replace(/ {ARGUMENTS}/g, expectedArgs ? ` ${expectedArgs}` : "");
         }
         if (error) {
             error({

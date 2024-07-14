@@ -31,8 +31,8 @@ module.exports = async (guild, command, instance, member, user, reply) => {
                 });
             }
             else {
-                reply(instance.messageHandler.get(guild, 'MISSING_ROLES', {
-                    ROLES: missingRolesNames.join(', '),
+                reply(instance.messageHandler.get(guild, "MISSING_ROLES", {
+                    ROLES: missingRolesNames.join(", "),
                 })).then((message) => {
                     if (!message) {
                         return;
@@ -49,7 +49,7 @@ module.exports = async (guild, command, instance, member, user, reply) => {
         }
     }
     else if (command.doesRequireRoles) {
-        reply(instance.messageHandler.get(guild, 'REQUIRE_ROLES', {
+        reply(instance.messageHandler.get(guild, "REQUIRE_ROLES", {
             PREFIX: instance.getPrefix(guild),
             COMMAND: command.names[0],
         })).then((message) => {

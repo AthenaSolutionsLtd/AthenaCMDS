@@ -281,7 +281,7 @@ class Command {
     }
 
     const moreInfo =
-      " For more information please see https://docs.wornoffkeys.com/commands/command-cooldowns";
+      " For more information please check the 'command-cooldowns' section of the docs.";
 
     if (this._cooldownDuration < 1) {
       new Logger("debug", "America/Chicago", "logs").log(

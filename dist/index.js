@@ -35,13 +35,13 @@ const SlashCommands_1 = __importDefault(require("./SlashCommands"));
 const Events_1 = __importDefault(require("./enums/Events"));
 const CommandHandler_1 = __importDefault(require("./CommandHandler"));
 const logger_1 = __importDefault(require("./logger"));
-class AthenaHandler extends events_1.EventEmitter {
+class AthenaCMDS extends events_1.EventEmitter {
     _client;
-    _defaultPrefix = '!';
-    _commandsDir = 'commands';
-    _featuresDir = '';
+    _defaultPrefix = "!";
+    _commandsDir = "commands";
+    _featuresDir = "";
     _mongoConnection = null;
-    _displayName = '';
+    _displayName = "";
     _prefixes = {};
     _categories = new Map(); // <Category Name, Emoji Icon>
     _hiddenCategories = [];
@@ -54,7 +54,7 @@ class AthenaHandler extends events_1.EventEmitter {
     _ignoreBots = true;
     _botOwner = [];
     _testServers = [];
-    _defaultLanguage = 'english';
+    _defaultLanguage = "english";
     _ephemeral = true;
     _debug = false;
     _messageHandler = null;
@@ -66,9 +66,10 @@ class AthenaHandler extends events_1.EventEmitter {
     }
     async setUp(client, options) {
         if (!client) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", 'No Discord JS Client provided as first argument!');
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "No Discord JS Client provided as first argument!");
         }
-        let { commandsDir = '', commandDir = '', featuresDir = '', featureDir = '', messagesPath, mongoUri, showWarns = true, delErrMsgCooldown = -1, defaultLanguage = 'english', ignoreBots = true, dbOptions, testServers, botOwners, disabledDefaultCommands = [], typeScript = false, ephemeral = true, debug = false, } = options || {};
+        this._client = client;
+        let { commandsDir = "", commandDir = "", featuresDir = "", featureDir = "", messagesPath, mongoUri, showWarns = true, delErrMsgCooldown = -1, defaultLanguage = "english", ignoreBots = true, dbOptions, testServers, botOwners, disabledDefaultCommands = [], typeScript = false, ephemeral = true, debug = false, } = options || {};
         if (mongoUri) {
             await (0, mongo_1.default)(mongoUri, this, dbOptions);
             this._mongoConnection = (0, mongo_1.getMongoConnection)();
@@ -80,30 +81,30 @@ class AthenaHandler extends events_1.EventEmitter {
         }
         else {
             if (showWarns) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("info", "Main", 'No MongoDB connection URI provided. Some features might not work! See this for more details:\nhttps://docs.wornoffkeys.com/databases/mongodb');
+                new logger_1.default("debug", "America/Chicago", "logs").log("info", "Main", "No MongoDB connection URI provided. Some features might not work! For more details, see the 'database' section of the docs.");
             }
-            this.emit(Events_1.default.DATABASE_CONNECTED, null, '');
+            this.emit(Events_1.default.DATABASE_CONNECTED, null, "");
         }
         this._commandsDir = commandsDir || commandDir || this._commandsDir;
         this._featuresDir = featuresDir || featureDir || this._featuresDir;
         this._ephemeral = ephemeral;
         this._debug = debug;
         if (this._commandsDir &&
-            !(this._commandsDir.includes('/') || this._commandsDir.includes('\\'))) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "The 'commands' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object");
+            !(this._commandsDir.includes("/") || this._commandsDir.includes("\\"))) {
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "The 'commands' directory must be an absolute path. This can be done by using the 'path' module.");
         }
         if (this._featuresDir &&
-            !(this._featuresDir.includes('/') || this._featuresDir.includes('\\'))) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "The 'features' directory must be an absolute path. This can be done by using the 'path' module. More info: https://docs.wornoffkeys.com/setup-and-options-object");
+            !(this._featuresDir.includes("/") || this._featuresDir.includes("\\"))) {
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "The 'features' directory must be an absolute path. This can be done by using the 'path' module.");
         }
         if (testServers) {
-            if (typeof testServers === 'string') {
+            if (typeof testServers === "string") {
                 testServers = [testServers];
             }
             this._testServers = testServers;
         }
         if (botOwners) {
-            if (typeof botOwners === 'string') {
+            if (typeof botOwners === "string") {
                 botOwners = [botOwners];
             }
             this._botOwner = botOwners;
@@ -112,27 +113,27 @@ class AthenaHandler extends events_1.EventEmitter {
         this._delErrMsgCooldown = delErrMsgCooldown;
         this._defaultLanguage = defaultLanguage.toLowerCase();
         this._ignoreBots = ignoreBots;
-        if (typeof disabledDefaultCommands === 'string') {
+        if (typeof disabledDefaultCommands === "string") {
             disabledDefaultCommands = [disabledDefaultCommands];
         }
         this._commandHandler = new CommandHandler_1.default(this, client, this._commandsDir, disabledDefaultCommands, typeScript);
         this._slashCommand = new SlashCommands_1.default(this, true, typeScript);
-        this._messageHandler = new message_handler_1.default(this, messagesPath || '');
+        this._messageHandler = new message_handler_1.default(this, messagesPath || "");
         this.setCategorySettings([
             {
-                name: 'Configuration',
-                emoji: '⚙',
+                name: "Configuration",
+                emoji: "⚙",
             },
             {
-                name: 'Help',
-                emoji: '❓',
+                name: "Help",
+                emoji: "❓",
             },
         ]);
         this._featureHandler = new FeatureHandler_1.default(client, this, this._featuresDir, typeScript);
-        new logger_1.default("debug", "America/Chicago", "logs").log("success", "Main", 'AthenaClient is now running.');
+        new logger_1.default("debug", "America/Chicago", "logs").log("success", "Main", "AthenaClient is now running.");
     }
     setMongoPath(mongoPath) {
-        new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", '.setMongoPath() no longer works as expected. Please pass in your mongo URI as a "mongoUri" property using the options object. For more information: https://docs.wornoffkeys.com/databases/mongodb');
+        new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", ".setMongoPath() no longer works as expected. Please pass in your mongo URI as a 'mongoUri' property using the options object. For more information, see the 'database' section of the docs.");
         return this;
     }
     get client() {
@@ -156,7 +157,7 @@ class AthenaHandler extends events_1.EventEmitter {
         return this;
     }
     getPrefix(guild) {
-        return this._prefixes[guild ? guild.id : ''] || this._defaultPrefix;
+        return this._prefixes[guild ? guild.id : ""] || this._defaultPrefix;
     }
     setPrefix(guild, prefix) {
         if (guild) {
@@ -178,15 +179,15 @@ class AthenaHandler extends events_1.EventEmitter {
         return this;
     }
     getEmoji(category) {
-        const emoji = this._categories.get(category) || '';
-        if (typeof emoji === 'object') {
+        const emoji = this._categories.get(category) || "";
+        if (typeof emoji === "object") {
             // @ts-ignore
             return `<:${emoji.name}:${emoji.id}>`;
         }
         return emoji;
     }
     getCategory(emoji) {
-        let result = '';
+        let result = "";
         this._categories.forEach((value, key) => {
             // == is intended here
             if (emoji == value) {
@@ -199,9 +200,9 @@ class AthenaHandler extends events_1.EventEmitter {
     }
     setCategorySettings(category) {
         for (let { emoji, name, hidden, customEmoji } of category) {
-            if (emoji.startsWith('<:') && emoji.endsWith('>')) {
+            if (emoji.startsWith("<:") && emoji.endsWith(">")) {
                 customEmoji = true;
-                emoji = emoji.split(':')[2];
+                emoji = emoji.split(":")[2];
                 emoji = emoji.substring(0, emoji.length - 1);
             }
             let targetEmoji = emoji;
@@ -211,7 +212,7 @@ class AthenaHandler extends events_1.EventEmitter {
             if (this.isEmojiUsed(targetEmoji)) {
                 new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `The emoji "${targetEmoji}" for category "${name}" is already used.`);
             }
-            this._categories.set(name, targetEmoji || this.categories.get(name) || '');
+            this._categories.set(name, targetEmoji || this.categories.get(name) || "");
             if (hidden) {
                 this._hiddenCategories.push(name);
             }
@@ -260,8 +261,8 @@ class AthenaHandler extends events_1.EventEmitter {
         return this._botOwner;
     }
     setBotOwner(botOwner) {
-        new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", 'setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead. See https://docs.wornoffkeys.com/setup-and-options-object');
-        if (typeof botOwner === 'string') {
+        new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead.");
+        if (typeof botOwner === "string") {
             botOwner = [botOwner];
         }
         this._botOwner = botOwner;
@@ -290,5 +291,5 @@ class AthenaHandler extends events_1.EventEmitter {
         return this._slashCommand;
     }
 }
-exports.default = AthenaHandler;
-module.exports = AthenaHandler;
+exports.default = AthenaCMDS;
+module.exports = AthenaCMDS;

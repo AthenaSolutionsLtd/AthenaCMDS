@@ -35,5 +35,5 @@ const schema = new mongoose_1.Schema({
         required: true,
     },
 });
-const name = 'athenahandler-channel-commands';
+const name = "AthenaCMDS-channel-commands";
 module.exports = mongoose_1.default.models[name] || mongoose_1.default.model(name, schema, name);

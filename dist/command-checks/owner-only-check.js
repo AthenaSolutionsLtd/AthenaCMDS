@@ -5,7 +5,7 @@ module.exports = (guild, command, instance, member, user, reply) => {
         return true;
     }
     if (!instance.botOwner.includes(user.id)) {
-        reply(instance.messageHandler.get(guild, 'BOT_OWNERS_ONLY')).then((message) => {
+        reply(instance.messageHandler.get(guild, "BOT_OWNERS_ONLY")).then((message) => {
             if (!message) {
                 return;
             }

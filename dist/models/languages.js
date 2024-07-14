@@ -32,5 +32,5 @@ const schema = new mongoose_1.Schema({
     _id: reqString,
     language: reqString,
 });
-const name = 'athenahandler-languages';
+const name = "AthenaCMDS-languages";
 module.exports = mongoose_1.default.models[name] || mongoose_1.default.model(name, schema, name);

@@ -42,24 +42,24 @@ const sendHelpMenu = (message, instance) => {
 };
 module.exports = {
     description: "Displays this bot's commands",
-    category: 'Help',
-    aliases: 'commands',
+    category: "Help",
+    aliases: "commands",
     maxArgs: 1,
-    expectedArgs: '[command]',
+    expectedArgs: "[command]",
     init: (client, instance) => {
-        client.on('messageReactionAdd', async (reaction, user) => {
+        client.on("messageReactionAdd", async (reaction, user) => {
             new _ReactionListener_1.default(instance, reaction, user);
         });
     },
     callback: (options) => {
         const { message, channel, instance, args } = options;
         const { guild } = channel;
-        if (guild && !guild.me?.permissions.has('SEND_MESSAGES')) {
+        if (guild && !guild.me?.permissions.has("SEND_MESSAGES")) {
             new logger_1.default("debug", "America/Chicago", "logs").log("debug", "Main", `Could not send message due to no permissions in channel for ${guild.name}`);
             return;
         }
-        if (guild && !guild.me?.permissions.has('ADD_REACTIONS')) {
-            return instance.messageHandler.get(guild, 'NO_REACT_PERMS');
+        if (guild && !guild.me?.permissions.has("ADD_REACTIONS")) {
+            return instance.messageHandler.get(guild, "NO_REACT_PERMS");
         }
         // Typical "!help" syntax for the menu
         if (args.length === 0) {
@@ -71,13 +71,13 @@ module.exports = {
         const arg = args.shift()?.toLowerCase();
         const command = instance.commandHandler.getICommand(arg);
         if (!command) {
-            return instance.messageHandler.get(guild, 'UNKNOWN_COMMAND', {
+            return instance.messageHandler.get(guild, "UNKNOWN_COMMAND", {
                 COMMAND: arg,
             });
         }
         const description = _ReactionListener_1.default.getHelp(command, instance, guild);
         const embed = new discord_js_1.MessageEmbed()
-            .setTitle(`${instance.displayName} ${instance.messageHandler.getEmbed(guild, 'HELP_MENU', 'TITLE')} - ${arg}`)
+            .setTitle(`${instance.displayName} ${instance.messageHandler.getEmbed(guild, "HELP_MENU", "TITLE")} - ${arg}`)
             .setDescription(description);
         if (instance.color) {
             embed.setColor(instance.color);

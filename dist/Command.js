@@ -8,7 +8,7 @@ class Command {
     instance;
     client;
     _names = [];
-    _category = '';
+    _category = "";
     _minArgs = 0;
     _maxArgs = -1;
     _syntaxError;
@@ -20,7 +20,7 @@ class Command {
     _error = null;
     _disabled = [];
     _cooldownDuration = 0;
-    _cooldownChar = '';
+    _cooldownChar = "";
     _cooldown;
     _userCooldowns = new Map(); // <GuildID-UserID, Seconds> OR <dm-UserID, Seconds>
     _globalCooldown;
@@ -36,7 +36,7 @@ class Command {
     constructor(instance, client, names, callback, error, { category, minArgs, maxArgs, syntaxError, expectedArgs, description, requiredPermissions, permissions, cooldown, globalCooldown, ownerOnly = false, hidden = false, guildOnly = false, testOnly = false, slash = false, requireRoles = false, }) {
         this.instance = instance;
         this.client = client;
-        this._names = typeof names === 'string' ? [names] : names;
+        this._names = typeof names === "string" ? [names] : names;
         this._category = category;
         this._minArgs = minArgs || 0;
         this._maxArgs = maxArgs === undefined ? -1 : maxArgs;
@@ -44,8 +44,8 @@ class Command {
         this._expectedArgs = expectedArgs;
         this._description = description;
         this._requiredPermissions = requiredPermissions || permissions;
-        this._cooldown = cooldown || '';
-        this._globalCooldown = globalCooldown || '';
+        this._cooldown = cooldown || "";
+        this._globalCooldown = globalCooldown || "";
         this._ownerOnly = ownerOnly;
         this._hidden = hidden;
         this._guildOnly = guildOnly;
@@ -61,10 +61,10 @@ class Command {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has both requiredPermissions and permissions fields. These are interchangeable but only one should be provided.`);
         }
         if (this.cooldown) {
-            this.verifyCooldown(this._cooldown, 'cooldown');
+            this.verifyCooldown(this._cooldown, "cooldown");
         }
         if (this.globalCooldown) {
-            this.verifyCooldown(this._globalCooldown, 'global cooldown');
+            this.verifyCooldown(this._globalCooldown, "global cooldown");
         }
         if (this._minArgs < 0) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a minimum argument count less than 0!`);
@@ -81,7 +81,7 @@ class Command {
             message,
             channel: message.channel,
             args,
-            text: args.join(' '),
+            text: args.join(" "),
             client: this.client,
             prefix: this.instance.getPrefix(message.guild),
             instance: this.instance,
@@ -95,12 +95,12 @@ class Command {
         if (!reply) {
             return;
         }
-        if (typeof reply === 'string') {
+        if (typeof reply === "string") {
             message.reply({
                 content: reply,
             });
         }
-        else if (typeof reply === 'object') {
+        else if (typeof reply === "object") {
             if (reply.custom) {
                 message.reply(reply);
             }
@@ -158,7 +158,7 @@ class Command {
         return this._testOnly;
     }
     verifyCooldown(cooldown, type) {
-        if (typeof cooldown !== 'string') {
+        if (typeof cooldown !== "string") {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Must be a string, examples: "10s" "5m" etc.`);
         }
         const results = cooldown.match(/[a-z]+|[^a-z]+/gi) || [];
@@ -170,29 +170,29 @@ class Command {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Number is invalid.`);
         }
         this._cooldownChar = results[1];
-        if (this._cooldownChar !== 's' &&
-            this._cooldownChar !== 'm' &&
-            this._cooldownChar !== 'h' &&
-            this._cooldownChar !== 'd') {
+        if (this._cooldownChar !== "s" &&
+            this._cooldownChar !== "m" &&
+            this._cooldownChar !== "h" &&
+            this._cooldownChar !== "d") {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Unknown type. Please provide 's', 'm', 'h', or 'd' for seconds, minutes, hours, or days respectively.`);
         }
-        if (type === 'global cooldown' &&
-            this._cooldownChar === 's' &&
+        if (type === "global cooldown" &&
+            this._cooldownChar === "s" &&
             this._cooldownDuration < 60) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! The minimum duration for a global cooldown is 1m.`);
         }
-        const moreInfo = ' For more information please see https://docs.wornoffkeys.com/commands/command-cooldowns';
+        const moreInfo = " For more information please check the 'command-cooldowns' section of the docs.";
         if (this._cooldownDuration < 1) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Durations must be at least 1.${moreInfo}`);
         }
-        if ((this._cooldownChar === 's' || this._cooldownChar === 'm') &&
+        if ((this._cooldownChar === "s" || this._cooldownChar === "m") &&
             this._cooldownDuration > 60) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Second or minute durations cannot exceed 60.${moreInfo}`);
         }
-        if (this._cooldownChar === 'h' && this._cooldownDuration > 24) {
+        if (this._cooldownChar === "h" && this._cooldownDuration > 24) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Hour durations cannot exceed 24.${moreInfo}`);
         }
-        if (this._cooldownChar === 'd' && this._cooldownDuration > 365) {
+        if (this._cooldownChar === "d" && this._cooldownDuration > 365) {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Day durations cannot exceed 365.${moreInfo}`);
         }
     }
@@ -206,9 +206,9 @@ class Command {
         return this._ownerOnly;
     }
     verifyDatabaseCooldowns() {
-        if (this._cooldownChar === 'd' ||
-            this._cooldownChar === 'h' ||
-            (this._cooldownChar === 'm' && this._cooldownDuration >= 5)) {
+        if (this._cooldownChar === "d" ||
+            this._cooldownChar === "h" ||
+            (this._cooldownChar === "m" && this._cooldownDuration >= 5)) {
             this._databaseCooldown = true;
             if (!this.instance.isDBConnected()) {
                 new logger_1.default("debug", "America/Chicago", "logs").log("info", "Command", `A database connection is STRONGLY RECOMMENDED for cooldowns of 5 minutes or more.`);
@@ -221,7 +221,7 @@ class Command {
      */
     decrementCooldowns(guildId, userId) {
         for (const map of [this._userCooldowns, this._guildCooldowns]) {
-            if (typeof map !== 'string') {
+            if (typeof map !== "string") {
                 map.forEach((value, key) => {
                     if (key === `${guildId}-${userId}`) {
                         value = 0;
@@ -242,7 +242,7 @@ class Command {
     async updateDatabaseCooldowns(_id, cooldown) {
         // Only update every 20s
         if (cooldown % 20 === 0 && this.instance.isDBConnected()) {
-            const type = this.globalCooldown ? 'global' : 'per-user';
+            const type = this.globalCooldown ? "global" : "per-user";
             if (cooldown <= 0) {
                 await cooldown_1.default.deleteOne({ _id, name: this.names[0], type });
             }
@@ -264,15 +264,15 @@ class Command {
         const target = this.globalCooldown || this.cooldown;
         if (target) {
             let seconds = customCooldown || this._cooldownDuration;
-            const durationType = customCooldown ? 's' : this._cooldownChar;
+            const durationType = customCooldown ? "s" : this._cooldownChar;
             switch (durationType) {
-                case 'm':
+                case "m":
                     seconds *= 60;
                     break;
-                case 'h':
+                case "h":
                     seconds *= 60 * 60;
                     break;
-                case 'd':
+                case "d":
                     seconds *= 60 * 60 * 24;
                     break;
             }
@@ -291,13 +291,13 @@ class Command {
             ? this._guildCooldowns.get(guildId)
             : this._userCooldowns.get(`${guildId}-${userId}`);
         if (!seconds) {
-            return '';
+            return "";
         }
         const days = Math.floor(seconds / (3600 * 24));
         const hours = Math.floor((seconds % (3600 * 24)) / 3600);
         const minutes = Math.floor((seconds % 3600) / 60);
         seconds = Math.floor(seconds % 60);
-        let result = '';
+        let result = "";
         if (days) {
             result += `${days}d `;
         }
@@ -320,7 +320,7 @@ class Command {
         }
     }
     removeRequiredRole(guildId, roleId) {
-        if (roleId === 'none') {
+        if (roleId === "none") {
             this._requiredRoles?.delete(guildId);
             return;
         }

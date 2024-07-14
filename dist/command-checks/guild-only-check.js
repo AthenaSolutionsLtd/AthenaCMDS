@@ -6,7 +6,7 @@ module.exports = (guild, command, instance, member, user, reply) => {
         return true;
     }
     if (!guild) {
-        reply(instance.messageHandler.get(guild, 'GUILD_ONLY_COMMAND')).then((message) => {
+        reply(instance.messageHandler.get(guild, "GUILD_ONLY_COMMAND")).then((message) => {
             if (!message) {
                 return;
             }

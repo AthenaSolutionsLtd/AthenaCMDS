@@ -25,9 +25,9 @@ class ReactionHandler {
     message;
     embed;
     guild = null;
-    emojiName = '';
-    emojiId = '';
-    door = '🚪';
+    emojiName = "";
+    emojiId = "";
+    door = "🚪";
     pageLimit = 3;
     constructor(instance, reaction, user) {
         this.instance = instance;
@@ -50,15 +50,15 @@ class ReactionHandler {
             return;
         }
         this.emojiName = this.reaction.emoji.name;
-        this.emojiId = this.reaction.emoji.id || '';
+        this.emojiId = this.reaction.emoji.id || "";
         this.handleEmoji();
     };
     /**
      * @returns If the bot has access to remove reactions from the help menu
      */
     canBotRemoveReaction = () => {
-        return (this.message.channel.type !== 'DM' &&
-            this.message.member?.permissions.has('MANAGE_MESSAGES'));
+        return (this.message.channel.type !== "DM" &&
+            this.message.member?.permissions.has("MANAGE_MESSAGES"));
     };
     /**
      * @returns If the user is allowed to interact with this help menu
@@ -66,17 +66,17 @@ class ReactionHandler {
     canUserInteract = () => {
         // Check if the title of the embed is correct
         const displayName = this.instance.displayName
-            ? this.instance.displayName + ' '
-            : '';
+            ? this.instance.displayName + " "
+            : "";
         const isSameTitle = this.embed.title ===
-            `${displayName}${this.instance.messageHandler.getEmbed(this.guild, 'HELP_MENU', 'TITLE')}`;
+            `${displayName}${this.instance.messageHandler.getEmbed(this.guild, "HELP_MENU", "TITLE")}`;
         if (!isSameTitle) {
             return false;
         }
         // Check if the user's ID is in the footer
         if (this.embed.footer) {
             const { text } = this.embed.footer;
-            const id = text?.split('#')[1];
+            const id = text?.split("#")[1];
             if (id !== this.user.id) {
                 if (this.canBotRemoveReaction()) {
                     this.reaction.users.remove(this.user.id);
@@ -91,7 +91,7 @@ class ReactionHandler {
      */
     returnToMainMenu = () => {
         const { embed: newEmbed, reactions } = (0, _get_first_embed_1.default)(this.message, this.instance);
-        this.embed.setDescription(newEmbed.description || '');
+        this.embed.setDescription(newEmbed.description || "");
         this.message.edit({ embeds: [this.embed] });
         if (this.canBotRemoveReaction()) {
             this.message.reactions.removeAll();
@@ -105,10 +105,10 @@ class ReactionHandler {
     getMaxPages = (commandLength) => {
         let page = 1;
         if (this.embed && this.embed.description) {
-            const split = this.embed.description.split('\n');
+            const split = this.embed.description.split("\n");
             const lastLine = split[split.length - 1];
-            if (lastLine.startsWith('Page ')) {
-                page = parseInt(lastLine.split(' ')[1]);
+            if (lastLine.startsWith("Page ")) {
+                page = parseInt(lastLine.split(" ")[1]);
             }
         }
         return [page, Math.ceil(commandLength / this.pageLimit)];
@@ -118,12 +118,12 @@ class ReactionHandler {
      */
     getCommands = () => {
         let category = this.instance.getCategory(this.emojiId || this.emojiName);
-        const commandsString = this.instance.messageHandler.getEmbed(this.guild, 'HELP_MENU', 'COMMANDS');
+        const commandsString = this.instance.messageHandler.getEmbed(this.guild, "HELP_MENU", "COMMANDS");
         if (this.embed.description) {
-            const split = this.embed.description.split('\n');
-            const cmdStr = ' ' + commandsString;
+            const split = this.embed.description.split("\n");
+            const cmdStr = " " + commandsString;
             if (split[0].endsWith(cmdStr)) {
-                category = split[0].replace(cmdStr, '');
+                category = split[0].replace(cmdStr, "");
             }
         }
         const commands = this.instance.commandHandler.getCommandsByCategory(category);
@@ -137,15 +137,15 @@ class ReactionHandler {
     static getHelp = (command, instance, guild) => {
         const { description, syntax, names } = command;
         if (names === undefined) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", 'A command does not have a name assigned to it.');
-            return '';
+            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "A command does not have a name assigned to it.");
+            return "";
         }
-        const mainName = typeof names === 'string' ? names : names.shift();
-        let desc = `**${mainName}**${description ? ' - ' : ''}${description}`;
-        if (names.length && typeof names !== 'string') {
-            desc += `\n${instance.messageHandler.getEmbed(guild, 'HELP_MENU', 'ALIASES')}: "${names.join('", "')}"`;
+        const mainName = typeof names === "string" ? names : names.shift();
+        let desc = `**${mainName}**${description ? " - " : ""}${description}`;
+        if (names.length && typeof names !== "string") {
+            desc += `\n${instance.messageHandler.getEmbed(guild, "HELP_MENU", "ALIASES")}: "${names.join('", "')}"`;
         }
-        desc += `\n${instance.messageHandler.getEmbed(guild, 'HELP_MENU', 'SYNTAX')}: "${instance.getPrefix(guild)}${mainName}${syntax ? ' ' : ''}${syntax || ''}"`;
+        desc += `\n${instance.messageHandler.getEmbed(guild, "HELP_MENU", "SYNTAX")}: "${instance.getPrefix(guild)}${mainName}${syntax ? " " : ""}${syntax || ""}"`;
         return desc;
     };
     /**
@@ -154,16 +154,16 @@ class ReactionHandler {
     generateMenu = (page, maxPages) => {
         const { length, commands, commandsString, category } = this.getCommands();
         const hasMultiplePages = length > this.pageLimit;
-        let desc = `${category} ${commandsString}\n\n${this.instance.messageHandler.getEmbed(this.guild, 'HELP_MENU', 'DESCRIPTION_FIRST_LINE')}`;
+        let desc = `${category} ${commandsString}\n\n${this.instance.messageHandler.getEmbed(this.guild, "HELP_MENU", "DESCRIPTION_FIRST_LINE")}`;
         if (hasMultiplePages) {
-            desc += `\n\n${this.instance.messageHandler.getEmbed(this.guild, 'HELP_MENU', 'DESCRIPTION_SECOND_LINE')}`;
+            desc += `\n\n${this.instance.messageHandler.getEmbed(this.guild, "HELP_MENU", "DESCRIPTION_SECOND_LINE")}`;
         }
         const start = (page - 1) * this.pageLimit;
         for (let a = start, counter = a; a < commands.length && a < start + this.pageLimit; ++a) {
             const command = commands[a];
             let { hidden, category, names } = command;
             if (!hidden && category === category) {
-                if (typeof names === 'string') {
+                if (typeof names === "string") {
                     // @ts-ignore
                     names = [...names];
                 }
@@ -178,10 +178,10 @@ class ReactionHandler {
         }
         const reactions = [];
         if (hasMultiplePages) {
-            reactions.push('⬅');
-            reactions.push('➡');
+            reactions.push("⬅");
+            reactions.push("➡");
         }
-        reactions.push('🚪');
+        reactions.push("🚪");
         addReactions(this.message, reactions);
     };
     /**
@@ -194,7 +194,7 @@ class ReactionHandler {
         }
         const { length } = this.getCommands();
         let [page, maxPages] = this.getMaxPages(length);
-        if (this.emojiName === '⬅') {
+        if (this.emojiName === "⬅") {
             if (page <= 1) {
                 if (this.canBotRemoveReaction()) {
                     this.reaction.users.remove(this.user.id);
@@ -203,7 +203,7 @@ class ReactionHandler {
             }
             --page;
         }
-        else if (this.emojiName === '➡') {
+        else if (this.emojiName === "➡") {
             if (page >= maxPages) {
                 if (this.canBotRemoveReaction()) {
                     this.reaction.users.remove(this.user.id);
