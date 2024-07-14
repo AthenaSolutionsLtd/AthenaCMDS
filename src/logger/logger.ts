@@ -30,7 +30,7 @@ function consoleLog(level: string, type: string, module: string, text: string) {
   const formattedModule = colorMap[type]
     ? colorMap[type](`${module} ]`)
     : module;
-  const formattedText = colors.white(`ATHENA : ${text}`);
+  const formattedText = colors.white(`${text}`);
 
   if (level === "info" && type === "Debug") return;
 

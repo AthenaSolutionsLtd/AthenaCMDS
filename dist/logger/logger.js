@@ -54,7 +54,7 @@ function consoleLog(level, type, module, text) {
     const formattedModule = colorMap[type]
         ? colorMap[type](`${module} ]`)
         : module;
-    const formattedText = safe_1.default.white(`ATHENA : ${text}`);
+    const formattedText = safe_1.default.white(`${text}`);
     if (level === "info" && type === "Debug")
         return;
     console.log(`${formattedTimestamp} ${formattedType} ${formattedModule} : ${formattedText}`);
