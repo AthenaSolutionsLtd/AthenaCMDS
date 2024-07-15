@@ -17,6 +17,7 @@ exports.default = async (mongoPath, instance, dbOptions = {}) => {
         keepAlive: true,
         ...dbOptions,
     };
+    mongoose_1.default.set(`strictQuery`, true);
     await mongoose_1.default.connect(mongoPath, options);
     const { connection } = mongoose_1.default;
     const state = results[connection.readyState] || "Unknown";
