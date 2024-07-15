@@ -20,6 +20,7 @@ export default async (
     keepAlive: true,
     ...dbOptions,
   };
+  mongoose.set(`strictQuery`, true);
   await mongoose.connect(mongoPath, options);
 
   const { connection } = mongoose;
