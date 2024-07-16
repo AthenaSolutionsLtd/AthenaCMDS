@@ -57,7 +57,7 @@ function consoleLog(level, type, module, text) {
     const formattedText = safe_1.default.white(`${text}`);
     if (level === "info" && type === "Debug")
         return;
-    console.log(`${formattedTimestamp} ${formattedType} ${formattedModule} : ${formattedText}`);
+    console.log(`${formattedTimestamp} ${formattedType}${formattedModule} : ${formattedText}`);
 }
 exports.consoleLog = consoleLog;
 async function fileLog(level, logFolder, logText) {

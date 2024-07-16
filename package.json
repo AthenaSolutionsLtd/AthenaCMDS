@@ -1,6 +1,6 @@
 {
   "name": "athenacmds",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "main": "dist/index.js",
   "typings": "./typings.d.ts",
   "scripts": {
@@ -17,7 +17,7 @@
     "typescript"
   ],
   "author": "Athena Solutions",
-  "license": "PROPRIETARY",
+  "license": "MIT",
   "dependencies": {
     "@types/colors": "^1.2.1",
     "@types/moment-timezone": "^0.5.30",

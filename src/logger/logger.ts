@@ -35,7 +35,7 @@ function consoleLog(level: string, type: string, module: string, text: string) {
   if (level === "info" && type === "Debug") return;
 
   console.log(
-    `${formattedTimestamp} ${formattedType} ${formattedModule} : ${formattedText}`
+    `${formattedTimestamp} ${formattedType}${formattedModule} : ${formattedText}`
   );
 }
 
