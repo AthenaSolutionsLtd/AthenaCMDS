@@ -6,7 +6,7 @@
 
 AthenaHandler is a fork of [Worn Off Keys](https://youtube.com/wornoffkeys)'s WOKCommands. The goal of WOKCommand is to make it simple and easy to get your bot off the ground without worrying about your own command handler; however, seeing as the handler has gone a long time without updates, Athena Solutions decided to fork it and modify it here and there, to fit our needs.
 
-All credit for the code goes to Worn Off Keys and Alexzander Flores. Credit for the modifications goes to Athena Solutions.
+All credit for the code goes to Worn Off Keys and Alexzander Flores. Credit for the modifications goes to Athena Solutions. Copyrighted under the MIT License, available at `LICENSE`.
 
 AthenaCMDS makes use of [The Better Logger](https://github.com/rsley/thebetterlogger), modified for Typescript and set up for this project, with the developer's permission.
 
