@@ -25,7 +25,7 @@ class Logger {
 
   log(type: string, module: string, text: string) {
     const timestamp = getCurrentTimestamp("DD-MM-YYYY HH:mm:ss", this.timezone);
-    const logText = `[${timestamp}] [${type.toUpperCase()}] [${module.toUpperCase()}] : ${text}`;
+    const logText = `[${timestamp}] [${type.toUpperCase()}][${module.toUpperCase()}] : ${text}`;
 
     consoleLog(this.level, type, module, text);
     fileLog(this.level, this.logFolder, logText);
