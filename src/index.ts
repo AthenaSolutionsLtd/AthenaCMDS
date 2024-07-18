@@ -14,7 +14,7 @@ import Logger from "./logger";
 
 export default class AthenaCMDS extends EventEmitter {
   private _client: Client;
-  private _defaultPrefix = "!";
+  private _defaultPrefix = ".";
   private _commandsDir = "commands";
   private _featuresDir = "";
   private _mongoConnection: Connection | null = null;

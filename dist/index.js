@@ -37,7 +37,7 @@ const CommandHandler_1 = __importDefault(require("./CommandHandler"));
 const logger_1 = __importDefault(require("./logger"));
 class AthenaCMDS extends events_1.EventEmitter {
     _client;
-    _defaultPrefix = "!";
+    _defaultPrefix = ".";
     _commandsDir = "commands";
     _featuresDir = "";
     _mongoConnection = null;
