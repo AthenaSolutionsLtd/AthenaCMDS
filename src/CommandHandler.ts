@@ -333,7 +333,7 @@ export default class CommandHandler {
 
     if (testOnly && !instance.testServers.length) {
       new Logger("debug", "America/Chicago", "logs").log(
-        "error",
+        "debug",
         "CommandHandler",
         `Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`
       );
@@ -410,7 +410,7 @@ export default class CommandHandler {
             type:
               expectedArgsTypes && expectedArgsTypes.length >= a
                 ? expectedArgsTypes[a]
-                : "STRING",
+                : 3,
             required: a < minArgs,
           });
         }

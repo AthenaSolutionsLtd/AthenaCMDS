@@ -197,7 +197,7 @@ class CommandHandler {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" does not have the following properties: ${missing}.`);
         }
         if (testOnly && !instance.testServers.length) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`);
+            new logger_1.default("debug", "America/Chicago", "logs").log("debug", "CommandHandler", `Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`);
         }
         if (slash !== undefined && typeof slash !== "boolean" && slash !== "both") {
             new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`);
@@ -237,7 +237,7 @@ class CommandHandler {
                         description: item,
                         type: expectedArgsTypes && expectedArgsTypes.length >= a
                             ? expectedArgsTypes[a]
-                            : "STRING",
+                            : 3,
                         required: a < minArgs,
                     });
                 }
