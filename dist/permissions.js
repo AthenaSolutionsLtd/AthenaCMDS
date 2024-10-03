@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.permissionList = void 0;
 const permissionList = [
     'CREATE_INSTANT_INVITE',
     'KICK_MEMBERS',
@@ -34,4 +31,4 @@ const permissionList = [
     'MANAGE_WEBHOOKS',
     'MANAGE_EMOJIS',
 ];
-exports.permissionList = permissionList;
+export { permissionList };

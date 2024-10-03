@@ -1,10 +1,6 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-const fs_1 = __importDefault(require("fs"));
+import fs from 'fs';
 const getAllFiles = (dir, extension) => {
-    const files = fs_1.default.readdirSync(dir, {
+    const files = fs.readdirSync(dir, {
         withFileTypes: true,
     });
     let jsFiles = [];
@@ -22,4 +18,3 @@ const getAllFiles = (dir, extension) => {
     }
     return jsFiles;
 };
-module.exports = getAllFiles;

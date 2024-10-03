@@ -1,43 +1,15 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const discord_js_1 = require("discord.js");
-const logger_1 = __importDefault(require("../../logger"));
-const _get_first_embed_1 = __importDefault(require("./!get-first-embed"));
-const _ReactionListener_1 = __importStar(require("./!ReactionListener"));
+import { MessageEmbed } from "discord.js";
+import Logger from "../../logger";
+import getFirstEmbed from "./!get-first-embed";
+import ReactionListener, { addReactions } from "./!ReactionListener";
 const sendHelpMenu = (message, instance) => {
-    const { embed, reactions } = (0, _get_first_embed_1.default)(message, instance);
+    const { embed, reactions } = getFirstEmbed(message, instance);
     message.channel
         .send({
         embeds: [embed],
     })
         .then((message) => {
-        (0, _ReactionListener_1.addReactions)(message, reactions);
+        addReactions(message, reactions);
     });
 };
 module.exports = {
@@ -48,14 +20,14 @@ module.exports = {
     expectedArgs: "[command]",
     init: (client, instance) => {
         client.on("messageReactionAdd", async (reaction, user) => {
-            new _ReactionListener_1.default(instance, reaction, user);
+            new ReactionListener(instance, reaction, user);
         });
     },
     callback: (options) => {
         const { message, channel, instance, args } = options;
         const { guild } = channel;
         if (guild && !guild.me?.permissions.has("SEND_MESSAGES")) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("debug", "Main", `Could not send message due to no permissions in channel for ${guild.name}`);
+            new Logger("debug", "America/Chicago", "logs").log("debug", "Main", `Could not send message due to no permissions in channel for ${guild.name}`);
             return;
         }
         if (guild && !guild.me?.permissions.has("ADD_REACTIONS")) {
@@ -75,8 +47,8 @@ module.exports = {
                 COMMAND: arg,
             });
         }
-        const description = _ReactionListener_1.default.getHelp(command, instance, guild);
-        const embed = new discord_js_1.MessageEmbed()
+        const description = ReactionListener.getHelp(command, instance, guild);
+        const embed = new MessageEmbed()
             .setTitle(`${instance.displayName} ${instance.messageHandler.getEmbed(guild, "HELP_MENU", "TITLE")} - ${arg}`)
             .setDescription(description);
         if (instance.color) {

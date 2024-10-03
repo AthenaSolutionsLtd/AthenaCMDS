@@ -1,20 +1,15 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const fs_1 = __importDefault(require("fs"));
-const logger_1 = __importDefault(require("./logger"));
-const path_1 = __importDefault(require("path"));
-const Command_1 = __importDefault(require("./Command"));
-const get_all_files_1 = __importDefault(require("./get-all-files"));
-const disabled_commands_1 = __importDefault(require("./models/disabled-commands"));
-const required_roles_1 = __importDefault(require("./models/required-roles"));
-const cooldown_1 = __importDefault(require("./models/cooldown"));
-const channel_commands_1 = __importDefault(require("./models/channel-commands"));
-const permissions_1 = require("./permissions");
-const CommandErrors_1 = __importDefault(require("./enums/CommandErrors"));
-const Events_1 = __importDefault(require("./enums/Events"));
+import fs from "fs";
+import Logger from "./logger";
+import path from "path";
+import Command from "./Command";
+import getAllFiles from "./get-all-files";
+import disabledCommands from "./models/disabled-commands";
+import requiredRoles from "./models/required-roles";
+import cooldown from "./models/cooldown";
+import channelCommands from "./models/channel-commands";
+import { permissionList } from "./permissions";
+import CommandErrors from "./enums/CommandErrors";
+import Events from "./enums/Events";
 const replyFromCheck = async (reply, message) => {
     if (!reply) {
         return new Promise((resolve) => {
@@ -39,7 +34,7 @@ const replyFromCheck = async (reply, message) => {
         });
     }
 };
-class CommandHandler {
+export default class CommandHandler {
     _commands = new Map();
     _client = null;
     _commandChecks = new Map();
@@ -49,23 +44,23 @@ class CommandHandler {
     }
     async setUp(instance, client, dir, disabledDefaultCommands, typeScript = false) {
         // Do not pass in TS here because this should always compiled to JS
-        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, "commands"))) {
+        for (const [file, fileName] of getAllFiles(path.join(__dirname, "commands"))) {
             if (disabledDefaultCommands.includes(fileName)) {
                 continue;
             }
             await this.registerCommand(instance, client, file, fileName, true);
         }
         // Do not pass in TS here because this should always compiled to JS
-        for (const [file, fileName] of (0, get_all_files_1.default)(path_1.default.join(__dirname, "command-checks"))) {
+        for (const [file, fileName] of getAllFiles(path.join(__dirname, "command-checks"))) {
             this._commandChecks.set(fileName, require(file));
         }
         if (dir) {
-            if (!fs_1.default.existsSync(dir)) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Commands directory "${dir}" doesn't exist!`);
+            if (!fs.existsSync(dir)) {
+                new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Commands directory "${dir}" doesn't exist!`);
             }
-            const files = (0, get_all_files_1.default)(dir, typeScript ? ".ts" : "");
+            const files = getAllFiles(dir, typeScript ? ".ts" : "");
             const amount = files.length;
-            new logger_1.default("debug", "America/Chicago", "logs").log("success", "CommandHandler", `Loaded ${amount} command${amount === 1 ? "" : "s"}.`);
+            new Logger("debug", "America/Chicago", "logs").log("success", "CommandHandler", `Loaded ${amount} command${amount === 1 ? "" : "s"}.`);
             for (const [file, fileName] of files) {
                 await this.registerCommand(instance, client, file, fileName);
             }
@@ -77,7 +72,7 @@ class CommandHandler {
             this._commands.forEach(async (command) => {
                 command.verifyDatabaseCooldowns();
                 if (instance.isDBConnected()) {
-                    const results = await cooldown_1.default.find({
+                    const results = await cooldown.find({
                         name: command.names[0],
                         type: command.globalCooldown ? "global" : "per-user",
                     });
@@ -129,7 +124,7 @@ class CommandHandler {
                 catch (e) {
                     if (error) {
                         error({
-                            error: CommandErrors_1.default.EXCEPTION,
+                            error: CommandErrors.EXCEPTION,
                             command,
                             message,
                             info: {
@@ -139,9 +134,9 @@ class CommandHandler {
                     }
                     else {
                         message.reply(instance.messageHandler.get(guild, "EXCEPTION"));
-                        new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", e);
+                        new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", e);
                     }
-                    instance.emit(Events_1.default.COMMAND_EXCEPTION, command, message, e);
+                    instance.emit(Events.COMMAND_EXCEPTION, command, message, e);
                 }
             });
         }
@@ -162,26 +157,26 @@ class CommandHandler {
         const { name = fileName, category, commands, aliases, init, callback, run, execute, error, description, requiredPermissions, permissions, slash, expectedArgs, expectedArgsTypes, minArgs, options = [], } = configuration;
         const { testOnly } = configuration;
         if (run || execute) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" has either a "run" or "execute" function. Please rename that function to "callback".`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" has either a "run" or "execute" function. Please rename that function to "callback".`);
         }
         let names = commands || aliases || [];
         if (!name && (!names || names.length === 0)) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" does not have a name, commands array, or aliases array set. Please set at lease one property to specify the command name.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" does not have a name, commands array, or aliases array set. Please set at lease one property to specify the command name.`);
         }
         if (typeof names === "string") {
             names = [names];
         }
         if (typeof name !== "string") {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" does not have a string as a name.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" does not have a string as a name.`);
         }
         if (name && !names.includes(name.toLowerCase())) {
             names.unshift(name.toLowerCase());
         }
         if (requiredPermissions || permissions) {
             for (const perm of requiredPermissions || permissions) {
-                if (!permissions_1.permissionList.includes(perm)) {
-                    new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" has an invalid permission node: "${perm}". Permissions must be all upper case and be one of the following: "${[
-                        ...permissions_1.permissionList,
+                if (!permissionList.includes(perm)) {
+                    new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command located at "${file}" has an invalid permission node: "${perm}". Permissions must be all upper case and be one of the following: "${[
+                        ...permissionList,
                     ].join('", "')}"`);
                 }
             }
@@ -194,34 +189,34 @@ class CommandHandler {
             missing.push("Description");
         }
         if (missing.length && instance.showWarns) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" does not have the following properties: ${missing}.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" does not have the following properties: ${missing}.`);
         }
         if (testOnly && !instance.testServers.length) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("debug", "CommandHandler", `Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`);
+            new Logger("debug", "America/Chicago", "logs").log("debug", "CommandHandler", `Command "${names[0]}" has "testOnly" set to true, but no test servers are defined.`);
         }
         if (slash !== undefined && typeof slash !== "boolean" && slash !== "both") {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has a "slash" property that is not boolean "true" or string "both".`);
         }
         if (!slash && options.length) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an "options" property but is not a slash command.`);
+            new Logger("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an "options" property but is not a slash command.`);
         }
         if (slash && !(builtIn && !instance.isDBConnected())) {
             if (!description) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `A description is required for command "${names[0]}" because it is a slash command.`);
+                new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `A description is required for command "${names[0]}" because it is a slash command.`);
             }
             if (minArgs !== undefined && !expectedArgs) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has "minArgs" property defined without "expectedArgs" property as a slash command.`);
+                new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `Command "${names[0]}" has "minArgs" property defined without "expectedArgs" property as a slash command.`);
             }
             if (options.length) {
                 for (const key in options) {
                     const name = options[key].name;
                     let lowerCase = name.toLowerCase();
                     if (name !== lowerCase && instance.showWarns) {
-                        new logger_1.default("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. AthenaCMDS will modify this for you.`);
+                        new Logger("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}". All option names must be lower case for slash commands. AthenaCMDS will modify this for you.`);
                     }
                     if (lowerCase.match(/\s/g)) {
                         lowerCase = lowerCase.replace(/\s/g, "_");
-                        new logger_1.default("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. AthenaCMDS will modify this for you.`);
+                        new Logger("debug", "America/Chicago", "logs").log("info", "CommandHandler", `Command "${names[0]}" has an option of "${name}" with a white space in it. It is a best practice for option names to only be one word. AthenaCMDS will modify this for you.`);
                     }
                     options[key].name = lowerCase;
                 }
@@ -256,7 +251,7 @@ class CommandHandler {
             if (init) {
                 init(client, instance);
             }
-            const command = new Command_1.default(instance, client, names, callback, error, configuration);
+            const command = new Command(instance, client, names, callback, error, configuration);
             for (const name of names) {
                 // Ensure the alias is lower case because we read as lower case later on
                 this._commands.set(name.toLowerCase(), command);
@@ -300,14 +295,14 @@ class CommandHandler {
         return this.commands.find((command) => command.names?.includes(name));
     }
     async fetchDisabledCommands() {
-        const results = await disabled_commands_1.default.find({});
+        const results = await disabledCommands.find({});
         for (const result of results) {
             const { guildId, command } = result;
             this._commands.get(command)?.disable(guildId);
         }
     }
     async fetchRequiredRoles() {
-        const results = await required_roles_1.default.find({});
+        const results = await requiredRoles.find({});
         for (const result of results) {
             const { guildId, command, requiredRoles } = result;
             const cmd = this._commands.get(command);
@@ -319,7 +314,7 @@ class CommandHandler {
         }
     }
     async fetchChannelOnly() {
-        const results = await channel_commands_1.default.find({});
+        const results = await channelCommands.find({});
         for (const result of results) {
             const { command, guildId, channels } = result;
             const cmd = this._commands.get(command);
@@ -337,4 +332,3 @@ class CommandHandler {
         }
     }
 }
-exports.default = CommandHandler;

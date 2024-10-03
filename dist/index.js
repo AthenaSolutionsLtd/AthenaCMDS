@@ -1,41 +1,13 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const events_1 = require("events");
-const FeatureHandler_1 = __importDefault(require("./FeatureHandler"));
-const mongo_1 = __importStar(require("./mongo"));
-const prefixes_1 = __importDefault(require("./models/prefixes"));
-const message_handler_1 = __importDefault(require("./message-handler"));
-const SlashCommands_1 = __importDefault(require("./SlashCommands"));
-const Events_1 = __importDefault(require("./enums/Events"));
-const CommandHandler_1 = __importDefault(require("./CommandHandler"));
-const logger_1 = __importDefault(require("./logger"));
-class AthenaCMDS extends events_1.EventEmitter {
+import { EventEmitter } from "events";
+import FeatureHandler from "./FeatureHandler";
+import mongo, { getMongoConnection } from "./mongo";
+import prefixes from "./models/prefixes";
+import MessageHandler from "./message-handler";
+import SlashCommands from "./SlashCommands";
+import Events from "./enums/Events";
+import CommandHandler from "./CommandHandler";
+import Logger from "./logger";
+export default class AthenaCMDS extends EventEmitter {
     _client;
     _defaultPrefix = ".";
     _commandsDir = "commands";
@@ -66,14 +38,14 @@ class AthenaCMDS extends events_1.EventEmitter {
     }
     async setUp(client, options) {
         if (!client) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "No Discord JS Client provided as first argument!");
+            new Logger("debug", "America/Chicago", "logs").log("error", "Main", "No Discord JS Client provided as first argument!");
         }
         this._client = client;
         let { commandsDir = "", commandDir = "", featuresDir = "", featureDir = "", messagesPath, mongoUri, showWarns = true, delErrMsgCooldown = -1, defaultLanguage = "english", ignoreBots = true, dbOptions, testServers, botOwners, disabledDefaultCommands = [], typeScript = false, ephemeral = true, debug = false, } = options || {};
         if (mongoUri) {
-            await (0, mongo_1.default)(mongoUri, this, dbOptions);
-            this._mongoConnection = (0, mongo_1.getMongoConnection)();
-            const results = await prefixes_1.default.find({});
+            await mongo(mongoUri, this, dbOptions);
+            this._mongoConnection = getMongoConnection();
+            const results = await prefixes.find({});
             for (const result of results) {
                 const { _id, prefix } = result;
                 this._prefixes[_id] = prefix;
@@ -81,9 +53,9 @@ class AthenaCMDS extends events_1.EventEmitter {
         }
         else {
             if (showWarns) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("info", "Main", "No MongoDB connection URI provided. Some features might not work! For more details, see the 'database' section of the docs.");
+                new Logger("debug", "America/Chicago", "logs").log("info", "Main", "No MongoDB connection URI provided. Some features might not work! For more details, see the 'database' section of the docs.");
             }
-            this.emit(Events_1.default.DATABASE_CONNECTED, null, "");
+            this.emit(Events.DATABASE_CONNECTED, null, "");
         }
         this._commandsDir = commandsDir || commandDir || this._commandsDir;
         this._featuresDir = featuresDir || featureDir || this._featuresDir;
@@ -91,11 +63,11 @@ class AthenaCMDS extends events_1.EventEmitter {
         this._debug = debug;
         if (this._commandsDir &&
             !(this._commandsDir.includes("/") || this._commandsDir.includes("\\"))) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "The 'commands' directory must be an absolute path. This can be done by using the 'path' module.");
+            new Logger("debug", "America/Chicago", "logs").log("error", "Main", "The 'commands' directory must be an absolute path. This can be done by using the 'path' module.");
         }
         if (this._featuresDir &&
             !(this._featuresDir.includes("/") || this._featuresDir.includes("\\"))) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "The 'features' directory must be an absolute path. This can be done by using the 'path' module.");
+            new Logger("debug", "America/Chicago", "logs").log("error", "Main", "The 'features' directory must be an absolute path. This can be done by using the 'path' module.");
         }
         if (testServers) {
             if (typeof testServers === "string") {
@@ -116,9 +88,9 @@ class AthenaCMDS extends events_1.EventEmitter {
         if (typeof disabledDefaultCommands === "string") {
             disabledDefaultCommands = [disabledDefaultCommands];
         }
-        this._commandHandler = new CommandHandler_1.default(this, client, this._commandsDir, disabledDefaultCommands, typeScript);
-        this._slashCommand = new SlashCommands_1.default(this, true, typeScript);
-        this._messageHandler = new message_handler_1.default(this, messagesPath || "");
+        this._commandHandler = new CommandHandler(this, client, this._commandsDir, disabledDefaultCommands, typeScript);
+        this._slashCommand = new SlashCommands(this, true, typeScript);
+        this._messageHandler = new MessageHandler(this, messagesPath || "");
         this.setCategorySettings([
             {
                 name: "Configuration",
@@ -129,11 +101,11 @@ class AthenaCMDS extends events_1.EventEmitter {
                 emoji: "❓",
             },
         ]);
-        this._featureHandler = new FeatureHandler_1.default(client, this, this._featuresDir, typeScript);
-        new logger_1.default("debug", "America/Chicago", "logs").log("success", "Main", "AthenaClient is now running.");
+        this._featureHandler = new FeatureHandler(client, this, this._featuresDir, typeScript);
+        new Logger("debug", "America/Chicago", "logs").log("success", "Main", "AthenaClient is now running.");
     }
     setMongoPath(mongoPath) {
-        new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", ".setMongoPath() no longer works as expected. Please pass in your mongo URI as a 'mongoUri' property using the options object. For more information, see the 'database' section of the docs.");
+        new Logger("debug", "America/Chicago", "logs").log("error", "Main", ".setMongoPath() no longer works as expected. Please pass in your mongo URI as a 'mongoUri' property using the options object. For more information, see the 'database' section of the docs.");
         return this;
     }
     get client() {
@@ -210,7 +182,7 @@ class AthenaCMDS extends events_1.EventEmitter {
                 targetEmoji = this._client.emojis.cache.get(emoji);
             }
             if (this.isEmojiUsed(targetEmoji)) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `The emoji "${targetEmoji}" for category "${name}" is already used.`);
+                new Logger("debug", "America/Chicago", "logs").log("error", "Main", `The emoji "${targetEmoji}" for category "${name}" is already used.`);
             }
             this._categories.set(name, targetEmoji || this.categories.get(name) || "");
             if (hidden) {
@@ -261,7 +233,7 @@ class AthenaCMDS extends events_1.EventEmitter {
         return this._botOwner;
     }
     setBotOwner(botOwner) {
-        new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead.");
+        new Logger("debug", "America/Chicago", "logs").log("error", "Main", "setBotOwner() is deprecated. Please specify your bot owners in the object constructor instead.");
         if (typeof botOwner === "string") {
             botOwner = [botOwner];
         }
@@ -291,5 +263,4 @@ class AthenaCMDS extends events_1.EventEmitter {
         return this._slashCommand;
     }
 }
-exports.default = AthenaCMDS;
 module.exports = AthenaCMDS;

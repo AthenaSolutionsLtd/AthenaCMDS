@@ -1,11 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.addReactions = void 0;
-const logger_1 = __importDefault(require("../../logger"));
-const _get_first_embed_1 = __importDefault(require("./!get-first-embed"));
+import Logger from "../../logger";
+import getFirstEmbed from "./!get-first-embed";
 const /**
    * Recursively adds reactions to the message
    * @param message The message to react to
@@ -17,7 +11,6 @@ const /**
         addReactions(message, reactions);
     }
 };
-exports.addReactions = addReactions;
 class ReactionHandler {
     instance;
     reaction;
@@ -90,7 +83,7 @@ class ReactionHandler {
      * Invoked when the user returns to the main menu
      */
     returnToMainMenu = () => {
-        const { embed: newEmbed, reactions } = (0, _get_first_embed_1.default)(this.message, this.instance);
+        const { embed: newEmbed, reactions } = getFirstEmbed(this.message, this.instance);
         this.embed.setDescription(newEmbed.description || "");
         this.message.edit({ embeds: [this.embed] });
         if (this.canBotRemoveReaction()) {
@@ -137,7 +130,7 @@ class ReactionHandler {
     static getHelp = (command, instance, guild) => {
         const { description, syntax, names } = command;
         if (names === undefined) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", "A command does not have a name assigned to it.");
+            new Logger("debug", "America/Chicago", "logs").log("error", "Main", "A command does not have a name assigned to it.");
             return "";
         }
         const mainName = typeof names === "string" ? names : names.shift();
@@ -215,4 +208,5 @@ class ReactionHandler {
         this.generateMenu(page, maxPages);
     };
 }
-exports.default = ReactionHandler;
+export default ReactionHandler;
+export { addReactions };

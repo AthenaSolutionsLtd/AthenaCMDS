@@ -1,7 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.config = void 0;
-exports.default = (client) => {
+export default (client) => {
     client.on('messageCreate', (message) => {
         client.emit('messageUpsert', message);
     });
@@ -9,7 +6,7 @@ exports.default = (client) => {
         client.emit('messageUpsert', newMessage, oldMessage);
     });
 };
-exports.config = {
+export const config = {
     displayName: 'Message Upsert',
     dbName: 'MESSAGE-UPSERT',
 };

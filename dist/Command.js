@@ -1,9 +1,5 @@
-"use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-const logger_1 = __importDefault(require("./logger"));
-const cooldown_1 = __importDefault(require("./models/cooldown"));
+import Logger from "./logger";
+import cooldownSchema from "./models/cooldown";
 class Command {
     instance;
     client;
@@ -55,10 +51,10 @@ class Command {
         this._slash = slash;
         this._requireRoles = requireRoles;
         if (this.cooldown && this.globalCooldown) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has both a global and per-user cooldown. Commands can only have up to one of these properties.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has both a global and per-user cooldown. Commands can only have up to one of these properties.`);
         }
         if (requiredPermissions && permissions) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has both requiredPermissions and permissions fields. These are interchangeable but only one should be provided.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has both requiredPermissions and permissions fields. These are interchangeable but only one should be provided.`);
         }
         if (this.cooldown) {
             this.verifyCooldown(this._cooldown, "cooldown");
@@ -67,13 +63,13 @@ class Command {
             this.verifyCooldown(this._globalCooldown, "global cooldown");
         }
         if (this._minArgs < 0) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a minimum argument count less than 0!`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a minimum argument count less than 0!`);
         }
         if (this._maxArgs < -1) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a maximum argument count less than -1!`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a maximum argument count less than -1!`);
         }
         if (this._maxArgs !== -1 && this._maxArgs < this._minArgs) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a maximum argument count less than it's minimum argument count!`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a maximum argument count less than it's minimum argument count!`);
         }
     }
     async execute(message, args) {
@@ -159,41 +155,41 @@ class Command {
     }
     verifyCooldown(cooldown, type) {
         if (typeof cooldown !== "string") {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Must be a string, examples: "10s" "5m" etc.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Must be a string, examples: "10s" "5m" etc.`);
         }
         const results = cooldown.match(/[a-z]+|[^a-z]+/gi) || [];
         if (results.length !== 2) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Please provide "<Duration><Type>", examples: "10s" "5m" etc.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Please provide "<Duration><Type>", examples: "10s" "5m" etc.`);
         }
         this._cooldownDuration = +results[0];
         if (isNaN(this._cooldownDuration)) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Number is invalid.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Number is invalid.`);
         }
         this._cooldownChar = results[1];
         if (this._cooldownChar !== "s" &&
             this._cooldownChar !== "m" &&
             this._cooldownChar !== "h" &&
             this._cooldownChar !== "d") {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Unknown type. Please provide 's', 'm', 'h', or 'd' for seconds, minutes, hours, or days respectively.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Unknown type. Please provide 's', 'm', 'h', or 'd' for seconds, minutes, hours, or days respectively.`);
         }
         if (type === "global cooldown" &&
             this._cooldownChar === "s" &&
             this._cooldownDuration < 60) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! The minimum duration for a global cooldown is 1m.`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! The minimum duration for a global cooldown is 1m.`);
         }
         const moreInfo = " For more information please check the 'command-cooldowns' section of the docs.";
         if (this._cooldownDuration < 1) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Durations must be at least 1.${moreInfo}`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Durations must be at least 1.${moreInfo}`);
         }
         if ((this._cooldownChar === "s" || this._cooldownChar === "m") &&
             this._cooldownDuration > 60) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Second or minute durations cannot exceed 60.${moreInfo}`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Second or minute durations cannot exceed 60.${moreInfo}`);
         }
         if (this._cooldownChar === "h" && this._cooldownDuration > 24) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Hour durations cannot exceed 24.${moreInfo}`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Hour durations cannot exceed 24.${moreInfo}`);
         }
         if (this._cooldownChar === "d" && this._cooldownDuration > 365) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Day durations cannot exceed 365.${moreInfo}`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Invalid ${type} format! Day durations cannot exceed 365.${moreInfo}`);
         }
     }
     get hidden() {
@@ -211,7 +207,7 @@ class Command {
             (this._cooldownChar === "m" && this._cooldownDuration >= 5)) {
             this._databaseCooldown = true;
             if (!this.instance.isDBConnected()) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("info", "Command", `A database connection is STRONGLY RECOMMENDED for cooldowns of 5 minutes or more.`);
+                new Logger("debug", "America/Chicago", "logs").log("info", "Command", `A database connection is STRONGLY RECOMMENDED for cooldowns of 5 minutes or more.`);
             }
         }
     }
@@ -244,10 +240,10 @@ class Command {
         if (cooldown % 20 === 0 && this.instance.isDBConnected()) {
             const type = this.globalCooldown ? "global" : "per-user";
             if (cooldown <= 0) {
-                await cooldown_1.default.deleteOne({ _id, name: this.names[0], type });
+                await cooldownSchema.deleteOne({ _id, name: this.names[0], type });
             }
             else {
-                await cooldown_1.default.findOneAndUpdate({
+                await cooldownSchema.findOneAndUpdate({
                     _id,
                     name: this.names[0],
                     type,
@@ -370,4 +366,3 @@ class Command {
         this.requiredChannels.set(`${guild.id}-${command}`, channels);
     }
 }
-module.exports = Command;

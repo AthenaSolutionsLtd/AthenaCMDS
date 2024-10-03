@@ -1,35 +1,7 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    var desc = Object.getOwnPropertyDescriptor(m, k);
-    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
-      desc = { enumerable: true, get: function() { return m[k]; } };
-    }
-    Object.defineProperty(o, k2, desc);
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const languages_1 = __importDefault(require("./models/languages"));
-const logger_1 = __importDefault(require("./logger"));
+import languageSchema from "./models/languages";
+import Logger from "./logger";
 const defualtMessages = require("../messages.json");
-class MessageHandler {
+export default class MessageHandler {
     _instance;
     _guildLanguages = new Map(); // <Guild ID, Language>
     _languages = [];
@@ -37,9 +9,8 @@ class MessageHandler {
     constructor(instance, messagePath) {
         this._instance = instance;
         (async () => {
-            var _a;
             this._messages = messagePath
-                ? await (_a = messagePath, Promise.resolve().then(() => __importStar(require(_a))))
+                ? await import(messagePath)
                 : defualtMessages;
             for (const messageId of Object.keys(this._messages)) {
                 for (const language of Object.keys(this._messages[messageId])) {
@@ -47,10 +18,10 @@ class MessageHandler {
                 }
             }
             if (!this._languages.includes(instance.defaultLanguage)) {
-                new logger_1.default("debug", "America/Chicago", "logs").log("error", "CommandHandler", `The current default language defined is not supported.`);
+                new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `The current default language defined is not supported.`);
             }
             if (instance.isDBConnected()) {
-                const results = await languages_1.default.find();
+                const results = await languageSchema.find();
                 // @ts-ignore
                 for (const { _id: guildId, language } of results) {
                     this._guildLanguages.set(guildId, language);
@@ -79,7 +50,7 @@ class MessageHandler {
         const language = this.getLanguage(guild);
         const translations = this._messages[messageId];
         if (!translations) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct message to send for "${messageId}"`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct message to send for "${messageId}"`);
             return "Could not find the correct message to send. Please report this to the bot developer.";
         }
         let result = translations[language];
@@ -93,12 +64,12 @@ class MessageHandler {
         const language = this.getLanguage(guild);
         const items = this._messages[embedId];
         if (!items) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct item to send for "${embedId}" -> "${itemId}"`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct item to send for "${embedId}" -> "${itemId}"`);
             return "Could not find the correct message to send. Please report this to the bot developer.";
         }
         const translations = items[itemId];
         if (!translations) {
-            new logger_1.default("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct message to send for "${embedId}"`);
+            new Logger("debug", "America/Chicago", "logs").log("error", "Main", `Could not find the correct message to send for "${embedId}"`);
             return "Could not find the correct message to send. Please report this to the bot developer.";
         }
         let result = translations[language];
@@ -109,4 +80,3 @@ class MessageHandler {
         return result;
     }
 }
-exports.default = MessageHandler;

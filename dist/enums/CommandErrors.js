@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var CommandErrors;
 (function (CommandErrors) {
     CommandErrors["EXCEPTION"] = "EXCEPTION";
@@ -9,4 +7,4 @@ var CommandErrors;
     CommandErrors["MISSING_ROLES"] = "MISSING ROLES";
     CommandErrors["COMMAND_DISABLED"] = "COMMAND DISABLED";
 })(CommandErrors || (CommandErrors = {}));
-exports.default = CommandErrors;
+export default CommandErrors;
