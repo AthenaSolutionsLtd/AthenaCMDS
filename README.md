@@ -4,30 +4,34 @@
 
 # AthenaCMDS
 
-AthenaHandler is a fork of [Worn Off Keys](https://youtube.com/wornoffkeys)'s WOKCommands. The goal of WOKCommand is to make it simple and easy to get your bot off the ground without worrying about your own command handler; however, seeing as the handler has gone a long time without updates, Athena Solutions decided to fork it and modify it here and there, to fit our needs.
+**AthenaCMDS** is a fork of [Worn Off Keys](https://youtube.com/wornoffkeys)'s WOKCommands. WOKCommands was designed to provide an easy and simple way to get a bot up and running without needing to worry about building a command handler from scratch. However, due to the lack of recent updates to the original project, and the developer shifting the work into WOKCommands v2 (the rewrite), Athena Solutions has forked and modified it to aid the community and continue WOKCommands' original intent.
 
-All credit for the code goes to Worn Off Keys and Alexzander Flores. Credit for the modifications goes to Athena Solutions. Copyrighted under the MIT License, available at `LICENSE`.
+Full credit for the original code belongs to Worn Off Keys and Alexzander Flores. Athena Solutions Ltd is responsible for all its modifieations. This project is licensedunder the MIT License, available in the `LICENSE` file.
 
-AthenaCMDS makes use of [The Better Logger](https://github.com/rsley/thebetterlogger), modified for Typescript and set up for this project, with the developer's permission.
+AthenaCMDS also incorporates [The Better Logger](https://github.com/rsley/thebetterlogger), modified for Typescript and set up for this project, with the developer's permission.
+
+### Code Notice
+
+AthenaCMDS "v2" (Beta Version) is developed _entirely in ES6_. Athena Solutions Ltd is planning on allowing CommonJS and ES6 support, but this is update is not to be expected soon. **_Theoretically,_** you _might_ be able to run a CommonJS project as long as the commands, features, and events are made using ES6; however, this is highly unlikely and not recommended.
 
 # Documentation
 
-The official documentation for WOKCommand can be found here: https://docs.wornoffkeys.com
+The official documentation for WOKCommands can be found here: https://docs.wornoffkeys.com
 
-- We have tried to leave these parts untouched, Athena Solutions will not bother making separate documentation at this time.
+- Athena Solutions will develop extended documentation for AthenaCMDS promptly.
 
-# Installation
+# Installation (Beta Version)
 
 **Yarn**
 
 ```bash
-yarn add athenacmds
+yarn add github:AthenaSolutionsLtd/AthenaCMDS#v2
 ```
 
 **NPM**
 
 ```bash
-npm install athenacmds
+npm install github:AthenaSolutionsLtd/AthenaCMDS#v2
 ```
 
 # Support & Feature Requests
