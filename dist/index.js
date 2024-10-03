@@ -15,7 +15,7 @@ import MessageHandler from "./message-handler.js";
 import SlashCommands from "./SlashCommands.js";
 import Events from "./enums/Events.js";
 import CommandHandler from "./CommandHandler.js";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 export default class AthenaCMDS extends EventEmitter {
     constructor(client, options) {
         super();

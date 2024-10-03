@@ -2,7 +2,7 @@ import { Guild } from "discord.js";
 
 import languageSchema from "./models/languages.js";
 import AthenaCMDS from ".";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 import Events from "./enums/Events.js";
 const defualtMessages = require("../messages.json");
 

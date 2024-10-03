@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import languageSchema from "./models/languages.js";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 const defualtMessages = require("../messages.json");
 export default class MessageHandler {
     constructor(instance, messagePath) {

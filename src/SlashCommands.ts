@@ -14,7 +14,7 @@ import path from "path";
 
 import getAllFiles from "./get-all-files.js";
 import AthenaCMDS from ".";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 
 class SlashCommands {
   private _client: Client;

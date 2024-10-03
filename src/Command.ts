@@ -1,6 +1,6 @@
 import { Client, Guild, Message, MessageEmbed } from "discord.js";
 import AthenaCMDS from ".";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 
 import permissions from "./permissions.js";
 import cooldownSchema from "./models/cooldown.js";

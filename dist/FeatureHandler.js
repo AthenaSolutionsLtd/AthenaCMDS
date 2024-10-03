@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import fs from "fs";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 import path from "path";
 import getAllFiles from "./get-all-files.js";
 class FeatureHandler {

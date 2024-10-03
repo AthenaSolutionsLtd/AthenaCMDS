@@ -1,7 +1,7 @@
 import { Client, Guild, Message, MessageEmbed } from "discord.js";
 import fs from "fs";
 import AthenaCMDS from ".";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 import path from "path";
 
 import Command from "./Comman.js";

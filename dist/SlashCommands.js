@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import path from "path";
 import getAllFiles from "./get-all-files.js";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 class SlashCommands {
     constructor(instance, listen, typeScript) {
         this._commandChecks = new Map();

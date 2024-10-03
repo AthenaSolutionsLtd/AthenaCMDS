@@ -10,7 +10,7 @@ import SlashCommands from "./SlashCommands.js";
 import { ICategorySetting, Options } from "..";
 import Events from "./enums/Events.js";
 import CommandHandler from "./CommandHandler.js";
-import Logger from "./logger.js";
+import Logger from "./logger/index.js";
 
 export default class AthenaCMDS extends EventEmitter {
   private _client: Client;
