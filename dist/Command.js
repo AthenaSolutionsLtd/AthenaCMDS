@@ -1,35 +1,36 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import Logger from "./logger";
 import cooldownSchema from "./models/cooldown";
 class Command {
-    instance;
-    client;
-    _names = [];
-    _category = "";
-    _minArgs = 0;
-    _maxArgs = -1;
-    _syntaxError;
-    _expectedArgs;
-    _description;
-    _requiredPermissions;
-    _requiredRoles = new Map(); // <GuildID, RoleIDs[]>
-    _callback = () => { };
-    _error = null;
-    _disabled = [];
-    _cooldownDuration = 0;
-    _cooldownChar = "";
-    _cooldown;
-    _userCooldowns = new Map(); // <GuildID-UserID, Seconds> OR <dm-UserID, Seconds>
-    _globalCooldown;
-    _guildCooldowns = new Map(); // <GuildID, Seconds>
-    _databaseCooldown = false;
-    _ownerOnly = false;
-    _hidden = false;
-    _guildOnly = false;
-    _testOnly = false;
-    _slash = false;
-    _requireRoles = false;
-    _requiredChannels = new Map(); // <GuildID-Command, Channel IDs>
     constructor(instance, client, names, callback, error, { category, minArgs, maxArgs, syntaxError, expectedArgs, description, requiredPermissions, permissions, cooldown, globalCooldown, ownerOnly = false, hidden = false, guildOnly = false, testOnly = false, slash = false, requireRoles = false, }) {
+        this._names = [];
+        this._category = "";
+        this._minArgs = 0;
+        this._maxArgs = -1;
+        this._requiredRoles = new Map(); // <GuildID, RoleIDs[]>
+        this._callback = () => { };
+        this._error = null;
+        this._disabled = [];
+        this._cooldownDuration = 0;
+        this._cooldownChar = "";
+        this._userCooldowns = new Map(); // <GuildID-UserID, Seconds> OR <dm-UserID, Seconds>
+        this._guildCooldowns = new Map(); // <GuildID, Seconds>
+        this._databaseCooldown = false;
+        this._ownerOnly = false;
+        this._hidden = false;
+        this._guildOnly = false;
+        this._testOnly = false;
+        this._slash = false;
+        this._requireRoles = false;
+        this._requiredChannels = new Map(); // <GuildID-Command, Channel IDs>
         this.instance = instance;
         this.client = client;
         this._names = typeof names === "string" ? [names] : names;
@@ -72,47 +73,50 @@ class Command {
             new Logger("debug", "America/Chicago", "logs").log("error", "Command", `Command "${names[0]}" has a maximum argument count less than it's minimum argument count!`);
         }
     }
-    async execute(message, args) {
-        const reply = await this._callback({
-            message,
-            channel: message.channel,
-            args,
-            text: args.join(" "),
-            client: this.client,
-            prefix: this.instance.getPrefix(message.guild),
-            instance: this.instance,
-            user: message.author,
-            member: message.member,
-            guild: message.guild,
-            cancelCoolDown: () => {
-                this.decrementCooldowns(message.guild?.id, message.author.id);
-            },
-        });
-        if (!reply) {
-            return;
-        }
-        if (typeof reply === "string") {
-            message.reply({
-                content: reply,
+    execute(message, args) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const reply = yield this._callback({
+                message,
+                channel: message.channel,
+                args,
+                text: args.join(" "),
+                client: this.client,
+                prefix: this.instance.getPrefix(message.guild),
+                instance: this.instance,
+                user: message.author,
+                member: message.member,
+                guild: message.guild,
+                cancelCoolDown: () => {
+                    var _a;
+                    this.decrementCooldowns((_a = message.guild) === null || _a === void 0 ? void 0 : _a.id, message.author.id);
+                },
             });
-        }
-        else if (typeof reply === "object") {
-            if (reply.custom) {
-                message.reply(reply);
+            if (!reply) {
+                return;
             }
-            else {
-                let embeds = [];
-                if (Array.isArray(reply)) {
-                    embeds = reply;
-                }
-                else {
-                    embeds.push(reply);
-                }
+            if (typeof reply === "string") {
                 message.reply({
-                    embeds,
+                    content: reply,
                 });
             }
-        }
+            else if (typeof reply === "object") {
+                if (reply.custom) {
+                    message.reply(reply);
+                }
+                else {
+                    let embeds = [];
+                    if (Array.isArray(reply)) {
+                        embeds = reply;
+                    }
+                    else {
+                        embeds.push(reply);
+                    }
+                    message.reply({
+                        embeds,
+                    });
+                }
+            }
+        });
     }
     get names() {
         return this._names;
@@ -235,26 +239,28 @@ class Command {
             }
         }
     }
-    async updateDatabaseCooldowns(_id, cooldown) {
-        // Only update every 20s
-        if (cooldown % 20 === 0 && this.instance.isDBConnected()) {
-            const type = this.globalCooldown ? "global" : "per-user";
-            if (cooldown <= 0) {
-                await cooldownSchema.deleteOne({ _id, name: this.names[0], type });
+    updateDatabaseCooldowns(_id, cooldown) {
+        return __awaiter(this, void 0, void 0, function* () {
+            // Only update every 20s
+            if (cooldown % 20 === 0 && this.instance.isDBConnected()) {
+                const type = this.globalCooldown ? "global" : "per-user";
+                if (cooldown <= 0) {
+                    yield cooldownSchema.deleteOne({ _id, name: this.names[0], type });
+                }
+                else {
+                    yield cooldownSchema.findOneAndUpdate({
+                        _id,
+                        name: this.names[0],
+                        type,
+                    }, {
+                        _id,
+                        name: this.names[0],
+                        type,
+                        cooldown,
+                    }, { upsert: true });
+                }
             }
-            else {
-                await cooldownSchema.findOneAndUpdate({
-                    _id,
-                    name: this.names[0],
-                    type,
-                }, {
-                    _id,
-                    name: this.names[0],
-                    type,
-                    cooldown,
-                }, { upsert: true });
-            }
-        }
+        });
     }
     setCooldown(guildId, userId, customCooldown) {
         const target = this.globalCooldown || this.cooldown;
@@ -309,18 +315,20 @@ class Command {
         return result.substring(0, result.length - 1);
     }
     addRequiredRole(guildId, roleId) {
-        const array = this._requiredRoles?.get(guildId) || [];
+        var _a, _b;
+        const array = ((_a = this._requiredRoles) === null || _a === void 0 ? void 0 : _a.get(guildId)) || [];
         if (!array.includes(roleId)) {
             array.push(roleId);
-            this._requiredRoles?.set(guildId, array);
+            (_b = this._requiredRoles) === null || _b === void 0 ? void 0 : _b.set(guildId, array);
         }
     }
     removeRequiredRole(guildId, roleId) {
+        var _a, _b;
         if (roleId === "none") {
-            this._requiredRoles?.delete(guildId);
+            (_a = this._requiredRoles) === null || _a === void 0 ? void 0 : _a.delete(guildId);
             return;
         }
-        const array = this._requiredRoles?.get(guildId) || [];
+        const array = ((_b = this._requiredRoles) === null || _b === void 0 ? void 0 : _b.get(guildId)) || [];
         const index = array ? array.indexOf(roleId) : -1;
         if (array && index >= 0) {
             array.splice(index, 1);

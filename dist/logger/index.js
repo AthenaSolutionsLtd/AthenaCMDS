@@ -1,9 +1,6 @@
 import * as fs from 'fs';
 import { clearLogsFolder, consoleLog, fileLog, getCurrentTimestamp, deleteToday } from './logger';
 class Logger {
-    level;
-    timezone;
-    logFolder;
     constructor(level, timezone, logFolder) {
         if (process.env.NODE_ENV === "development") {
             this.level = "debug";

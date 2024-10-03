@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import { EventEmitter } from "events";
 import FeatureHandler from "./FeatureHandler";
 import mongo, { getMongoConnection } from "./mongo";
@@ -8,101 +17,102 @@ import Events from "./enums/Events";
 import CommandHandler from "./CommandHandler";
 import Logger from "./logger";
 export default class AthenaCMDS extends EventEmitter {
-    _client;
-    _defaultPrefix = ".";
-    _commandsDir = "commands";
-    _featuresDir = "";
-    _mongoConnection = null;
-    _displayName = "";
-    _prefixes = {};
-    _categories = new Map(); // <Category Name, Emoji Icon>
-    _hiddenCategories = [];
-    _color = null;
-    _commandHandler = null;
-    _featureHandler = null;
-    _tagPeople = true;
-    _showWarns = true;
-    _delErrMsgCooldown = -1;
-    _ignoreBots = true;
-    _botOwner = [];
-    _testServers = [];
-    _defaultLanguage = "english";
-    _ephemeral = true;
-    _debug = false;
-    _messageHandler = null;
-    _slashCommand = null;
     constructor(client, options) {
         super();
+        this._defaultPrefix = ".";
+        this._commandsDir = "commands";
+        this._featuresDir = "";
+        this._mongoConnection = null;
+        this._displayName = "";
+        this._prefixes = {};
+        this._categories = new Map(); // <Category Name, Emoji Icon>
+        this._hiddenCategories = [];
+        this._color = null;
+        this._commandHandler = null;
+        this._featureHandler = null;
+        this._tagPeople = true;
+        this._showWarns = true;
+        this._delErrMsgCooldown = -1;
+        this._ignoreBots = true;
+        this._botOwner = [];
+        this._testServers = [];
+        this._defaultLanguage = "english";
+        this._ephemeral = true;
+        this._debug = false;
+        this._messageHandler = null;
+        this._slashCommand = null;
         this._client = client;
         this.setUp(client, options);
     }
-    async setUp(client, options) {
-        if (!client) {
-            new Logger("debug", "America/Chicago", "logs").log("error", "Main", "No Discord JS Client provided as first argument!");
-        }
-        this._client = client;
-        let { commandsDir = "", commandDir = "", featuresDir = "", featureDir = "", messagesPath, mongoUri, showWarns = true, delErrMsgCooldown = -1, defaultLanguage = "english", ignoreBots = true, dbOptions, testServers, botOwners, disabledDefaultCommands = [], typeScript = false, ephemeral = true, debug = false, } = options || {};
-        if (mongoUri) {
-            await mongo(mongoUri, this, dbOptions);
-            this._mongoConnection = getMongoConnection();
-            const results = await prefixes.find({});
-            for (const result of results) {
-                const { _id, prefix } = result;
-                this._prefixes[_id] = prefix;
+    setUp(client, options) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (!client) {
+                new Logger("debug", "America/Chicago", "logs").log("error", "Main", "No Discord JS Client provided as first argument!");
             }
-        }
-        else {
-            if (showWarns) {
-                new Logger("debug", "America/Chicago", "logs").log("info", "Main", "No MongoDB connection URI provided. Some features might not work! For more details, see the 'database' section of the docs.");
+            this._client = client;
+            let { commandsDir = "", commandDir = "", featuresDir = "", featureDir = "", messagesPath, mongoUri, showWarns = true, delErrMsgCooldown = -1, defaultLanguage = "english", ignoreBots = true, dbOptions, testServers, botOwners, disabledDefaultCommands = [], typeScript = false, ephemeral = true, debug = false, } = options || {};
+            if (mongoUri) {
+                yield mongo(mongoUri, this, dbOptions);
+                this._mongoConnection = getMongoConnection();
+                const results = yield prefixes.find({});
+                for (const result of results) {
+                    const { _id, prefix } = result;
+                    this._prefixes[_id] = prefix;
+                }
             }
-            this.emit(Events.DATABASE_CONNECTED, null, "");
-        }
-        this._commandsDir = commandsDir || commandDir || this._commandsDir;
-        this._featuresDir = featuresDir || featureDir || this._featuresDir;
-        this._ephemeral = ephemeral;
-        this._debug = debug;
-        if (this._commandsDir &&
-            !(this._commandsDir.includes("/") || this._commandsDir.includes("\\"))) {
-            new Logger("debug", "America/Chicago", "logs").log("error", "Main", "The 'commands' directory must be an absolute path. This can be done by using the 'path' module.");
-        }
-        if (this._featuresDir &&
-            !(this._featuresDir.includes("/") || this._featuresDir.includes("\\"))) {
-            new Logger("debug", "America/Chicago", "logs").log("error", "Main", "The 'features' directory must be an absolute path. This can be done by using the 'path' module.");
-        }
-        if (testServers) {
-            if (typeof testServers === "string") {
-                testServers = [testServers];
+            else {
+                if (showWarns) {
+                    new Logger("debug", "America/Chicago", "logs").log("info", "Main", "No MongoDB connection URI provided. Some features might not work! For more details, see the 'database' section of the docs.");
+                }
+                this.emit(Events.DATABASE_CONNECTED, null, "");
             }
-            this._testServers = testServers;
-        }
-        if (botOwners) {
-            if (typeof botOwners === "string") {
-                botOwners = [botOwners];
+            this._commandsDir = commandsDir || commandDir || this._commandsDir;
+            this._featuresDir = featuresDir || featureDir || this._featuresDir;
+            this._ephemeral = ephemeral;
+            this._debug = debug;
+            if (this._commandsDir &&
+                !(this._commandsDir.includes("/") || this._commandsDir.includes("\\"))) {
+                new Logger("debug", "America/Chicago", "logs").log("error", "Main", "The 'commands' directory must be an absolute path. This can be done by using the 'path' module.");
             }
-            this._botOwner = botOwners;
-        }
-        this._showWarns = showWarns;
-        this._delErrMsgCooldown = delErrMsgCooldown;
-        this._defaultLanguage = defaultLanguage.toLowerCase();
-        this._ignoreBots = ignoreBots;
-        if (typeof disabledDefaultCommands === "string") {
-            disabledDefaultCommands = [disabledDefaultCommands];
-        }
-        this._commandHandler = new CommandHandler(this, client, this._commandsDir, disabledDefaultCommands, typeScript);
-        this._slashCommand = new SlashCommands(this, true, typeScript);
-        this._messageHandler = new MessageHandler(this, messagesPath || "");
-        this.setCategorySettings([
-            {
-                name: "Configuration",
-                emoji: "⚙",
-            },
-            {
-                name: "Help",
-                emoji: "❓",
-            },
-        ]);
-        this._featureHandler = new FeatureHandler(client, this, this._featuresDir, typeScript);
-        new Logger("debug", "America/Chicago", "logs").log("success", "Main", "AthenaClient is now running.");
+            if (this._featuresDir &&
+                !(this._featuresDir.includes("/") || this._featuresDir.includes("\\"))) {
+                new Logger("debug", "America/Chicago", "logs").log("error", "Main", "The 'features' directory must be an absolute path. This can be done by using the 'path' module.");
+            }
+            if (testServers) {
+                if (typeof testServers === "string") {
+                    testServers = [testServers];
+                }
+                this._testServers = testServers;
+            }
+            if (botOwners) {
+                if (typeof botOwners === "string") {
+                    botOwners = [botOwners];
+                }
+                this._botOwner = botOwners;
+            }
+            this._showWarns = showWarns;
+            this._delErrMsgCooldown = delErrMsgCooldown;
+            this._defaultLanguage = defaultLanguage.toLowerCase();
+            this._ignoreBots = ignoreBots;
+            if (typeof disabledDefaultCommands === "string") {
+                disabledDefaultCommands = [disabledDefaultCommands];
+            }
+            this._commandHandler = new CommandHandler(this, client, this._commandsDir, disabledDefaultCommands, typeScript);
+            this._slashCommand = new SlashCommands(this, true, typeScript);
+            this._messageHandler = new MessageHandler(this, messagesPath || "");
+            this.setCategorySettings([
+                {
+                    name: "Configuration",
+                    emoji: "⚙",
+                },
+                {
+                    name: "Help",
+                    emoji: "❓",
+                },
+            ]);
+            this._featureHandler = new FeatureHandler(client, this, this._featuresDir, typeScript);
+            new Logger("debug", "America/Chicago", "logs").log("success", "Main", "AthenaClient is now running.");
+        });
     }
     setMongoPath(mongoPath) {
         new Logger("debug", "America/Chicago", "logs").log("error", "Main", ".setMongoPath() no longer works as expected. Please pass in your mongo URI as a 'mongoUri' property using the options object. For more information, see the 'database' section of the docs.");

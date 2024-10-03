@@ -1,3 +1,12 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import * as fs from "fs";
 import moment from "moment-timezone";
 import colors from "colors/safe";
@@ -29,25 +38,27 @@ function consoleLog(level, type, module, text) {
         return;
     console.log(`${formattedTimestamp} ${formattedType}${formattedModule} : ${formattedText}`);
 }
-async function fileLog(level, logFolder, logText) {
-    const currentDate = getCurrentTimestamp("DD-MM-YYYY");
-    const logFilename = `${logFolder}/${currentDate}.log`;
-    logText = removeANSI(logText);
-    logText = `\n${logText}`;
-    try {
-        if (!fs.existsSync(logFilename)) {
-            // file is just going to be created
-            fs.writeFileSync(logFilename, `    ┌─────────────────────────────────────────────────────────────────────────────┐
+function fileLog(level, logFolder, logText) {
+    return __awaiter(this, void 0, void 0, function* () {
+        const currentDate = getCurrentTimestamp("DD-MM-YYYY");
+        const logFilename = `${logFolder}/${currentDate}.log`;
+        logText = removeANSI(logText);
+        logText = `\n${logText}`;
+        try {
+            if (!fs.existsSync(logFilename)) {
+                // file is just going to be created
+                fs.writeFileSync(logFilename, `    ┌─────────────────────────────────────────────────────────────────────────────┐
     │         Current Date: ${currentDate}                                            
     │         Program Start: ${getCurrentTimestamp("HH:mm:ss")}                                             
     │         Log Level: ${level}                                                    
     └─────────────────────────────────────────────────────────────────────────────┘\n`);
+            }
+            fs.appendFileSync(logFilename, logText);
         }
-        fs.appendFileSync(logFilename, logText);
-    }
-    catch (err) {
-        console.error(`Error writing to log file: ${err}`);
-    }
+        catch (err) {
+            console.error(`Error writing to log file: ${err}`);
+        }
+    });
 }
 function getCurrentTimestamp(format, tz) {
     return moment()

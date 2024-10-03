@@ -1,12 +1,13 @@
 import { MessageEmbed } from "discord.js";
 import Logger from "../../logger";
 const getFirstEmbed = (message, instance) => {
+    var _a;
     const { guild, member } = message;
     const { commandHandler: { commands }, messageHandler, } = instance;
     const embed = new MessageEmbed()
         .setTitle(`${instance.displayName} ${messageHandler.getEmbed(guild, "HELP_MENU", "TITLE")}`)
         .setDescription(messageHandler.getEmbed(guild, "HELP_MENU", "SELECT_A_CATEGORY"))
-        .setFooter(`ID #${message.author?.id}`);
+        .setFooter(`ID #${(_a = message.author) === null || _a === void 0 ? void 0 : _a.id}`);
     if (instance.color) {
         embed.setColor(instance.color);
     }

@@ -1,16 +1,24 @@
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 import languageSchema from "./models/languages";
 import Logger from "./logger";
 const defualtMessages = require("../messages.json");
 export default class MessageHandler {
-    _instance;
-    _guildLanguages = new Map(); // <Guild ID, Language>
-    _languages = [];
-    _messages = {};
     constructor(instance, messagePath) {
+        this._guildLanguages = new Map(); // <Guild ID, Language>
+        this._languages = [];
+        this._messages = {};
         this._instance = instance;
-        (async () => {
+        (() => __awaiter(this, void 0, void 0, function* () {
             this._messages = messagePath
-                ? await import(messagePath)
+                ? yield import(messagePath)
                 : defualtMessages;
             for (const messageId of Object.keys(this._messages)) {
                 for (const language of Object.keys(this._messages[messageId])) {
@@ -21,21 +29,23 @@ export default class MessageHandler {
                 new Logger("debug", "America/Chicago", "logs").log("error", "CommandHandler", `The current default language defined is not supported.`);
             }
             if (instance.isDBConnected()) {
-                const results = await languageSchema.find();
+                const results = yield languageSchema.find();
                 // @ts-ignore
                 for (const { _id: guildId, language } of results) {
                     this._guildLanguages.set(guildId, language);
                 }
             }
-        })();
+        }))();
     }
     languages() {
         return this._languages;
     }
-    async setLanguage(guild, language) {
-        if (guild) {
-            this._guildLanguages.set(guild.id, language);
-        }
+    setLanguage(guild, language) {
+        return __awaiter(this, void 0, void 0, function* () {
+            if (guild) {
+                this._guildLanguages.set(guild.id, language);
+            }
+        });
     }
     getLanguage(guild) {
         if (guild) {
