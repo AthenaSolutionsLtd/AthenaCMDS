@@ -1,5 +1,5 @@
 import { MessageEmbed } from "discord.js";
-import Logger from "../../logger.js";
+import Logger from "../../logger/index.js";
 const getFirstEmbed = (message, instance) => {
     var _a;
     const { guild, member } = message;

@@ -1,6 +1,6 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 import AthenaCMDS from "../..";
-import Logger from "../../logger.js";
+import Logger from "../../logger/index.js";
 import { ICallbackObject, ICommand } from "../../../typings.js";
 import getFirstEmbed from "./!get-first-embed.js";
 import ReactionListener, { addReactions } from "./!ReactionListener.js";

@@ -1,5 +1,5 @@
-import * as fs from 'fs';
-import { clearLogsFolder, consoleLog, fileLog, getCurrentTimestamp, deleteToday } from './logger.js';
+import * as fs from "fs";
+import { clearLogsFolder, consoleLog, fileLog, getCurrentTimestamp, deleteToday, } from "./logger/index.js";
 class Logger {
     constructor(level, timezone, logFolder) {
         if (process.env.NODE_ENV === "development") {

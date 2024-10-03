@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import Logger from "../../logger.js";
+import Logger from "../../logger/index.js";
 import getFirstEmbed from "./!get-first-embed.js";
 const /**
    * Recursively adds reactions to the message

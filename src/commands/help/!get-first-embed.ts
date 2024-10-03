@@ -1,6 +1,6 @@
 import { Message, MessageEmbed, PartialMessage } from "discord.js";
 import AthenaCMDS from "../../";
-import Logger from "../../logger.js";
+import Logger from "../../logger/index.js";
 
 const getFirstEmbed = (
   message: Message | PartialMessage,

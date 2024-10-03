@@ -9,7 +9,7 @@ import {
   User,
 } from "discord.js";
 import AthenaCMDS from "../..";
-import Logger from "../../logger.js";
+import Logger from "../../logger/index.js";
 
 import { ICommand } from "../../../typings.js";
 import getFirstEmbed from "./!get-first-embed.js";

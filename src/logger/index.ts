@@ -1,5 +1,11 @@
-import * as fs from 'fs';
-import { clearLogsFolder, consoleLog, fileLog, getCurrentTimestamp, deleteToday } from './logger.js';
+import * as fs from "fs";
+import {
+  clearLogsFolder,
+  consoleLog,
+  fileLog,
+  getCurrentTimestamp,
+  deleteToday,
+} from "./logger/index.js";
 
 class Logger {
   private level: string;
@@ -8,14 +14,14 @@ class Logger {
 
   constructor(level: string, timezone: string, logFolder: string) {
     if (process.env.NODE_ENV === "development") {
-      this.level = "debug"
+      this.level = "debug";
     } else {
-      this.level = level
+      this.level = level;
     }
     if (process.env.loggerFolder === undefined) {
-      this.logFolder = logFolder
+      this.logFolder = logFolder;
     } else {
-      this.logFolder = process.env.loggerFolder
+      this.logFolder = process.env.loggerFolder;
     }
     this.timezone = timezone;
 
