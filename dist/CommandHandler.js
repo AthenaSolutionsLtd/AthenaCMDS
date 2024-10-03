@@ -8,17 +8,17 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import fs from "fs";
-import Logger from "./logger";
+import Logger from "./logger.js";
 import path from "path";
-import Command from "./Command";
-import getAllFiles from "./get-all-files";
-import disabledCommands from "./models/disabled-commands";
-import requiredRoles from "./models/required-roles";
-import cooldown from "./models/cooldown";
-import channelCommands from "./models/channel-commands";
-import { permissionList } from "./permissions";
-import CommandErrors from "./enums/CommandErrors";
-import Events from "./enums/Events";
+import Command from "./Comman.js";
+import getAllFiles from "./get-all-files.js";
+import disabledCommands from "./models/disabled-commands.js";
+import requiredRoles from "./models/required-roles.js";
+import cooldown from "./models/cooldown.js";
+import channelCommands from "./models/channel-commands.js";
+import { permissionList } from "./permissions.js";
+import CommandErrors from "./enums/CommandErrors.js";
+import Events from "./enums/Events.js";
 const replyFromCheck = (reply, message) => __awaiter(void 0, void 0, void 0, function* () {
     if (!reply) {
         return new Promise((resolve) => {

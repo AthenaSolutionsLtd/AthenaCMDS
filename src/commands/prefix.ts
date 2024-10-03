@@ -1,5 +1,5 @@
 import { ICallbackObject, ICommand } from '../..'
-import prefixes from '../models/prefixes'
+import prefixes from '../models/prefixes.js'
 
 export = {
   description: 'Displays or sets the prefix for the current guild',

@@ -1,6 +1,6 @@
 import * as fs from "fs";
 import moment from "moment-timezone";
-import colors from "colors/safe";
+import colors from "colors";
 
 function removeANSI(logLine: string): string {
   // Remove ANSI Escape Codes

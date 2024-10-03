@@ -1,5 +1,5 @@
 import { ICallbackObject, ICommand } from '../..'
-import requiredRoleSchema from '../models/required-roles'
+import requiredRoleSchema from '../models/required-roles.js'
 
 export = {
   description: 'Specifies what role each command requires.',

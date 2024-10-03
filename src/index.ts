@@ -2,15 +2,15 @@ import { Client, ColorResolvable, Guild, GuildEmoji } from "discord.js";
 import { Connection } from "mongoose";
 import { EventEmitter } from "events";
 
-import FeatureHandler from "./FeatureHandler";
-import mongo, { getMongoConnection } from "./mongo";
-import prefixes from "./models/prefixes";
-import MessageHandler from "./message-handler";
-import SlashCommands from "./SlashCommands";
+import FeatureHandler from "./FeatureHandler.js";
+import mongo, { getMongoConnection } from "./mongo.js";
+import prefixes from "./models/prefixes.js";
+import MessageHandler from "./message-handler.js";
+import SlashCommands from "./SlashCommands.js";
 import { ICategorySetting, Options } from "..";
-import Events from "./enums/Events";
-import CommandHandler from "./CommandHandler";
-import Logger from "./logger";
+import Events from "./enums/Events.js";
+import CommandHandler from "./CommandHandler.js";
+import Logger from "./logger.js";
 
 export default class AthenaCMDS extends EventEmitter {
   private _client: Client;

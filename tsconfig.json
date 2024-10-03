@@ -3,12 +3,13 @@
     "resolveJsonModule": true,
     "target": "es6",
     "module": "es6",
-    "moduleResolution": "node",
+    "moduleResolution": "nodenext",
     "outDir": "./dist",
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
+    "moduleSuffixes": [".js", ""]
   }
 }

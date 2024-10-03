@@ -1,4 +1,4 @@
-import disabledCommands from '../models/disabled-commands'
+import disabledCommands from '../models/disabled-commands.js'
 import { ICallbackObject, ICommand } from '../..'
 
 export = {

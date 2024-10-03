@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import languageSchema from "./models/languages";
-import Logger from "./logger";
+import languageSchema from "./models/languages.js";
+import Logger from "./logger.js";
 const defualtMessages = require("../messages.json");
 export default class MessageHandler {
     constructor(instance, messagePath) {

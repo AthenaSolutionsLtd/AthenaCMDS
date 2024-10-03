@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import * as fs from "fs";
 import moment from "moment-timezone";
-import colors from "colors/safe";
+import colors from "colors";
 function removeANSI(logLine) {
     // Remove ANSI Escape Codes
     return logLine.replace(/\x1B\[([0-?]*[ -/]*[@-~])/g, "");

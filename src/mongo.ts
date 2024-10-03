@@ -1,6 +1,6 @@
 import mongoose, { Connection } from "mongoose";
 import AthenaCMDS from ".";
-import Events from "./enums/Events";
+import Events from "./enums/Events.js";
 
 const results: {
   [name: number]: string;

@@ -1,19 +1,19 @@
 import { Client, Guild, Message, MessageEmbed } from "discord.js";
 import fs from "fs";
 import AthenaCMDS from ".";
-import Logger from "./logger";
+import Logger from "./logger.js";
 import path from "path";
 
-import Command from "./Command";
-import getAllFiles from "./get-all-files";
-import disabledCommands from "./models/disabled-commands";
-import requiredRoles from "./models/required-roles";
-import cooldown from "./models/cooldown";
-import channelCommands from "./models/channel-commands";
-import { permissionList } from "./permissions";
-import { ICommand } from "../typings";
-import CommandErrors from "./enums/CommandErrors";
-import Events from "./enums/Events";
+import Command from "./Comman.js";
+import getAllFiles from "./get-all-files.js";
+import disabledCommands from "./models/disabled-commands.js";
+import requiredRoles from "./models/required-roles.js";
+import cooldown from "./models/cooldown.js";
+import channelCommands from "./models/channel-commands.js";
+import { permissionList } from "./permissions.js";
+import { ICommand } from "../typings.js";
+import CommandErrors from "./enums/CommandErrors.js";
+import Events from "./enums/Events.js";
 
 const replyFromCheck = async (
   reply: string | MessageEmbed | MessageEmbed[],

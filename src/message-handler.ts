@@ -1,9 +1,9 @@
 import { Guild } from "discord.js";
 
-import languageSchema from "./models/languages";
+import languageSchema from "./models/languages.js";
 import AthenaCMDS from ".";
-import Logger from "./logger";
-import Events from "./enums/Events";
+import Logger from "./logger.js";
+import Events from "./enums/Events.js";
 const defualtMessages = require("../messages.json");
 
 export default class MessageHandler {

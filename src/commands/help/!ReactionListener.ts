@@ -9,10 +9,10 @@ import {
   User,
 } from "discord.js";
 import AthenaCMDS from "../..";
-import Logger from "../../logger";
+import Logger from "../../logger.js";
 
-import { ICommand } from "../../../typings";
-import getFirstEmbed from "./!get-first-embed";
+import { ICommand } from "../../../typings.js";
+import getFirstEmbed from "./!get-first-embed.js";
 
 const /**
    * Recursively adds reactions to the message

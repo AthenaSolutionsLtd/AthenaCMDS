@@ -8,14 +8,14 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { EventEmitter } from "events";
-import FeatureHandler from "./FeatureHandler";
-import mongo, { getMongoConnection } from "./mongo";
-import prefixes from "./models/prefixes";
-import MessageHandler from "./message-handler";
-import SlashCommands from "./SlashCommands";
-import Events from "./enums/Events";
-import CommandHandler from "./CommandHandler";
-import Logger from "./logger";
+import FeatureHandler from "./FeatureHandler.js";
+import mongo, { getMongoConnection } from "./mongo.js";
+import prefixes from "./models/prefixes.js";
+import MessageHandler from "./message-handler.js";
+import SlashCommands from "./SlashCommands.js";
+import Events from "./enums/Events.js";
+import CommandHandler from "./CommandHandler.js";
+import Logger from "./logger.js";
 export default class AthenaCMDS extends EventEmitter {
     constructor(client, options) {
         super();

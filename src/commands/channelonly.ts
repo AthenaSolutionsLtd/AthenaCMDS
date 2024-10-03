@@ -1,5 +1,5 @@
 import { ICallbackObject, ICommand } from '../..'
-import channelCommandSchema from '../models/channel-commands'
+import channelCommandSchema from '../models/channel-commands.js'
 
 export = {
   description: 'Makes a command only work in some channels.',

@@ -8,7 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import mongoose from "mongoose";
-import Events from "./enums/Events";
+import Events from "./enums/Events.js";
 const results = {
     0: "Disconnected",
     1: "Connected",

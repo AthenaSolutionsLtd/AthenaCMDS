@@ -1,10 +1,10 @@
 import { Client } from "discord.js";
 import fs from "fs";
 import AthenaCMDS from ".";
-import Logger from "./logger";
+import Logger from "./logger.js";
 import path from "path";
 
-import getAllFiles from "./get-all-files";
+import getAllFiles from "./get-all-files.js";
 
 class FeatureHandler {
   private _features: Map<String, String[]> = new Map(); // <Feature name, Disabled GuildIDs>

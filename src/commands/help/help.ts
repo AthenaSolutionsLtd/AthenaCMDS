@@ -1,9 +1,9 @@
 import { Client, Message, MessageEmbed } from "discord.js";
 import AthenaCMDS from "../..";
-import Logger from "../../logger";
-import { ICallbackObject, ICommand } from "../../../typings";
-import getFirstEmbed from "./!get-first-embed";
-import ReactionListener, { addReactions } from "./!ReactionListener";
+import Logger from "../../logger.js";
+import { ICallbackObject, ICommand } from "../../../typings.js";
+import getFirstEmbed from "./!get-first-embed.js";
+import ReactionListener, { addReactions } from "./!ReactionListener.js";
 
 const sendHelpMenu = (message: Message, instance: AthenaCMDS) => {
   const { embed, reactions } = getFirstEmbed(message, instance);

@@ -7,4 +7,4 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import requiredRoleSchema from '../models/required-roles';
+import requiredRoleSchema from '../models/required-roles.js';

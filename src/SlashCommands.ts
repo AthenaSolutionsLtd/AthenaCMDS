@@ -12,9 +12,9 @@ import {
 } from "discord.js";
 import path from "path";
 
-import getAllFiles from "./get-all-files";
+import getAllFiles from "./get-all-files.js";
 import AthenaCMDS from ".";
-import Logger from "./logger";
+import Logger from "./logger.js";
 
 class SlashCommands {
   private _client: Client;

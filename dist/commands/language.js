@@ -7,5 +7,5 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import languageSchema from '../models/languages';
-import Events from '../enums/Events';
+import languageSchema from '../models/languages.js';
+import Events from '../enums/Events.js';

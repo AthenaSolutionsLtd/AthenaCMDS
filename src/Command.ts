@@ -1,10 +1,10 @@
 import { Client, Guild, Message, MessageEmbed } from "discord.js";
 import AthenaCMDS from ".";
-import Logger from "./logger";
+import Logger from "./logger.js";
 
-import permissions from "./permissions";
-import cooldownSchema from "./models/cooldown";
-import { ICommand } from "../typings";
+import permissions from "./permissions.js";
+import cooldownSchema from "./models/cooldown.js";
+import { ICommand } from "../typings.js";
 
 class Command {
   private instance: AthenaCMDS;

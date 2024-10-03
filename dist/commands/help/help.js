@@ -8,9 +8,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import { MessageEmbed } from "discord.js";
-import Logger from "../../logger";
-import getFirstEmbed from "./!get-first-embed";
-import ReactionListener, { addReactions } from "./!ReactionListener";
+import Logger from "../../logger.js";
+import getFirstEmbed from "./!get-first-embed.js";
+import ReactionListener, { addReactions } from "./!ReactionListener.js";
 const sendHelpMenu = (message, instance) => {
     const { embed, reactions } = getFirstEmbed(message, instance);
     message.channel

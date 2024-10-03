@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import { clearLogsFolder, consoleLog, fileLog, getCurrentTimestamp, deleteToday } from './logger';
+import { clearLogsFolder, consoleLog, fileLog, getCurrentTimestamp, deleteToday } from './logger.js';
 
 class Logger {
   private level: string;
