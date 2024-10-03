@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { fileURLToPath } from "url";
 import fs from "fs";
 import Logger from "./logger/index.js";
 import path from "path";
@@ -54,15 +55,15 @@ export default class CommandHandler {
     setUp(instance, client, dir, disabledDefaultCommands, typeScript = false) {
         return __awaiter(this, void 0, void 0, function* () {
             // Do not pass in TS here because this should always compiled to JS
-            for (const [file, fileName] of getAllFiles(path.join(__dirname, "commands"))) {
+            for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "commands"))) {
                 if (disabledDefaultCommands.includes(fileName)) {
                     continue;
                 }
                 yield this.registerCommand(instance, client, file, fileName, true);
             }
             // Do not pass in TS here because this should always compiled to JS
-            for (const [file, fileName] of getAllFiles(path.join(__dirname, "command-checks"))) {
-                this._commandChecks.set(fileName, require(file));
+            for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks"))) {
+                this._commandChecks.set(fileName, import(file));
             }
             if (dir) {
                 if (!fs.existsSync(dir)) {
@@ -161,7 +162,7 @@ export default class CommandHandler {
     }
     registerCommand(instance, client, file, fileName, builtIn = false) {
         return __awaiter(this, void 0, void 0, function* () {
-            let configuration = yield require(file);
+            let configuration = yield import(file);
             // person is using 'export default' so we import the default instead
             if (configuration.default && Object.keys(configuration).length === 1) {
                 configuration = configuration.default;

@@ -1,9 +1,9 @@
 import { Client, Guild, Message, MessageEmbed } from "discord.js";
+import { fileURLToPath } from "url";
 import fs from "fs";
 import AthenaCMDS from ".";
 import Logger from "./logger/index.js";
 import path from "path";
-
 import Command from "./Command.js";
 import getAllFiles from "./get-all-files.js";
 import disabledCommands from "./models/disabled-commands.js";
@@ -70,7 +70,7 @@ export default class CommandHandler {
   ) {
     // Do not pass in TS here because this should always compiled to JS
     for (const [file, fileName] of getAllFiles(
-      path.join(__dirname, "commands")
+      path.join(path.dirname(fileURLToPath(import.meta.url)), "commands")
     )) {
       if (disabledDefaultCommands.includes(fileName)) {
         continue;
@@ -81,9 +81,9 @@ export default class CommandHandler {
 
     // Do not pass in TS here because this should always compiled to JS
     for (const [file, fileName] of getAllFiles(
-      path.join(__dirname, "command-checks")
+      path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks")
     )) {
-      this._commandChecks.set(fileName, require(file));
+      this._commandChecks.set(fileName, import(file));
     }
 
     if (dir) {
@@ -236,7 +236,7 @@ export default class CommandHandler {
     fileName: string,
     builtIn = false
   ) {
-    let configuration = await require(file);
+    let configuration = await import(file);
 
     // person is using 'export default' so we import the default instead
     if (configuration.default && Object.keys(configuration).length === 1) {

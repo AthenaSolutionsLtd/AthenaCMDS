@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import CommandErrors from "../enums/CommandErrors";
+import CommandErrors from "../enums/CommandErrors.js";
 export default (guild, command, instance, member, user, reply) => __awaiter(void 0, void 0, void 0, function* () {
     if (!guild || !member) {
         return true;

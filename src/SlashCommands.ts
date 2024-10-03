@@ -10,6 +10,7 @@ import {
   MessageEmbed,
   User,
 } from "discord.js";
+import { fileURLToPath } from "url";
 import path from "path";
 
 import getAllFiles from "./get-all-files.js";
@@ -32,9 +33,10 @@ class SlashCommands {
   private async setUp(listen: boolean, typeScript = false) {
     // Do not pass in TS here because this should always compiled to JS
     for (const [file, fileName] of getAllFiles(
-      path.join(__dirname, "command-checks")
+      path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks")
     )) {
-      this._commandChecks.set(fileName, require(file));
+      const module = import(file);
+      this._commandChecks.set(fileName, module);
     }
 
     const replyFromCheck = async (

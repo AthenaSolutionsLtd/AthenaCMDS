@@ -1,4 +1,4 @@
-import CommandErrors from "../enums/CommandErrors";
+import CommandErrors from "../enums/CommandErrors.js";
 export default (guild, command, instance, member, user, reply, args, name) => {
     const { minArgs, maxArgs, expectedArgs, error } = command;
     const prefix = instance.getPrefix(guild).toLowerCase();

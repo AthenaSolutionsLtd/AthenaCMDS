@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { fileURLToPath } from "url";
 import fs from "fs";
 import Logger from "./logger/index.js";
 import path from "path";
@@ -16,8 +17,8 @@ class FeatureHandler {
         this._features = new Map(); // <Feature name, Disabled GuildIDs>
         this.setup = (dir, typeScript) => __awaiter(this, void 0, void 0, function* () {
             // Register built in features
-            for (const [file, fileName] of getAllFiles(path.join(__dirname, "features"), typeScript ? ".ts" : "")) {
-                this.registerFeature(require(file), fileName);
+            for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "features"), typeScript ? ".ts" : "")) {
+                this.registerFeature(import(file), fileName);
             }
             if (!dir) {
                 return;
@@ -34,7 +35,7 @@ class FeatureHandler {
                     if (this._instance.debug) {
                         console.time(debug);
                     }
-                    this.registerFeature(require(file), fileName);
+                    this.registerFeature(import(file), fileName);
                     if (this._instance.debug) {
                         console.timeEnd(debug);
                     }

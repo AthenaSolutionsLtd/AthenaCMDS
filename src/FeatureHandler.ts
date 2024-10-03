@@ -1,4 +1,5 @@
 import { Client } from "discord.js";
+import { fileURLToPath } from "url";
 import fs from "fs";
 import AthenaCMDS from ".";
 import Logger from "./logger/index.js";
@@ -25,10 +26,10 @@ class FeatureHandler {
   private setup = async (dir: string, typeScript: boolean) => {
     // Register built in features
     for (const [file, fileName] of getAllFiles(
-      path.join(__dirname, "features"),
+      path.join(path.dirname(fileURLToPath(import.meta.url)), "features"),
       typeScript ? ".ts" : ""
     )) {
-      this.registerFeature(require(file), fileName);
+      this.registerFeature(import(file), fileName);
     }
 
     if (!dir) {
@@ -60,7 +61,7 @@ class FeatureHandler {
         if (this._instance.debug) {
           console.time(debug);
         }
-        this.registerFeature(require(file), fileName);
+        this.registerFeature(import(file), fileName);
         if (this._instance.debug) {
           console.timeEnd(debug);
         }

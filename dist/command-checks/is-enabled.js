@@ -1,4 +1,4 @@
-import CommandErrors from "../enums/CommandErrors";
+import CommandErrors from "../enums/CommandErrors.js";
 /**
  * Checks if the given command is enabled in the current guild
  */

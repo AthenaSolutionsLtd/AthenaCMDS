@@ -1,7 +1,7 @@
 import { Guild, GuildMember, Message, User } from "discord.js";
 import AthenaCMDS from "..";
-import Command from "../Command";
-import CommandErrors from "../enums/CommandErrors";
+import Command from "../Command.js";
+import CommandErrors from "../enums/CommandErrors.js";
 
 export default (
   guild: Guild | null,

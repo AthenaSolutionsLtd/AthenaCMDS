@@ -7,6 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+import { fileURLToPath } from "url";
 import path from "path";
 import getAllFiles from "./get-all-files.js";
 import Logger from "./logger/index.js";
@@ -20,8 +21,9 @@ class SlashCommands {
     setUp(listen, typeScript = false) {
         return __awaiter(this, void 0, void 0, function* () {
             // Do not pass in TS here because this should always compiled to JS
-            for (const [file, fileName] of getAllFiles(path.join(__dirname, "command-checks"))) {
-                this._commandChecks.set(fileName, require(file));
+            for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks"))) {
+                const module = import(file);
+                this._commandChecks.set(fileName, module);
             }
             const replyFromCheck = (reply, interaction) => __awaiter(this, void 0, void 0, function* () {
                 if (!reply) {

@@ -1,6 +1,6 @@
 import { Guild } from "discord.js";
 import AthenaCMDS from "..";
-import Command from "../Command";
+import Command from "../Command.js";
 
 export default (
   guild: Guild | null,
