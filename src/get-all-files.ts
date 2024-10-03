@@ -24,4 +24,4 @@ const getAllFiles = (dir: string, extension?: string) => {
   return jsFiles
 }
 
-export = getAllFiles
+export default getAllFiles

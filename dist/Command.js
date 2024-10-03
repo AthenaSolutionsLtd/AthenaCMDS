@@ -374,3 +374,4 @@ class Command {
         this.requiredChannels.set(`${guild.id}-${command}`, channels);
     }
 }
+export default Command;

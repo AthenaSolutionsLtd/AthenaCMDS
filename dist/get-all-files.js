@@ -18,3 +18,4 @@ const getAllFiles = (dir, extension) => {
     }
     return jsFiles;
 };
+export default getAllFiles;

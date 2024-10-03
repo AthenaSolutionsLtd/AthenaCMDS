@@ -6,7 +6,7 @@ import CommandErrors from "../enums/CommandErrors";
 /**
  * Checks if the given command is enabled in the current guild
  */
-export = (
+export default (
   guild: Guild | null,
   command: Command,
   instance: AthenaCMDS,

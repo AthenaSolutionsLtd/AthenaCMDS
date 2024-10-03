@@ -12,3 +12,4 @@ const schema = new Schema({
     },
 });
 const name = "AthenaCMDS-required-roles";
+export default mongoose.models[name] || mongoose.model(name, schema, name);

@@ -90,3 +90,4 @@ class FeatureHandler {
         this.setup(dir, typeScript);
     }
 }
+export default FeatureHandler;

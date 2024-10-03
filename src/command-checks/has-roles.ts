@@ -4,7 +4,7 @@ import AthenaCMDS from "..";
 import Command from "../Command";
 import CommandErrors from "../enums/CommandErrors";
 
-export = async (
+export default async (
   guild: Guild | null,
   command: Command,
   instance: AthenaCMDS,

@@ -2,7 +2,7 @@ import { Guild, GuildMember, Message, User } from "discord.js";
 import AthenaCMDS from "..";
 import Command from "../Command";
 
-export = (
+export default (
   guild: Guild | null,
   command: Command,
   instance: AthenaCMDS,

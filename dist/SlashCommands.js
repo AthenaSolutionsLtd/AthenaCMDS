@@ -206,3 +206,4 @@ class SlashCommands {
         });
     }
 }
+export default SlashCommands;

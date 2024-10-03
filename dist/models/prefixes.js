@@ -9,3 +9,4 @@ const schema = new Schema({
     prefix: reqString,
 });
 const name = "AthenaCMDS-prefixes";
+export default mongoose.models[name] || mongoose.model(name, schema, name);

@@ -136,4 +136,4 @@ class FeatureHandler {
   };
 }
 
-export = FeatureHandler;
+export default FeatureHandler;

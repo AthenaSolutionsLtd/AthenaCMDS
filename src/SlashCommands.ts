@@ -15,6 +15,7 @@ import path from "path";
 import getAllFiles from "./get-all-files.js";
 import AthenaCMDS from ".";
 import Logger from "./logger/index.js";
+import { defaultFormat } from "moment-timezone";
 
 class SlashCommands {
   private _client: Client;
@@ -295,4 +296,4 @@ class SlashCommands {
   }
 }
 
-export = SlashCommands;
+export default SlashCommands;

@@ -544,4 +544,4 @@ class Command {
   }
 }
 
-export = Command;
+export default Command;

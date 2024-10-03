@@ -8,3 +8,4 @@ const schema = new Schema({
     command: reqString,
 });
 const name = "AthenaCMDS-disabled-commands";
+export default mongoose.models[name] || mongoose.model(name, schema, name);

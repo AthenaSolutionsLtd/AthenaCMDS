@@ -3,7 +3,7 @@ import AthenaCMDS from "..";
 import Command from "../Command";
 import CommandErrors from "../enums/CommandErrors";
 
-export = (
+export default (
   guild: Guild | null,
   command: Command,
   instance: AthenaCMDS,

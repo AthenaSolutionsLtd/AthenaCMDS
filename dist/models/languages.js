@@ -9,3 +9,4 @@ const schema = new Schema({
     language: reqString,
 });
 const name = "AthenaCMDS-languages";
+export default mongoose.models[name] || mongoose.model(name, schema, name);
