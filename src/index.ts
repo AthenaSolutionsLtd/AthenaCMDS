@@ -405,5 +405,3 @@ export default class AthenaCMDS extends EventEmitter {
     return this._slashCommand!;
   }
 }
-
-module.exports = AthenaCMDS;
