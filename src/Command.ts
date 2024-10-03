@@ -1,4 +1,4 @@
-import { Client, Guild, Message, MessageEmbed } from "discord.js";
+import { Client, Guild, Message, EmbedBuilder } from "discord.js";
 import AthenaCMDS from ".";
 import Logger from "./logger/index.js";
 

@@ -7,7 +7,7 @@ import {
   CommandInteractionOptionResolver,
   Guild,
   GuildMember,
-  MessageEmbed,
+  EmbedBuilder,
   User,
 } from "discord.js";
 import { fileURLToPath } from "url";
@@ -40,7 +40,7 @@ class SlashCommands {
     }
 
     const replyFromCheck = async (
-      reply: string | MessageEmbed | MessageEmbed[],
+      reply: string | EmbedBuilder | EmbedBuilder[],
       interaction: CommandInteraction
     ) => {
       if (!reply) {
@@ -109,7 +109,7 @@ class SlashCommands {
               this._instance,
               member,
               user,
-              (reply: string | MessageEmbed) => {
+              (reply: string | EmbedBuilder) => {
                 return replyFromCheck(reply, interaction);
               },
               args,

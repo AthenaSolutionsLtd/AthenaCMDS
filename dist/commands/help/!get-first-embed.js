@@ -1,10 +1,10 @@
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import Logger from "../../logger/index.js";
 const getFirstEmbed = (message, instance) => {
     var _a;
     const { guild, member } = message;
     const { commandHandler: { commands }, messageHandler, } = instance;
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
         .setTitle(`${instance.displayName} ${messageHandler.getEmbed(guild, "HELP_MENU", "TITLE")}`)
         .setDescription(messageHandler.getEmbed(guild, "HELP_MENU", "SELECT_A_CATEGORY"))
         .setFooter(`ID #${(_a = message.author) === null || _a === void 0 ? void 0 : _a.id}`);

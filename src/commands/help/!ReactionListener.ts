@@ -1,7 +1,7 @@
 import {
   Guild,
   Message,
-  MessageEmbed,
+  EmbedBuilder,
   MessageReaction,
   PartialMessage,
   PartialMessageReaction,
@@ -33,7 +33,7 @@ class ReactionHandler {
   reaction: MessageReaction | PartialMessageReaction;
   user: PartialUser | User;
   message: Message | PartialMessage;
-  embed!: MessageEmbed;
+  embed!: EmbedBuilder;
   guild: Guild | null = null;
   emojiName: string | null = "";
   emojiId = "";

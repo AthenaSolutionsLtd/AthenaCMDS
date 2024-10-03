@@ -1,4 +1,4 @@
-import { ApplicationCommand, MessageEmbed } from "discord.js";
+import { ApplicationCommand, EmbedBuilder } from "discord.js";
 import { ICallbackObject, ICommand } from "../..";
 
 export default {
@@ -69,7 +69,7 @@ export default {
       allSlashCommands.push("None");
     }
 
-    const embed = new MessageEmbed().addField(
+    const embed = new EmbedBuilder().addField(
       "How to delete a slash command:",
       `${instance.getPrefix(guild)}slash <command-id>`
     );

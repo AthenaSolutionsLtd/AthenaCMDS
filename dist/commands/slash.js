@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 export default {
     description: "Allows the bot developers to manage existing slash commands",
     category: "Configuration",
@@ -62,7 +62,7 @@ export default {
         else {
             allSlashCommands.push("None");
         }
-        const embed = new MessageEmbed().addField("How to delete a slash command:", `${instance.getPrefix(guild)}slash <command-id>`);
+        const embed = new EmbedBuilder().addField("How to delete a slash command:", `${instance.getPrefix(guild)}slash <command-id>`);
         for (let a = 0; a < allSlashCommands.length; ++a) {
             embed.addField(`Global slash commands:${a === 0 ? "" : " (Continued)"}`, allSlashCommands[a]);
         }

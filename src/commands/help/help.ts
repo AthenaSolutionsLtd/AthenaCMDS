@@ -1,4 +1,4 @@
-import { Client, Message, MessageEmbed } from "discord.js";
+import { Client, Message, EmbedBuilder } from "discord.js";
 import AthenaCMDS from "../..";
 import Logger from "../../logger/index.js";
 import { ICallbackObject, ICommand } from "../../../typings.js";
@@ -17,7 +17,7 @@ const sendHelpMenu = (message: Message, instance: AthenaCMDS) => {
     });
 };
 
-module.exports = {
+export default {
   description: "Displays this bot's commands",
   category: "Help",
 
@@ -67,7 +67,7 @@ module.exports = {
     }
 
     const description = ReactionListener.getHelp(command, instance, guild);
-    const embed = new MessageEmbed()
+    const embed = new EmbedBuilder()
       .setTitle(
         `${instance.displayName} ${instance.messageHandler.getEmbed(
           guild,

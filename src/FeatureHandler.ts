@@ -76,7 +76,7 @@ class FeatureHandler {
   };
 
   private registerFeature = (file: any, fileName: string) => {
-    let func = file;
+    let func = file.module || file;
     const { config } = file;
 
     if (file.default) {

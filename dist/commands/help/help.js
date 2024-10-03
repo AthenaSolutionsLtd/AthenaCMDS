@@ -7,7 +7,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import { MessageEmbed } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 import Logger from "../../logger/index.js";
 import getFirstEmbed from "./!get-first-embed.js";
 import ReactionListener, { addReactions } from "./!ReactionListener.js";
@@ -21,7 +21,7 @@ const sendHelpMenu = (message, instance) => {
         addReactions(message, reactions);
     });
 };
-module.exports = {
+export default {
     description: "Displays this bot's commands",
     category: "Help",
     aliases: "commands",
@@ -58,7 +58,7 @@ module.exports = {
             });
         }
         const description = ReactionListener.getHelp(command, instance, guild);
-        const embed = new MessageEmbed()
+        const embed = new EmbedBuilder()
             .setTitle(`${instance.displayName} ${instance.messageHandler.getEmbed(guild, "HELP_MENU", "TITLE")} - ${arg}`)
             .setDescription(description);
         if (instance.color) {

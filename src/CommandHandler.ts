@@ -1,4 +1,4 @@
-import { Client, Guild, Message, MessageEmbed } from "discord.js";
+import { Client, Guild, Message, EmbedBuilder } from "discord.js";
 import { fileURLToPath } from "url";
 import fs from "fs";
 import AthenaCMDS from ".";
@@ -16,7 +16,7 @@ import CommandErrors from "./enums/CommandErrors.js";
 import Events from "./enums/Events.js";
 
 const replyFromCheck = async (
-  reply: string | MessageEmbed | MessageEmbed[],
+  reply: string | EmbedBuilder | EmbedBuilder[],
   message: Message
 ) => {
   if (!reply) {
@@ -181,7 +181,7 @@ export default class CommandHandler {
               instance,
               member,
               user,
-              (reply: string | MessageEmbed) => {
+              (reply: string | EmbedBuilder) => {
                 return replyFromCheck(reply, message);
               },
               args,

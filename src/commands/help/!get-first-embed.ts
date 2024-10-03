@@ -1,4 +1,4 @@
-import { Message, MessageEmbed, PartialMessage } from "discord.js";
+import { Message, EmbedBuilder, PartialMessage } from "discord.js";
 import AthenaCMDS from "../../";
 import Logger from "../../logger/index.js";
 
@@ -13,7 +13,7 @@ const getFirstEmbed = (
     messageHandler,
   } = instance;
 
-  const embed = new MessageEmbed()
+  const embed = new EmbedBuilder()
     .setTitle(
       `${instance.displayName} ${messageHandler.getEmbed(
         guild,
