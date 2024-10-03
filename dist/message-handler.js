@@ -9,7 +9,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 import languageSchema from "./models/languages.js";
 import Logger from "./logger/index.js";
-const defualtMessages = require("../messages.json");
+import defaultMessages from "../messages.js";
 export default class MessageHandler {
     constructor(instance, messagePath) {
         this._guildLanguages = new Map(); // <Guild ID, Language>
@@ -19,7 +19,7 @@ export default class MessageHandler {
         (() => __awaiter(this, void 0, void 0, function* () {
             this._messages = messagePath
                 ? yield import(messagePath)
-                : defualtMessages;
+                : defaultMessages;
             for (const messageId of Object.keys(this._messages)) {
                 for (const language of Object.keys(this._messages[messageId])) {
                     this._languages.push(language.toLowerCase());

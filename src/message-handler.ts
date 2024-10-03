@@ -4,7 +4,7 @@ import languageSchema from "./models/languages.js";
 import AthenaCMDS from ".";
 import Logger from "./logger/index.js";
 import Events from "./enums/Events.js";
-const defualtMessages = require("../messages.json");
+import defaultMessages from "../messages.js";
 
 export default class MessageHandler {
   private _instance: AthenaCMDS;
@@ -21,7 +21,7 @@ export default class MessageHandler {
     (async () => {
       this._messages = messagePath
         ? await import(messagePath)
-        : defualtMessages;
+        : defaultMessages;
 
       for (const messageId of Object.keys(this._messages)) {
         for (const language of Object.keys(this._messages[messageId])) {

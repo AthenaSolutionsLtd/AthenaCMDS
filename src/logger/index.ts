@@ -5,7 +5,7 @@ import {
   fileLog,
   getCurrentTimestamp,
   deleteToday,
-} from "./logger/index.js";
+} from "./logger.js";
 
 class Logger {
   private level: string;
