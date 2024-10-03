@@ -4,7 +4,7 @@ import AthenaCMDS from ".";
 import Logger from "./logger/index.js";
 import path from "path";
 
-import Command from "./Comman.js";
+import Command from "./Command.js";
 import getAllFiles from "./get-all-files.js";
 import disabledCommands from "./models/disabled-commands.js";
 import requiredRoles from "./models/required-roles.js";
