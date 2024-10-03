@@ -45,8 +45,9 @@ class FeatureHandler {
                 new Logger("debug", "America/Chicago", "logs").log("success", "FeatureHandler", `Loaded ${amount} listener${amount === 1 ? "" : "s"}.`);
             }
         });
-        this.registerFeature = (file, fileName) => {
-            let func = file.module || file;
+        this.registerFeature = (file, fileName) => __awaiter(this, void 0, void 0, function* () {
+            file = yield file;
+            let func = (yield file.module) || (yield file);
             const { config } = file;
             if (file.default) {
                 func = file.default;
@@ -82,7 +83,7 @@ class FeatureHandler {
                 new Logger("debug", "America/Chicago", "logs").log("error", "FeatureHandler", `config.loadDBFirst in features is no longer required. MongoDB is now connected to before any features or commands are loaded.`);
             }
             func(this._client, this._instance, isEnabled);
-        };
+        });
         this.isEnabled = (guildId, feature) => {
             return !(this._features.get(feature) || []).includes(guildId);
         };

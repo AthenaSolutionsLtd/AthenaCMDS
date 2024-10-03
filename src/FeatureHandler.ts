@@ -75,8 +75,9 @@ class FeatureHandler {
     }
   };
 
-  private registerFeature = (file: any, fileName: string) => {
-    let func = file.module || file;
+  private registerFeature = async (file: any, fileName: string) => {
+    file = await file;
+    let func = (await file.module) || (await file);
     const { config } = file;
 
     if (file.default) {
