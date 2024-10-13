@@ -1,4 +1,4 @@
-<a href='https://discord.gg/VjW5F9wmQj' target='_blank'>![alt Discord](https://img.shields.io/discord/1261739648762515568?color=32a2a8&logo=discord&logoColor=white)</a>
+<a href='https://discord.gg/6SZQq8t8VX' target='_blank'>![alt Discord](https://img.shields.io/discord/1261739648762515568?color=32a2a8&logo=discord&logoColor=white)</a>
 
 <a href='https://nodei.co/npm/athenacmds/' target='_blank'>![alt Athena Discord Handler](https://nodei.co/npm/athenacmds.png)</a>
 
@@ -36,4 +36,4 @@ npm install github:AthenaSolutionsLtd/AthenaCMDS#v2
 
 # Support & Feature Requests
 
-Athena Solutions is constantly looking for feature requests, suggestions, and to provide help, not only for Athena, but also for this handler. Feel free to drop by the [Discord Server](https://discord.gg/VjW5F9wmQj)
+Athena Solutions is constantly looking for feature requests, suggestions, and to provide help, not only for Athena, but also for this handler. Feel free to drop by the [Discord Server](https://discord.gg/6SZQq8t8VX)
