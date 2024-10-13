@@ -32,4 +32,4 @@ npm install athenacmds
 
 # Support & Feature Requests
 
-Athena Solutions is constantly looking for feature requests, suggestions, and to provide help, not only for Athena, but also for this handler. Feel free to drop by the [Discord Server](https://discord.gg/VjW5F9wmQj)
+Athena Solutions is constantly looking for feature requests, suggestions, and to provide help, not only for Athena, but also for this handler. Feel free to drop by the [Discord Server](https://discord.gg/6SZQq8t8VX)
