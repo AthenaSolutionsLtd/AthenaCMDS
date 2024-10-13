@@ -1,4 +1,4 @@
-<a href='https://discord.gg/VjW5F9wmQj' target='_blank'>![alt Discord](https://img.shields.io/discord/1261739648762515568?color=32a2a8&logo=discord&logoColor=white)</a>
+<a href='https://discord.gg/6SZQq8t8VX' target='_blank'>![alt Discord](https://img.shields.io/discord/1261739648762515568?color=32a2a8&logo=discord&logoColor=white)</a>
 
 <a href='https://nodei.co/npm/athenacmds/' target='_blank'>![alt Athena Discord Handler](https://nodei.co/npm/athenacmds.png)</a>
 
