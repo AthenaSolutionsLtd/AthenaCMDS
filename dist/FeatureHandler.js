@@ -18,7 +18,9 @@ class FeatureHandler {
         this.setup = (dir, typeScript) => __awaiter(this, void 0, void 0, function* () {
             // Register built in features
             for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "features"), typeScript ? ".ts" : "")) {
-                this.registerFeature(import(file), fileName);
+                import(file).then((module) => {
+                    this.registerFeature(module, fileName);
+                });
             }
             if (!dir) {
                 return;
@@ -35,7 +37,9 @@ class FeatureHandler {
                     if (this._instance.debug) {
                         console.time(debug);
                     }
-                    this.registerFeature(import(file), fileName);
+                    import(file).then((m) => {
+                        this.registerFeature(m, fileName);
+                    });
                     if (this._instance.debug) {
                         console.timeEnd(debug);
                     }

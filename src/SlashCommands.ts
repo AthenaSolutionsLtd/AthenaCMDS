@@ -35,8 +35,9 @@ class SlashCommands {
     for (const [file, fileName] of getAllFiles(
       path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks")
     )) {
-      const module = import(file);
-      this._commandChecks.set(fileName, module);
+      import(file).then((module) => {
+        this._commandChecks.set(fileName, module);
+      });
     }
 
     const replyFromCheck = async (

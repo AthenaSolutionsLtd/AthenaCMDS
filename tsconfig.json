@@ -2,7 +2,7 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "target": "es6",
-    "module": "es6",
+    "module": "nodenext",
     "moduleResolution": "nodenext",
     "outDir": "./dist",
     "rootDir": "./src",

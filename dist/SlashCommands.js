@@ -22,8 +22,9 @@ class SlashCommands {
         return __awaiter(this, void 0, void 0, function* () {
             // Do not pass in TS here because this should always compiled to JS
             for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks"))) {
-                const module = import(file);
-                this._commandChecks.set(fileName, module);
+                import(file).then((module) => {
+                    this._commandChecks.set(fileName, module);
+                });
             }
             const replyFromCheck = (reply, interaction) => __awaiter(this, void 0, void 0, function* () {
                 if (!reply) {

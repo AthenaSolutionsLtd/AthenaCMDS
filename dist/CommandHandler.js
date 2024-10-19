@@ -63,7 +63,9 @@ export default class CommandHandler {
             }
             // Do not pass in TS here because this should always compiled to JS
             for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks"))) {
-                this._commandChecks.set(fileName, import(file));
+                import(file).then((module) => {
+                    this._commandChecks.set(fileName, module);
+                });
             }
             if (dir) {
                 if (!fs.existsSync(dir)) {

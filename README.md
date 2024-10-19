@@ -6,7 +6,7 @@
 
 **AthenaCMDS** is a fork of [Worn Off Keys](https://youtube.com/wornoffkeys)'s WOKCommands. WOKCommands was designed to provide an easy and simple way to get a bot up and running without needing to worry about building a command handler from scratch. However, due to the lack of recent updates to the original project, and the developer shifting the work into WOKCommands v2 (the rewrite), Athena Solutions has forked and modified it to aid the community and continue WOKCommands' original intent.
 
-Full credit for the original code belongs to Worn Off Keys and Alexzander Flores. Athena Solutions Ltd is responsible for all its modifieations. This project is licensedunder the MIT License, available in the `LICENSE` file.
+Full credit for the original code belongs to Worn Off Keys and Alexzander Flores. Athena Solutions Ltd is responsible for all its modifications. This project is licensedunder the MIT License, available in the `LICENSE` file.
 
 AthenaCMDS also incorporates [The Better Logger](https://github.com/rsley/thebetterlogger), modified for Typescript and set up for this project, with the developer's permission.
 

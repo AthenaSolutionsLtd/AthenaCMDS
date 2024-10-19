@@ -29,7 +29,9 @@ class FeatureHandler {
       path.join(path.dirname(fileURLToPath(import.meta.url)), "features"),
       typeScript ? ".ts" : ""
     )) {
-      this.registerFeature(import(file), fileName);
+      import(file).then((module) => {
+        this.registerFeature(module, fileName);
+      });
     }
 
     if (!dir) {
@@ -61,7 +63,9 @@ class FeatureHandler {
         if (this._instance.debug) {
           console.time(debug);
         }
-        this.registerFeature(import(file), fileName);
+        import(file).then((m) => {
+          this.registerFeature(m, fileName);
+        });
         if (this._instance.debug) {
           console.timeEnd(debug);
         }
