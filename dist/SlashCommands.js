@@ -23,7 +23,7 @@ class SlashCommands {
             // Do not pass in TS here because this should always compiled to JS
             for (const [file, fileName] of getAllFiles(path.join(path.dirname(fileURLToPath(import.meta.url)), "command-checks"))) {
                 import(file).then((module) => {
-                    this._commandChecks.set(fileName, module);
+                    this._commandChecks.set(fileName, module.default);
                 });
             }
             const replyFromCheck = (reply, interaction) => __awaiter(this, void 0, void 0, function* () {
